@@ -33,7 +33,7 @@
         })(),
         display = function() {
             var rendering = (function() {
-                    var sizes = [ 'extra-large', 'large', 'normal', 'small' ],
+                    var sizes = [ 'extra-large', 'large', 'normal', 'small', 'extra-small' ],
                         position = [ 'top', 'bottom', 'left', 'right' ],
                         align = [ 'left', 'right' ],
                         shouldUse = function(isVisible, details) {
@@ -68,7 +68,7 @@
                                     value = item.getLayoutData ? item.getLayoutData(details) : '<span class="glimpse-hud-data">' + item.getData(details) + '</span>' + postfix,
                                     id = item.id ? ' ' + item.id : '';
                                 
-                                html += item.getLayout ? item.getLayout(details) : '<div class="glimpse-hud-detail glimpse-hud-detail-' + sizes[item.size] + ' glimpse-hud-detail-' + position[item.position] + ' glimpse-hud-detail-' + align[item.align] + id + '" title="' + item.description + '">' + (!item.position ? title : '') + '<div class="glimpse-hud-value">' + value + '</div>' + (item.position ? title : '') + '</div>';
+                                html += item.getLayout ? item.getLayout(details) : '<div class="glimpse-hud-detail glimpse-hud-detail-' + sizes[item.size] + ' glimpse-hud-detail-position-' + position[item.position] + ' glimpse-hud-detail-align-' + align[item.align] + id + '" title="' + item.description + '">' + (item.position % 2 == 0 ? title : '') + '<div class="glimpse-hud-value">' + value + '</div>' + (item.position % 2 == 1 ? title : '') + '</div>';
                             }
 
                             return html;
@@ -184,7 +184,7 @@
                                 render: function(details) {
                                     var hasTrivial = false,
                                         html = '<div class="glimpse-hud-popup-header">Server Side</div>';
-                                    html += '<div><table class="glimpse-hud-summary glimpse-hud-summary-space glimpse-hud-summary-left"><tr><th>' + rendering.item(structure.layout.popup.action, details) + '</th></tr><tr><td>' + rendering.item(structure.layout.popup.controller, details) + '</td></tr></table>';
+                                    html += '<div><div style="position: absolute; right: 0; margin-right: 16px;">' + rendering.item(structure.layout.popup.time, details) + '</div><table class="glimpse-hud-summary glimpse-hud-summary-space glimpse-hud-summary-left"><tr><th>' + rendering.item(structure.layout.popup.action, details) + '</th></tr><tr><td>' + rendering.item(structure.layout.popup.controller, details) + '</td></tr></table>';
                                     html += '<table class="glimpse-hud-summary glimpse-hud-summary-space glimpse-hud-summary-right"><tr><td width="1">' + rendering.item(structure.layout.popup.view, details) + '</td>' + (details.sql ? '<td width="60"></td><td>' + rendering.item(structure.layout.popup.queries, details) + '</td>' : '') + '</tr><tr><td>' + rendering.item(structure.layout.popup.server, details) + '</td>' + (details.sql ? '<td></td><td>' + rendering.item(structure.layout.popup.connections, details) + '</td>' : '') + '</tr></table></div>';
                                     html += '<div class="glimpse-hud-popup-clear"></div>'; 
                                     html += '<table class="glimpse-hud-listing" style="table-layout:fixed;"><thead><tr><th></th><th class="glimpse-hud-listing-value glimpse-data-childless-duration">duration (ms)</th><th class="glimpse-hud-listing-value glimpse-data-childless-start-point">from start (ms)</th></tr></thead>';  
@@ -218,7 +218,8 @@
                                 view: { title: 'View', description: 'How long root View took to render', visible: function(details) { return details.mvc && details.mvc.data && details.mvc.data.viewRenderTime != null; }, size: 1, position: 0, align: 0, postfix: 'ms', getData: function(details) { return parseInt(details.mvc.data.viewRenderTime); } },
                                 controller: { title: 'Controller/Action', description: 'Name of the root Controller and Action', visible: function(details) { return details.mvc && details.mvc.data; }, size: 2, position: 0, align: 0, postfix: 'ms', getLayoutData: function(details) { return '<span class="glimpse-hud-data">' + details.mvc.data.controllerName + '</span><span class="glimpse-hud-plain">.</span><span class="glimpse-hud-data">' + details.mvc.data.actionName + '</span><span class="glimpse-hud-plain">(...)</span>'; } },
                                 queries: { title: 'DB Queries', description: 'Total query duration and number of all SQL queries', visible: function(details) { return details.sql && details.sql.data; }, size: 1, position: 0, align: 0, getLayoutData: function(details) { return '<span class="glimpse-hud-data">' + parseInt(details.sql.data.queryExecutionTime) + '</span><span class="glimpse-hud-postfix">ms</span><span class="glimpse-hud-spacer">/</span><span class="glimpse-hud-data">'  + details.sql.data.queryCount + '</span>'; } },
-                                connections: { title: 'DB Connections', description: 'Total connection open time and number of all SQL connections used', visible: function(details) { return details.sql && details.sql.data; }, size: 1, position: 1, align: 1, getLayoutData: function(details) { return '<span class="glimpse-hud-data">' + parseInt(details.sql.data.connectionOpenTime) + '</span><span class="glimpse-hud-postfix">ms</span><span class="glimpse-hud-spacer">/</span><span class="glimpse-hud-data">'  + details.sql.data.connectionCount + '</span>'; } }
+                                connections: { title: 'DB Connections', description: 'Total connection open time and number of all SQL connections used', visible: function (details) { return details.sql && details.sql.data; }, size: 1, position: 1, align: 1, getLayoutData: function (details) { return '<span class="glimpse-hud-data">' + parseInt(details.sql.data.connectionOpenTime) + '</span><span class="glimpse-hud-postfix">ms</span><span class="glimpse-hud-spacer">/</span><span class="glimpse-hud-data">' + details.sql.data.connectionCount + '</span>'; } },
+                                time: { title: 'Server Time', description: 'Time on the server', visible: function (details) { return details.environment && details.environment.data; }, size: 4, position: 2, align: 1, getLayoutData: function (details) { var diff = parseInt((new Date(details.environment.data.serverTime + ' ' + details.environment.data.serverTimezoneOffset) - new Date()) / 1000 / 60 / 60); return '<span class="glimpse-hud-data">' + details.environment.data.serverTime + '</span> <span class="glimpse-hud-prefix">GMT</span><span class="glimpse-hud-data">' + details.environment.data.serverTimezoneOffset + '</span> ' + (details.environment.data.serverDaylightSavingTime ? ' <span class="glimpse-hud-plain">(</span><span class="glimpse-hud-data">w/DLS</span><span class="glimpse-hud-plain">)</span>' : '') + (diff ? '<span class="glimpse-hud-spacer"> </span><span title="Time difference between server and client"><span class="glimpse-hud-prefix">Δ</span><span class="glimpse-hud-data glimpse-hud-data-important">' + (diff > 0 ? '+' : '') + diff + '</span></span>' : ''); } },
                             },
                             layout: {
                                 mini: {
@@ -234,6 +235,7 @@
                                     controller: { position: 1, align: 1 },
                                     queries: { position: 1, align: 1 },
                                     connections: {},
+                                    time: {}
                                 }
                             }
                         },

@@ -76,10 +76,14 @@
     -o-transition: color 0.3s ease;
     transition: color 0.3s ease;
 }
+.glimpse-open .glimpse-hud-data-important {
+    font-size: 1.2em;
+    font-weight: bold;
+}
 .glimpse-open .glimpse-hud-value-update {
     color: #71b1d1;
 }
-.glimpse-open .glimpse-hud-detail-right .glimpse-hud-header {
+.glimpse-open .glimpse-hud-detail-align-right .glimpse-hud-header {
     text-align: right;
 } 
 .glimpse-open .glimpse-hud-detail-extra-large, .glimpse-hud-detail-extra-large span {
@@ -97,6 +101,18 @@
 .glimpse-open .glimpse-hud-detail-small, .glimpse-hud-detail-small span, .glimpse-hud-detail-small div {
     font-size: 1.1em;
 } 
+.glimpse-open .glimpse-hud-detail-extra-small, .glimpse-hud-detail-extra-small span, .glimpse-hud-detail-extra-small div {
+    font-size: 1em;
+} 
+.glimpse-open .glimpse-hud-detail-position-left .glimpse-hud-value, .glimpse-open .glimpse-hud-detail-position-left div, .glimpse-open .glimpse-hud-detail-position-right div {
+    display: inline-block;
+}
+.glimpse-open .glimpse-hud-detail-position-left .glimpse-hud-header {
+    margin-right: 5px;
+}
+.glimpse-open .glimpse-hud-detail-position-right .glimpse-hud-header {
+    margin-left: 5px;
+}
 .glimpse-open .glimpse-hud-value {
     font-size: 1em;
     line-height: 100%;
