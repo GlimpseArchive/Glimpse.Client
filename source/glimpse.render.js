@@ -56,11 +56,17 @@
             process(true, 'action.shell.initial'); 
             
             pubsub.publish('trigger.shell.ready'); 
+        },
+        notify = function() {
+            setTimeout(function() {
+                $('.glimpse-panelitem-default').html('No data has been found. This could be caused because:<br /><br />- the data is still loading by the client, or<br />- no data has been received from the server (check to see if the data &amp; metadata payloads are present), or<br />- no plugin has been loaded, or<br />- an error has been thrown in the client (please check your JavaScript console and let us know if anything is up).');
+            }, 6000);
         };
 
     pubsub.subscribe('action.data.metadata.changed', updateSpriteAddress);
     pubsub.subscribe('trigger.shell.refresh', refresh); 
     pubsub.subscribe('trigger.shell.init', init);
+    pubsub.subscribe('action.shell.loaded', notify);
 
     return {};
 })(jQueryGlimpse, glimpse.pubsub, glimpse.util, glimpse.data, glimpse.settings); 
