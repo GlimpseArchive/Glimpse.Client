@@ -15,7 +15,7 @@
                 var disabled = pluginData.data == null ? ' glimpse-disabled' : '',
                     permanent = pluginData.isPermanent ? ' glimpse-permanent' : '';
             
-                return '<li class="glimpse-tab glimpse-tabitem-' + key + disabled + permanent + '" data-glimpseKey="' + key + '">' + pluginData.name + '</li>';
+                return '<li class="glimpse-tab glimpse-tabitem-' + key + disabled + permanent + (!permanent ? ' glimpse-pulse glimpse-context' : '') + '" data-glimpseKey="' + key + '">' + pluginData.name + '</li>';
             }
             return '';
         },

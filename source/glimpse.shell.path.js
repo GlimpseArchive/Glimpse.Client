@@ -10,12 +10,12 @@
                 html = ' &gt; Ajax';
             if ((currentData.isAjax && baseData.requestId != currentData.parentRequestId) || (!currentData.isAjax && baseData.requestId != currentData.requestId)) {
                 if (html) 
-                    html = ' &gt; <span class="glimpse-link" data-requestId="' + (currentData.isAjax ? currentData.parentRequestId : currentData.requestId) + '">History</span>' + html;
+                    html = ' &gt; <span class="glimpse-link glimpse-pulse glimpse-context" data-requestId="' + (currentData.isAjax ? currentData.parentRequestId : currentData.requestId) + '">History</span>' + html;
                 else
                     html = ' &gt; History';    
             }
             if (html)
-                html = ' (<span class="glimpse-link" data-requestId="' + baseData.requestId + '">Original</span>' + html + ')';
+                html = ' (<span class="glimpse-link glimpse-pulse glimpse-context" data-requestId="' + baseData.requestId + '">Original</span>' + html + ')';
 
              return html; 
         }, 
@@ -23,6 +23,17 @@
             var html =  buildHtml(args.newData);
             
             elements.titleHolder().find('.glimpse-snapshot-path').html(html);
+
+            var count = 0,
+                pulseFunction = function() {
+                    setTimeout(function() {
+                        $('.glimpse-context', elements.scope()).toggleClass('glimpse-pulse-go');
+                        
+                        if (count++ < 7)
+                            pulseFunction();
+                    }, 500);
+                };
+            pulseFunction();
         },
         selected = function(args) {
             if (args.type == 'path') 

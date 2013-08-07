@@ -102,7 +102,7 @@
                     detailMetadata = { layout: [ [ { data : 0, key : true, width : '30%' }, { data : 1 }, { data : 2, width : '10%', className : 'mono', align : 'right' }, { data : 3, width : '20%' }, { data : 4, width : '10%' }, { data : 5, width : '100px' } ] ] };
                 
                 detailPanel.html(renderEngine.build(detailData, detailMetadata)).find('table').append('<tbody class="glimpse-row-holder"></tbody>');
-                detailPanel.find('table').addClass('glimpse-ellipsis').find('thead').append('<tr class="glimpse-head-message" style="display:none"><td colspan="6"><a href="#">Reset context back to starting page</a></td></tr>');
+                detailPanel.find('table').addClass('glimpse-ellipsis').find('thead').append('<tr class="glimpse-head-message" style="display:none"><td colspan="6"><a href="#" class="glimpse-pulse glimpse-context">Reset context back to starting page</a></td></tr>');
                 
                 masterPanel.html(renderEngine.build(masterData)); 
             }
