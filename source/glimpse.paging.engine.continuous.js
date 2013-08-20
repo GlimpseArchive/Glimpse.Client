@@ -6,7 +6,7 @@
                 pagerContainer.append(pagerMessage);
 
                 if (pageIndex < pageIndexLast) {
-                    var pagerNextPageLink = $('<span href="#" class="glimpse-pager-link">More</span>');
+                    var pagerNextPageLink = $('<span href="javascript:void(0)" class="glimpse-pager-link">More</span>');
                     pagerNextPageLink.one('click', function() { engineUtil.load(key, pagerKey, pageIndex + 1, 'append'); });
                     pagerContainer.append(pagerNextPageLink);
                 }
