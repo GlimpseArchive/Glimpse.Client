@@ -18,7 +18,7 @@
                         currentLeg = leg.uri;
                         html += currentLeg + ' - <strong>' + leg.method + '</strong> (Current)<br />';
                     } else
-                        html += '<span class="glimpse-link" title="Go to ' + leg.uri + '" href="#" data-requestId="' + leg.requestId + '" data-url="' + leg.uri + '">' + leg.uri + '</span> - <strong>' + leg.method + '</strong><br />';
+                        html += '<span class="glimpse-link" title="Go to ' + leg.uri + '" href="javascript:void(0)" data-requestId="' + leg.requestId + '" data-url="' + leg.uri + '">' + leg.uri + '</span> - <strong>' + leg.method + '</strong><br />';
                 }
                 html = '<span class="glimpse-drop">' + currentLeg + '<span class="glimpse-drop-arrow-holder"><span class="glimpse-drop-arrow"></span></span></span><div class="glimpse-drop-over">' + html + '<div class="loading"><span class="icon"></span><span>Loaded...</span></div></div>';
             }
