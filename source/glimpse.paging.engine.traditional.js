@@ -1,11 +1,11 @@
 ﻿(function($, util, engine, engineUtil) {
     var provider = {
             renderControls: function (key, pagerContainer, pagerKey, pagerType, pageIndex, pageIndexLast) {
-                var pagerFirstPageLink = $('<span href="#" class="glimpse-button glimpse-pager-link glimpse-pager-link-firstPage"></span>'),
-                    pagerPreviousPageLink = $('<span href="#" class="glimpse-button glimpse-pager-link glimpse-pager-link-previousPage"></span>'),
+                var pagerFirstPageLink = $('<span href="javascript:void(0)" class="glimpse-button glimpse-pager-link glimpse-pager-link-firstPage"></span>'),
+                    pagerPreviousPageLink = $('<span href="javascript:void(0)" class="glimpse-button glimpse-pager-link glimpse-pager-link-previousPage"></span>'),
                     pagerMessage = $('<span class="glimpse-pager-message">' + (pageIndex + 1) + ' / ' + (pageIndexLast + 1) + '</span>'),
-                    pagerNextPageLink = $('<span href="#" class="glimpse-button glimpse-pager-link glimpse-pager-link-nextPage"></span>'),
-                    pagerLastPageLink = $('<span href="#" class="glimpse-button glimpse-pager-link glimpse-pager-link-lastPage"></span>');
+                    pagerNextPageLink = $('<span href="javascript:void(0)" class="glimpse-button glimpse-pager-link glimpse-pager-link-nextPage"></span>'),
+                    pagerLastPageLink = $('<span href="javascript:void(0)" class="glimpse-button glimpse-pager-link glimpse-pager-link-lastPage"></span>');
 
                 pagerContainer.append(pagerFirstPageLink);
                 pagerContainer.append(pagerPreviousPageLink); 
