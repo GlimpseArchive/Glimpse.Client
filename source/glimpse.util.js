@@ -58,14 +58,14 @@
             localStorage.setItem(key, JSON.stringify(value)); 
         },
         htmlEncode: function (value) {
-            return !(value == null) ? value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
+            return !(value == null) ? value.replace(/&/g, '&amp;').replace(/"/g, '&#x34;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
         },
         preserveWhitespace: function (value) {
             if (value != null && typeof value !== "string")
                 value = value.toString();
             if (!value)
                 return '';
-            return value.replace(/\r\n/g, '<br />').replace(/\n/g, '<br />').replace(/\t/g, '&nbsp; &nbsp; ').replace(/  /g, '&nbsp; ');
+            return value.replace(/\r\n/g, '<br />').replace(/\n/g, '<br />').replace(/\t/g, '&#xa0; &#xa0; ').replace(/  /g, '&#xa0; ');
         },
         lengthJson: function (data) {
             var count = 0;

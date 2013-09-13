@@ -742,7 +742,7 @@ glimpse.tab.register(args);
             build: function(data) {
                 var val = [];
                 for (var key in data)
-                    val.push(' &nbsp; &nbsp; - ' + key + ': \'' + data[key] + '\'');
+                    val.push(' &#xa0; &#xa0; - ' + key + ': \'' + data[key] + '\'');
                 return '{<br />' + val.join(',<br />') + '<br />}';
             }
         },
@@ -753,7 +753,7 @@ glimpse.tab.register(args);
                 
                 var val = [];
                 for (var key in data)
-                    val.push(' &nbsp; &nbsp; ^ ' + data[key] + ': \'' + key + '\'');
+                    val.push(' &#xa0; &#xa0; ^ ' + data[key] + ': \'' + key + '\'');
                 return '{<br />' + val.join(',<br />') + '<br />}';
             }
         };

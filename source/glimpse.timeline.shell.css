@@ -31,7 +31,7 @@
     background: -webkit-linear-gradient(top, #cfcfcf 0%,#dddddd 100%);
     background: -o-linear-gradient(top, #cfcfcf 0%,#dddddd 100%);
     background: -ms-linear-gradient(top, #cfcfcf 0%,#dddddd 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=\'#cfcfcf\', endColorstr=\'#dddddd\',GradientType=0 );
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr=\'#cfcfcf\', endColorstr=\'#dddddd\',GradientType=0 )";
     background: linear-gradient(top, #cfcfcf 0%,#dddddd 100%);
     -webkit-box-shadow: inset 0px 1px 0px 0px #E2E2E2;
     -moz-box-shadow: inset 0px 1px 0px 0px #E2E2E2;
