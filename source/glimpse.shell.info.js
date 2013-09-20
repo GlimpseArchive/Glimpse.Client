@@ -13,7 +13,7 @@
             args.panel.html('/*(import:glimpse.render.shell.info.html)*/');
         },
         setupInfo = function(args) { 
-            args.newData.data.info = { data: 'Loading...', suppressTab: true, isPermanent: true };
+            args.newData.data.info = { name: 'info', data: 'Loading...', suppressTab: true, isPermanent: true };
             args.newData.metadata.plugins.info = {};
         };
     
