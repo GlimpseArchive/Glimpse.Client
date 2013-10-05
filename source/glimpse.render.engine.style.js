@@ -15,6 +15,31 @@
                 toggle.parent().next().children().first().toggle(!hasClass).next().toggle(hasClass);
             });
             
+            // Hide expand/collapse depending on wether it is needed
+            options.scope.find('.glimpse-toggle-all').closest('table').each(function() {
+                var expandButtons = $(this).find('.glimpse-expand');
+                if (expandButtons.length == 0) {
+                    $(this).find('.glimpse-toggle-all').hide();
+                }
+            });
+            
+            // Expand or collapse all
+            options.scope.find('.glimpse-toggle-all').click(function(event) {
+                event.preventDefault();
+                var table = $(this).closest('table');
+                if ($(this).text() === '[Expand All]') {
+                    table.find('.glimpse-expand').addClass('glimpse-collapse');
+                    table.find('.glimpse-preview-show').show();
+                    table.find('.glimpse-preview-string').hide();
+                    table.find('.glimpse-toggle-all').text('[Collapse All]');
+                } else {
+                    table.find('.glimpse-expand').removeClass('glimpse-collapse');
+                    table.find('.glimpse-preview-show').hide();
+                    table.find('.glimpse-preview-string').show();
+                    table.find('.glimpse-toggle-all').text('[Expand All]');
+                }
+            });
+            
             // Alert state
             options.scope.find('.info, .warn, .error, .fail, .loading, .ms') 
                 .find('> td:first-child, > tr:first-child .glimpse-cell:first-child')

@@ -370,6 +370,9 @@
     font-size: 14px;
     line-height: 12px;
 }
+.glimpse-panel .glimpse-toggle-all {
+    float: right;
+}
 .glimpse-panel .glimpse-row-header-0 th:first-child {
     border-left-width: 0;
 }
