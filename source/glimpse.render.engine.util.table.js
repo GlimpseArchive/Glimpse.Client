@@ -2,9 +2,9 @@
     var factories = {
             array: {
                 isHandled: function (data) {
-                    var valid = true; 
+                    var valid = data[0] != null;
                     for (var i = 0; i < data.length; i++) {
-                        if (!$.isArray(data[i])) {
+                        if (!(data[i] == null || $.isArray(data[i]))) {
                             valid = false;
                             break;
                         }
@@ -15,7 +15,7 @@
                     return data[0];
                 },
                 getRowClass: function(data, rowIndex) {
-                    return data[rowIndex].length > data[0].length ? ' ' + data[rowIndex][data[rowIndex].length - 1] : '';
+                    return data[rowIndex] && data[rowIndex].length > data[0].length ? ' ' + data[rowIndex][data[rowIndex].length - 1] : '';
                 },
                 getRowValue: function(dataRow, fieldIndex, header) {
                     return dataRow[fieldIndex];
@@ -26,9 +26,9 @@
             },
             object: {
                 isHandled: function (data) {
-                    var valid = true;
+                    var valid = data[0] != null;
                     for (var i = 0; i < data.length; i++) {
-                        if ($.isArray(data[i]) || !(data[i] === Object(data[i]))) {
+                        if (!(data[i] == null || (!$.isArray(data[i]) && data[i] === Object(data[i])))) {
                             valid = false;
                             break;
                         }

@@ -21,8 +21,12 @@
             html += '<tbody class="glimpse-row-holder">';
             for (var i = factory.startingIndex(); i < data.length; i++) {
                 html += '<tr class="glimpse-row' + factory.getRowClass(data, i) + '">';
-                for (var x = 0; x < headers.length; x++)
-                    html += '<td>' + providers.master.build(factory.getRowValue(data[i], x, headers), level + 1) + '</td>';
+                if (data[i] != null) {
+                    for (var x = 0; x < headers.length; x++)
+                        html += '<td>' + providers.master.build(factory.getRowValue(data[i], x, headers), level + 1) + '</td>';
+                }
+                else
+                    html += '<td colspan="' + headers.length + '">' + providers.master.build(null) + '</td>';
                 html += '</tr>';
             }
             html += '</tbody></table>';
