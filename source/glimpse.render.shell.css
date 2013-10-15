@@ -73,7 +73,7 @@
     color: #fff; 
     white-space: nowrap;
 }
-.glimpse-open td, .glimpse-open span, .glimpse-open div {
+.glimpse-open td, .glimpse-open span, .glimpse-open div, .glimpse-open th {
     color: #fff;
     font-size: 13px;
     line-height: 13px;
