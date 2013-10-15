@@ -572,7 +572,7 @@ div.glimpse-ellipsis {
 .glimpse .error * {
     color: #B40000;
 }
-.glimpse .fail * {
+.glimpse .fail *, .glimpse .fail {
     color: #B40000;
     font-weight: bold;
 }
