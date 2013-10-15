@@ -806,8 +806,15 @@ glimpse.render.engine.util.raw = (function($, util) {
 glimpse.render.engine.util.table = (function($) {
     var factories = {
             array: {
-                isHandled: function(data) {
-                    return $.isArray(data[0]);
+                isHandled: function (data) {
+                    var valid = true; 
+                    for (var i = 0; i < data.length; i++) {
+                        if (!$.isArray(data[i])) {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    return valid;
                 },
                 getHeader: function(data) {
                     return data[0];
@@ -823,8 +830,15 @@ glimpse.render.engine.util.table = (function($) {
                 }
             },
             object: {
-                isHandled: function(data) {
-                    return data[0] === Object(data[0]);
+                isHandled: function (data) {
+                    var valid = true;
+                    for (var i = 0; i < data.length; i++) {
+                        if ($.isArray(data[i]) || !(data[i] === Object(data[i]))) {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    return valid; 
                 },
                 getHeader: function(data) {
                     var result = [];
@@ -835,7 +849,7 @@ glimpse.render.engine.util.table = (function($) {
                     return result;
                 },
                 getRowClass: function(data, rowIndex) {
-                    return data[rowIndex]._metadata && data[rowIndex]._metadata.style ? ' ' + data[rowIndex]._metadata.style : '';
+                    return data[rowIndex] && data[rowIndex]._metadata && data[rowIndex]._metadata.style ? ' ' + data[rowIndex]._metadata.style : '';
                 },
                 getRowValue: function(dataRow, fieldIndex, header) {
                     return dataRow[header[fieldIndex]];
