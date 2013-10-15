@@ -2,9 +2,9 @@
     var factories = {
             array: {
                 isHandled: function (data) {
-                    var valid = data[0] != null;
+                    var valid = true;
                     for (var i = 0; i < data.length; i++) {
-                        if (!(data[i] == null || $.isArray(data[i]))) {
+                        if (!$.isArray(data[i])) {
                             valid = false;
                             break;
                         }
@@ -26,9 +26,9 @@
             },
             object: {
                 isHandled: function (data) {
-                    var valid = data[0] != null;
+                    var valid = true;
                     for (var i = 0; i < data.length; i++) {
-                        if (!(data[i] == null || (!$.isArray(data[i]) && data[i] === Object(data[i])))) {
+                        if ($.isArray(data[i]) || data[i] !== Object(data[i])) {
                             valid = false;
                             break;
                         }
