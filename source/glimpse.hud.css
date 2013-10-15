@@ -49,7 +49,7 @@
     overflow: hidden;
 }
 .glimpse-open .glimpse-hud-section-input {
-    display: none;
+    display: none !important;
     font-size: 12px;
 }
 .glimpse-open .glimpse-hud-section-input:checked ~ .glimpse-hud-section-inner, .glimpse-open .glimpse-hud-section-input:checked ~ .glimpse-hud-popup-expander {
