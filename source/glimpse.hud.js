@@ -7,9 +7,9 @@
                 details = args.newData.hud,
                 opened = state.current();
 
-            html += display.http.render(details, opened[0]);
-            html += display.host.render(details, opened[1]);
-            html += display.ajax.render(details, opened[2]);
+            html += display.http.render(details, opened[0], args.newData);
+            html += display.host.render(details, opened[1], args.newData);
+            html += display.ajax.render(details, opened[2], args.newData);
 
             elements.opener().prepend('<div class="glimpse-hud">' + html + '</div>');
             state.setup();
@@ -184,8 +184,8 @@
                                 render: function(details) {
                                     var hasTrivial = false,
                                         html = '<div class="glimpse-hud-popup-header">Server Side</div>';
-                                    html += '<div><div style="position: absolute; right: 0; margin-right: 16px;">' + rendering.item(structure.layout.popup.time, details) + '</div><table class="glimpse-hud-summary glimpse-hud-summary-space glimpse-hud-summary-left"><tr><th>' + rendering.item(structure.layout.popup.action, details) + '</th></tr><tr><td>' + rendering.item(structure.layout.popup.controller, details) + '</td></tr></table>';
-                                    html += '<table class="glimpse-hud-summary glimpse-hud-summary-space glimpse-hud-summary-right"><tr><td width="1">' + rendering.item(structure.layout.popup.view, details) + '</td>' + (details.sql ? '<td width="60"></td><td>' + rendering.item(structure.layout.popup.queries, details) + '</td>' : '') + '</tr><tr><td>' + rendering.item(structure.layout.popup.server, details) + '</td>' + (details.sql ? '<td></td><td>' + rendering.item(structure.layout.popup.connections, details) + '</td>' : '') + '</tr></table></div>';
+                                    html += '<div><div style="position: absolute; right: 0; margin-right: 16px;">' + rendering.item(structure.layout.popup.time, details) + '</div><table class="glimpse-hud-summary glimpse-hud-summary-space glimpse-hud-summary-left"><tr><th>' + (rendering.item(structure.layout.popup.action, details) || rendering.item(structure.layout.popup.loading, details)) + '</th></tr><tr><td>' + (rendering.item(structure.layout.popup.controller, details) || rendering.item(structure.layout.popup.viewStateSize, details)) + '</td></tr></table>';
+                                    html += '<table class="glimpse-hud-summary glimpse-hud-summary-space glimpse-hud-summary-right"><tr><td width="1">' + (rendering.item(structure.layout.popup.view, details) || rendering.item(structure.layout.popup.rendering, details)) + '</td>' + (details.sql ? '<td width="60"></td><td>' + rendering.item(structure.layout.popup.queries, details) + '</td>' : '') + '</tr><tr><td>' + rendering.item(structure.layout.popup.server, details) + '</td>' + (details.sql ? '<td></td><td>' + rendering.item(structure.layout.popup.connections, details) + '</td>' : '') + '</tr></table></div>';
                                     html += '<div class="glimpse-hud-popup-clear"></div>'; 
                                     html += '<table class="glimpse-hud-listing" style="table-layout:fixed;"><thead><tr><th></th><th class="glimpse-hud-listing-value glimpse-data-childless-duration">duration (ms)</th><th class="glimpse-hud-listing-value glimpse-data-childless-start-point">from start (ms)</th></tr></thead>';  
                                     for (var i = 0; i < details.timings.data.length; i++) {
@@ -219,13 +219,19 @@
                                 controller: { title: 'Controller/Action', description: 'Name of the root Controller and Action', visible: function(details) { return details.mvc && details.mvc.data; }, size: 2, position: 0, align: 0, postfix: 'ms', getLayoutData: function(details) { return '<span class="glimpse-hud-data">' + details.mvc.data.controllerName + '</span><span class="glimpse-hud-plain">.</span><span class="glimpse-hud-data">' + details.mvc.data.actionName + '</span><span class="glimpse-hud-plain">(...)</span>'; } },
                                 queries: { title: 'DB Queries', description: 'Total query duration and number of all SQL queries', visible: function(details) { return details.sql && details.sql.data; }, size: 1, position: 0, align: 0, getLayoutData: function(details) { return '<span class="glimpse-hud-data">' + parseInt(details.sql.data.queryExecutionTime) + '</span><span class="glimpse-hud-postfix">ms</span><span class="glimpse-hud-spacer">/</span><span class="glimpse-hud-data">'  + details.sql.data.queryCount + '</span>'; } },
                                 connections: { title: 'DB Connections', description: 'Total connection open time and number of all SQL connections used', visible: function (details) { return details.sql && details.sql.data; }, size: 1, position: 1, align: 1, getLayoutData: function (details) { return '<span class="glimpse-hud-data">' + parseInt(details.sql.data.connectionOpenTime) + '</span><span class="glimpse-hud-postfix">ms</span><span class="glimpse-hud-spacer">/</span><span class="glimpse-hud-data">' + details.sql.data.connectionCount + '</span>'; } },
-                                time: { title: 'Server Time', description: 'Time on the server', visible: function (details) { return details.environment && details.environment.data; }, size: 4, position: 2, align: 1, getLayoutData: function (details) { var diff = parseInt((new Date(details.environment.data.serverTime + ' ' + details.environment.data.serverTimezoneOffset) - new Date()) / 1000 / 60 / 60); return '<span class="glimpse-hud-data">' + details.environment.data.serverTime + '</span> <span class="glimpse-hud-prefix">GMT</span><span class="glimpse-hud-data">' + details.environment.data.serverTimezoneOffset + '</span> ' + (details.environment.data.serverDaylightSavingTime ? ' <span class="glimpse-hud-plain">(</span><span class="glimpse-hud-data">w/DLS</span><span class="glimpse-hud-plain">)</span>' : '') + (diff ? '<span class="glimpse-hud-spacer"> </span><span title="Time difference between server and client"><span class="glimpse-hud-prefix">Δ</span><span class="glimpse-hud-data glimpse-hud-data-important">' + (diff > 0 ? '+' : '') + diff + '</span></span>' : ''); } }
+                                time: { title: 'Server Time', description: 'Time on the server', visible: function (details) { return details.environment && details.environment.data; }, size: 4, position: 2, align: 1, getLayoutData: function (details) { var diff = parseInt((new Date(details.environment.data.serverTime + ' ' + details.environment.data.serverTimezoneOffset) - new Date()) / 1000 / 60 / 60); return '<span class="glimpse-hud-data">' + details.environment.data.serverTime + '</span> <span class="glimpse-hud-prefix">GMT</span><span class="glimpse-hud-data">' + details.environment.data.serverTimezoneOffset + '</span> ' + (details.environment.data.serverDaylightSavingTime ? ' <span class="glimpse-hud-plain">(</span><span class="glimpse-hud-data">w/DLS</span><span class="glimpse-hud-plain">)</span>' : '') + (diff ? '<span class="glimpse-hud-spacer"> </span><span title="Time difference between server and client"><span class="glimpse-hud-prefix">Δ</span><span class="glimpse-hud-data glimpse-hud-data-important">' + (diff > 0 ? '+' : '') + diff + '</span></span>' : ''); } },
+                                viewStateSize: { title: 'ViewState', description: 'Size of your page ViewState', visible: function (details) { return details.webforms && details.webforms.data; }, size: 1, position: 0, align: 0, postfix: 'bytes', getData: function (details) { return $('#__VIEWSTATE').val().length; } },
+                                loading: { title: 'Load', description: 'Time between Begin PreLoad and End LoadComplete', visible: function (details) { return details.webforms && details.webforms.data && details.webforms.data.loadingTime != null; }, size: 1, position: 0, align: 0, postfix: 'ms', getData: function (details) { return parseInt(details.webforms.data.loadingTime); } },
+                                rendering: { title: 'Render', description: 'Time between Begin PreRender and End Render (including SaveState events)', visible: function (details) { return details.webforms && details.webforms.data && details.webforms.data.renderingTime != null; }, size: 1, position: 0, align: 0, postfix: 'ms', getData: function (details) { return parseInt(details.webforms.data.renderingTime); } },
                             },
                             layout: {
                                 mini: {
                                     action: {},
                                     view: {},
                                     controller: {},
+                                    loading: {},
+                                    rendering: {},
+                                    viewStateSize: {},
                                     queries: {}
                                 },
                                 popup: {
@@ -235,16 +241,22 @@
                                     controller: { position: 1, align: 1 },
                                     queries: { position: 1, align: 1 },
                                     connections: {},
-                                    time: {}
+                                    time: {},
+                                    viewStateSize: { title: 'ViewState Size', position: 1, align: 1, size: 2 },
+                                    loading: { title: 'Total Loading Time', position: 1, align: 1, size: 0 },
+                                    rendering: { title: 'Rendering Page', position: 1, align: 1 }
                                 }
                             }
                         },
-                        processEvents = function(details) { 
+                        processEvents = function (details, payload) {
                             var eventStack = [], 
                                 lastEvent = { startPoint : 0, duration : 0, childlessDuration : 0, endPoint : 0 },
                                 lastControllerEvent = { },
                                 rootDuration = details.request ? details.request.data.server.duration : 1,
                                 rootChildlessDuration = rootDuration;
+
+                            //Hack needed for the time being
+                            processEventsWebforms(details, payload);
                             
                             for (var i = 0; i < details.timings.data.length; i += 1) {
                                 var event = details.timings.data[i],
@@ -256,7 +268,7 @@
                                 event.endPoint = parseFloat((event.startPoint + event.duration).toFixed(2));
 
                                 //Work out how queries are to be parsed
-                                if (event.category == "Controller" || event.category == "Request") {
+                                if (event.category == "Controller" || event.category == "Request" || event.category == "Webforms") {
                                     lastControllerEvent = event;
                                     lastControllerEvent.queries = { durationSum: 0, listing: [] };
                                 }
@@ -316,12 +328,25 @@
                                     nesting: 0
                                 }); 
                         }, 
-                        render = function(details, opened) {
+                        processEventsWebforms = function (details, payload) {
+                            if (payload.data.glimpse_webforms_execution) {
+                                var executionData = payload.data.glimpse_webforms_execution.data,
+                                    timelineData = details.timings.data;
+                                
+                                for (var i = 0; i < executionData.length; i++) {
+                                    var executionItem = executionData[i];
+                                    timelineData.push({ title: executionItem.event, startTime: 'NOT SURE', duration: executionItem.duration, startPoint: executionItem.fromFirst, category: 'Webforms' });
+                                }
+                                
+                                timelineData.sort(function (a, b) { return parseFloat(a.startPoint) - parseFloat(b.startPoint); });
+                            } 
+                        },
+                        render = function(details, opened, payload) {
                             var html = '';
-                            //Only checking MVC as we can't show just SQL very well
-                            if (details.mvc && details.mvc.data) {
+                            //Only checking MVC/Webforms as we can't show just SQL very well
+                            if ((details.mvc && details.mvc.data) || (details.webforms && details.webforms.data)) {
                                 process.init(structure); 
-                                processEvents(details);
+                                processEvents(details, payload);
                                 html = rendering.section(structure, details, opened); 
                             }
 
