@@ -72,6 +72,11 @@
     background: #3c454f; 
     color: #fff; 
     white-space: nowrap;
+    -webkit-transform: translatez(0);
+    -moz-transform: translatez(0);
+    -ms-transform: translatez(0);
+    -o-transform: translatez(0);
+    transform: translatez(0);
 }
 .glimpse-open td, .glimpse-open span, .glimpse-open div, .glimpse-open th {
     color: #fff;
@@ -100,6 +105,11 @@
     -moz-box-shadow: 0 0 5px #888;
     -webkit-box-shadow: 0 0 5px#888;
     box-shadow: 0 0 5px #888;
+    -webkit-transform: translatez(0);
+    -moz-transform: translatez(0);
+    -ms-transform: translatez(0);
+    -o-transform: translatez(0);
+    transform: translatez(0);
 }
 .glimpse-content {
     position: relative;
