@@ -187,6 +187,11 @@
     cursor:pointer;
     font-weight:bold;
 }
+.glimpse .glimpse-sub-heading {
+    font-style: italic;
+    font-size: 1.3em;
+    opacity: 0.5;
+} 
 .glimpse-drop {
     padding: 0 1px 0 8px;
     height: 16px;
