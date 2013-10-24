@@ -119,7 +119,7 @@
             
             for (var x = context.resultCount; x < result.length; x++) {
                 var item = result[x];
-                html = '<tr data-requestId="' + item.requestId + '" class="glimpse-row"><td><div class="glimpse-ellipsis" title="' + item.uri + '">' + item.uri + '</div></td><td>' + item.method + '</td><td class="mono" style="text-align:right">' + item.duration + '<span class="glimpse-soft"> ms</span></td><td>' + item.dateTime + '</td><td><a href="javascript:void(0)" class="glimpse-ajax-link" data-requestId="' + item.requestId + '">Inspect</a></td></tr>' + html;
+                html = '<tr data-requestId="' + item.requestId + '" class="glimpse-row"><td><div class="glimpse-ellipsis" title="' + item.uri + '">' + util.htmlEncode(item.uri) + '</div></td><td>' + item.method + '</td><td class="mono" style="text-align:right">' + item.duration + '<span class="glimpse-soft"> ms</span></td><td>' + item.dateTime + '</td><td><a href="javascript:void(0)" class="glimpse-ajax-link" data-requestId="' + item.requestId + '">Inspect</a></td></tr>' + html;
             }
             detailBody.prepend(html);
             

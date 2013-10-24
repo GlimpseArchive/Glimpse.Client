@@ -119,7 +119,7 @@
             
             for (var x = context.resultCount; x < clientData.length; x++) {
                 var item = clientData[x];
-                html = '<tr class="glimpse-row" data-requestId="' + item.requestId + '"><td><div class="glimpse-ellipsis" title="' + item.uri + '">' + item.uri + '</div></td><td>' + item.method + '</td><td class="mono" style="text-align:right">' + item.duration + '<span class="glimpse-soft"> ms</span></td><td>' + item.dateTime + '</td><td>' + item.isAjax + '</td><td><a href="javascript:void(0)" class="glimpse-history-link" data-requestId="' + item.requestId + '">Inspect</a></td></tr>' + html;
+                html = '<tr class="glimpse-row" data-requestId="' + item.requestId + '"><td><div class="glimpse-ellipsis" title="' + item.uri + '">' + util.htmlEncode(item.uri) + '</div></td><td>' + item.method + '</td><td class="mono" style="text-align:right">' + item.duration + '<span class="glimpse-soft"> ms</span></td><td>' + item.dateTime + '</td><td>' + item.isAjax + '</td><td><a href="javascript:void(0)" class="glimpse-history-link" data-requestId="' + item.requestId + '">Inspect</a></td></tr>' + html;
             }
             detailBody.prepend(html);
             
@@ -135,12 +135,12 @@
                 panel = elements.panel('history'),
                 masterBody = panel.find('.glimpse-col-side tbody');
             
-            for (var recordName in result) {
-                var masterRow = masterBody.find('a[data-clientName="' + recordName + '"]').parents('tr:first'),
+            for (var recordName in result) { 
+                var masterRow = masterBody.find('a[data-clientName="' + util.jsEncode(recordName) + '"]').parents('tr:first'),
                     rowCount = masterBody.find('tr').length;
 
                 if (masterRow.length == 0)
-                    masterRow = $('<tr class="glimpse-row"><td>' + recordName + '</td><td class="glimpse-history-count">1</td><td><a href="javascript:void(0)" class="glimpse-Client-link" data-clientName="' + recordName + '">Inspect</a></td></tr>').prependTo(masterBody);
+                    masterRow = $('<tr class="glimpse-row"><td>' + util.htmlEncode(recordName) + '</td><td class="glimpse-history-count">1</td><td><a href="javascript:void(0)" class="glimpse-Client-link" data-clientName="' + recordName + '">Inspect</a></td></tr>').prependTo(masterBody);
                 
                 masterRow.find('.glimpse-history-count').text(result[recordName].length);
                 
@@ -208,7 +208,7 @@
         selectSession = function(clientName) {
             var panel = elements.panel('history'),
                 masterPanel = panel.find('.glimpse-col-side'),
-                item = masterPanel.find('a[data-clientName="' + clientName + '"]'), 
+                item = masterPanel.find('a[data-clientName="' + util.jsEncode(clientName) + '"]'),
                 clientData = context.currentData[clientName];
             
             settings.local('historyClient', clientName),
