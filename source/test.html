@@ -86,6 +86,8 @@
         <div class="glimpse"><div class="sample30 glimpse-panel"></div></div> 
         <h4>Scenario 31 (Pass)</h4>
         <div class="glimpse"><div class="sample31 glimpse-panel"></div></div> 
+        <h4>Scenario 32 (Pass)</h4>
+        <div class="glimpse"><div class="sample32 glimpse-panel"></div></div>
     </div>
 
     <script src="./glimpse.js" type="text/javascript"></script>
@@ -992,6 +994,29 @@ glimpse.tab.register(args);
     };
     processHeading($('.sample31'), 'Error handeling');
     process($('.sample31'), data31);
+
+
+    var data32 = {
+        'Movie': 'Star Wars',
+        'GeneraTheme': 'Science Fiction',
+        'GlimpseOn': 'True',
+        'Plot Description': 'Luke Skywalker leaves his home planet; teams up with other rebels; and tries to save Princess Leia from the evil clutches of Darth Vader.',
+        'Other1': { 'aaaTest': 'Mark Hamill', 'bbbKelly': 'Luke Skywalker', 'CccTest': 'Male', 'dddHelloFellow': '21', 'eee123east': 'qwe', 'fff': 'Test' },
+        'Other2': { 'aaaABest': 'Mark Hamill', 'bbbTestHost': 'Luke Skywalker', 'CCCTestHello': 'Male', 'ddd': '21', 'eee123East': 'qwe', 'fff': 'Test' },
+        'newProperty': 'Value1',
+        'newProperty1': 'Value2',
+        'newProperty123': 'Value3',
+        'new123Property': 'Value4',
+        'newAAAProperty': 'Value5',
+        'newPropertyAAA': [
+            { 'ActorName': 'Mark Hamill', 'characterTitle': 'Luke Skywalker', 'Gender': 'Male', 'Age': '21' },
+            { 'ActorName': 'James Earl Jones', 'characterTitle': 'Darth Vader', 'Gender': 'Male', 'Age': '45' }
+        ],
+        'newAProperty': 'Value7',
+        'newPropertyA': 'Value8'
+    };
+    processHeading($('.sample32'), 'Adjust casings of keys');
+    process($('.sample32'), data32);
     
 })(jQueryGlimpse);
     </script>

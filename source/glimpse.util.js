@@ -134,6 +134,27 @@
             if (value < 1000)
                 return value.toFixed(1) + ' ms';
             return Math.round(value / 10) / 100 + ' s';
+        },
+        processCasing : function (data) {
+            var result = '',
+                previous = '';
+            if (data == null)
+                return data;
+            for (var i = 0; i < data.length; i++) {
+                var current = data[i],
+                    next = data[i + 1];
+                if (current == ' ')
+                    return data;
+
+                if (i == 0 || ((jQueryGlimpse.isNumeric(previous) && !jQueryGlimpse.isNumeric(current)) || (!jQueryGlimpse.isNumeric(previous) && jQueryGlimpse.isNumeric(current)) || (!jQueryGlimpse.isNumeric(current) && current.toUpperCase() == current && (previous.toUpperCase() != previous || (next && next.toUpperCase() != next)))))
+                    result = i == 0 ? current.toUpperCase() : result + ' ' + current.toUpperCase();
+                else
+                    result += current;
+
+                previous = current;
+            }
+
+            return result;
         }
     };
 })(jQueryGlimpse);

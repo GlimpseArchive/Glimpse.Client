@@ -15,7 +15,7 @@
             if (engineUtil.includeHeading(metadata)) {
                 html += '<thead><tr class="glimpse-row-header glimpse-row-header-' + level + '">';
                 for (var x = 0; x < headers.length; x++)
-                    html += '<th>' + engineUtil.raw.process(headers[x]) + '</th>';
+                    html += '<th>' + engineUtil.raw.process(factory.getHeaderValue(headers, x)) + '</th>';
                 html += '</tr></thead>';
             }
             html += '<tbody class="glimpse-row-holder">';

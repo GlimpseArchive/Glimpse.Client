@@ -1,4 +1,4 @@
-﻿glimpse.render.engine.util.table = (function($) {
+﻿glimpse.render.engine.util.table = (function($, util) {
     var factories = {
             array: {
                 isHandled: function (data) {
@@ -19,6 +19,9 @@
                 },
                 getRowValue: function(dataRow, fieldIndex, header) {
                     return dataRow[fieldIndex];
+                },
+                getHeaderValue: function(header, fieldIndex) {
+                    return header[fieldIndex];
                 },
                 startingIndex: function() {
                     return 1;
@@ -49,6 +52,9 @@
                 getRowValue: function(dataRow, fieldIndex, header) {
                     return dataRow[header[fieldIndex]];
                 },
+                getHeaderValue: function (header, fieldIndex) {
+                    return util.processCasing(header[fieldIndex]);
+                },
                 startingIndex: function() {
                     return 0;
                 }
@@ -65,6 +71,9 @@
                 },
                 getRowValue: function(dataRow, fieldIndex, header) {
                     return dataRow;
+                },
+                getHeaderValue: function (header, fieldIndex) {
+                    return header[fieldIndex];
                 },
                 startingIndex: function() {
                     return 0;
@@ -84,4 +93,4 @@
                 return match;
             }
         };
-})(jQueryGlimpse);
+})(jQueryGlimpse, glimpse.util);

@@ -13,7 +13,7 @@
                 html += '<thead><tr class="glimpse-row-header glimpse-row-header-' + level + '"><th class="glimpse-key">Key</th><th class="glimpse-cell-value">Value</th></tr></thead>';
             html += '<tbody class="glimpse-row-holder">';
             for (var key in data)
-                html += '<tr class="glimpse-row"><th class="glimpse-key">' + engineUtil.raw.process(key) + '</th><td> ' + providers.master.build(data[key], level + 1, null, engineUtil.keyMetadata(key, metadata)) + '</td></tr>';
+                html += '<tr class="glimpse-row"><th class="glimpse-key">' + engineUtil.raw.process(util.processCasing(key)) + '</th><td> ' + providers.master.build(data[key], level + 1, null, engineUtil.keyMetadata(key, metadata)) + '</td></tr>';
             html += '</tbody></table>';
 
             return html;
@@ -32,7 +32,7 @@
                 html += engineUtil.newItemSpacer(0, i, rowLimit, rowLength);
                 if (i > rowLength || i++ > rowLimit)
                     break;
-                html += '<span>\'</span>' + providers.string.build(key, level + 1, false, 12) + '<span>\'</span><span class="mspace">:</span><span>\'</span>' + providers.string.build(data[key], level + 1, false, 12) + '<span>\'</span>';
+                html += '<span>\'</span>' + providers.string.build(util.processCasing(key), level + 1, false, 12) + '<span>\'</span><span class="mspace">:</span><span>\'</span>' + providers.string.build(data[key], level + 1, false, 12) + '<span>\'</span>';
             }
             html += '<span class="end">}</span>';
 
