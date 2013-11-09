@@ -8,6 +8,7 @@
         .glimpse-example .glimpse-panel { display:block !important; margin-bottom:20px; }
         pre { font-family: Consolas, monospace, serif; font-size: 11px;border: 1px dashed #777; background-color: #EEE; padding: 1em; width: 100%; overflow-x: scroll; box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; max-height: 200px; }
     </style>
+    <link rel="stylesheet" href="./Lib/qunit.css" type="text/css" media="screen">
 </head>
 <body>
     <h1>Pupop Test</h1>
@@ -90,8 +91,18 @@
         <div class="glimpse"><div class="sample32 glimpse-panel"></div></div>
     </div>
 
-    <script src="./glimpse.js" type="text/javascript"></script>
-    <script src="../FunctionalTests/Mock/glimpseTest.js" type="text/javascript"></script>    
+    <script src="./lib/qunit.js" type="text/javascript"></script> 
+    <div class="glipse-tests">
+        <h1 id="qunit-header">QUnit Test Suite</h1>
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture"></div>
+    </div>
+
+    <script src="../glimpse.js" type="text/javascript"></script>
+    <script src="./mock/glimpseTest.js" type="text/javascript"></script>    
     <script type="text/javascript">
 var glimpseData = {
         method : 'Get',  
@@ -305,6 +316,87 @@ glimpse.tab.register(args);
             scope.parent().before('<div>' + description + '</div>');
     };
 
+
+
+    var assert = (function() {
+        var lengthJson = function (data) {
+                var count = 0;
+                if (data === Object(data))
+                    for (var key in data) { count++; };
+                return count;
+            },
+            getLayout = function (scope) {
+                return scope.find('> table');
+            },
+            getHeader = function (scope) {
+                return scope.find('.glimpse-row-header');
+            },
+            getRows = function (scope) {
+                return scope.find('.glimpse-row');
+            },
+            getKeyField = function (scope) {
+                return scope.find('.glimpse-key');
+            },
+            getField = function (scope, index) {
+                return scope.find('> *:nth(' + index + ')');
+            },
+            getFieldCount = function (scope) {
+                return scope.find('> *');
+            },
+            hasRows = function (scope, length) {
+                ok(getRows(scope).length == length, 'Row count not equal to ' + length + '.');
+
+                return 1;
+            },
+            hasHeader = function (scope) {
+                ok(getHeader(scope).length == 1, 'Heading missing from table.');
+
+                return 1;
+            },
+            isObject = function (scope) {
+                var header = getHeader(scope),
+                    keyField = getKeyField(header),
+                    valField = getField(header, 1);
+
+                var count = hasHeader(scope);
+                ok(getFieldCount(header).length == 2, 'Heading doesnt have 2 fields.');
+                ok(keyField.length == 1, 'Heading doesnt have key fields.');
+                ok(valField.length == 1, 'Heading doesnt have val fields.');
+                ok(keyField.text() == 'Key', 'Heading key value isnt "Key".');
+                ok(valField.text() == 'Value', 'Heading key value isnt "Value".');
+
+                return 5 + count;
+            },
+            checkObject = function (scope, data) {
+                var count = hasRows(scope, lengthJson(data)),
+                    rows = getRows(scope),
+                    i = 0;
+
+                for (var key in data) {
+                    var value = data[key];
+                    var tempRow = rows[i++];
+                    var row = $(tempRow); 
+                    var keyField = getKeyField(row);
+                    var valField = getField(row, 1);
+
+                    ok(keyField.text() == key, 'Heading key value isnt "' + key + '" != "' + keyField.text() + '".');
+                    ok(valField.text() == value, 'Heading key value isnt "' + value + '" != "' + valField.text() + '".');
+                }
+
+                return count + (rows.length * 2);
+            };
+
+        return {
+            getLayout: getLayout,
+            hasRows: hasRows,
+            hasHeader: hasHeader,
+            isObject: isObject,
+            checkObject: checkObject
+        }
+    })();
+
+
+
     var data1 = {
             'Movie': 'Star Wars',
             'Genera/Theme': 'Science Fiction',
@@ -314,7 +406,14 @@ glimpse.tab.register(args);
     processHeading($('.sample1'), 'Process object');
     process($('.sample1'), data1); 
 
+    module('Scenario 1');
+    test("Basic requirements", function () {
+        var table = assert.getLayout($('.sample1'));
+
+        expect(assert.isObject(table));
+    });
             
+
     var data2 = [
         ['Actor', 'Character', 'Gender', 'Age'],
         ['Mark Hamill', 'Luke Skywalker', 'Male', '21'],
@@ -1026,7 +1125,25 @@ glimpse.tab.register(args);
     processHeading($('.sample32'), 'Adjust casings of keys');
     process($('.sample32'), data32);
     
+
+
+
+
+
+
+
+
+
+
+
+
+
 })(jQueryGlimpse);
     </script>
+
+
+
+
+     
 </body>
 </html>
