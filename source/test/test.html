@@ -242,7 +242,7 @@ glimpse.tab.register(args);
 //glimpse.pubsub.publish('trigger.tab.register', args);
     </script>
     <script type="text/javascript"> 
-(function($) { 
+(function($, util) { 
     var formatJson = function(val) {
         var result = '',
             stack = [],
@@ -373,13 +373,12 @@ glimpse.tab.register(args);
                     i = 0;
 
                 for (var key in data) {
-                    var value = data[key];
-                    var tempRow = rows[i++];
-                    var row = $(tempRow); 
-                    var keyField = getKeyField(row);
-                    var valField = getField(row, 1);
+                    var value = data[key],
+                        row = $(rows[i++]),
+                        keyField = getKeyField(row),
+                        valField = getField(row, 1);
 
-                    ok(keyField.text() == key, 'Heading key value isnt "' + key + '" != "' + keyField.text() + '".');
+                    ok(keyField.text() == util.processCasing(key), 'Heading key value isnt "' + util.processCasing(key) + '" != "' + keyField.text() + '".');
                     ok(valField.text() == value, 'Heading key value isnt "' + value + '" != "' + valField.text() + '".');
                 }
 
@@ -407,10 +406,11 @@ glimpse.tab.register(args);
     process($('.sample1'), data1); 
 
     module('Scenario 1');
-    test("Basic requirements", function () {
-        var table = assert.getLayout($('.sample1'));
-
-        expect(assert.isObject(table));
+    test("Rended Object Shape", function () { 
+        expect(assert.isObject(assert.getLayout($('.sample1'))));
+    });
+    test("Rended Object Data", function () {
+        expect(assert.checkObject(assert.getLayout($('.sample1')), data1));
     });
             
 
@@ -1138,7 +1138,7 @@ glimpse.tab.register(args);
 
 
 
-})(jQueryGlimpse);
+})(jQueryGlimpse, glimpse.util);
     </script>
 
 

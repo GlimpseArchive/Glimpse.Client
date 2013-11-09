@@ -13,7 +13,7 @@
                 html += '<thead><tr class="glimpse-row-header glimpse-row-header-' + level + '"><th class="glimpse-key">Key</th><th class="glimpse-cell-value">Value</th></tr></thead>';
             html += '<tbody class="glimpse-row-holder">';
             for (var key in data)
-                html += '<tr class="glimpse-row"><th class="glimpse-key">' + engineUtil.raw.process(util.processCasing(key)) + '</th><td> ' + providers.master.build(data[key], level + 1, null, engineUtil.keyMetadata(key, metadata)) + '</td></tr>';
+                html += '<tr class="glimpse-row"><th class="glimpse-key">' + engineUtil.raw.process(util.processCasing(key)) + '</th><td>' + providers.master.build(data[key], level + 1, null, engineUtil.keyMetadata(key, metadata)) + '</td></tr>';
             html += '</tbody></table>';
 
             return html;
