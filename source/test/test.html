@@ -320,16 +320,19 @@ glimpse.tab.register(args);
 
     var assert = (function() {
         var lengthJson = function (data) {
-                var count = 0;
-                if (data === Object(data))
-                    for (var key in data) { count++; };
-                return count;
-            },
+            var count = 0;
+            if (data === Object(data))
+                for (var key in data) { count++; };
+            return count;
+        },
             getLayout = function (scope) {
                 return scope.find('> table');
             },
             getHeader = function (scope) {
                 return scope.find('.glimpse-row-header');
+            },
+            getHeaderFields = function (scope) {
+                return getFields(getHeader(scope));
             },
             getRows = function (scope) {
                 return scope.find('.glimpse-row');
@@ -340,7 +343,7 @@ glimpse.tab.register(args);
             getField = function (scope, index) {
                 return scope.find('> *:nth(' + index + ')');
             },
-            getFieldCount = function (scope) {
+            getFields = function (scope) {
                 return scope.find('> *');
             },
             hasRows = function (scope, length) {
@@ -359,7 +362,7 @@ glimpse.tab.register(args);
                     valField = getField(header, 1);
 
                 var count = hasHeader(scope);
-                ok(getFieldCount(header).length == 2, 'Heading doesnt have 2 fields.');
+                ok(getFields(header).length == 2, 'A heading field count of 2 doesnt exist.');
                 ok(keyField.length == 1, 'Heading doesnt have key fields.');
                 ok(valField.length == 1, 'Heading doesnt have val fields.');
                 ok(keyField.text() == 'Key', 'Heading key value isnt "Key".');
@@ -383,6 +386,53 @@ glimpse.tab.register(args);
                 }
 
                 return count + (rows.length * 2);
+            },
+            isArray = function (scope) {
+                var header = getHeader(scope);
+
+                var count = hasHeader(scope);
+                ok(getFields(header).length > 0, 'A heading field count greater than 0 doesnt exist.');
+
+                return 1 + count;
+            },
+            checkArray = function (scope, data) {
+                var count = hasRows(scope, data.length - 1),
+                    rows = getRows(scope),
+                    header = getHeaderFields(scope),
+                    headerData = data[0];
+
+                for (var i = 0; i < headerData.length; i++) {
+                    var headerFeild = $(header[i]);
+                    ok(headerFeild.text() == headerData[i], 'Heading field value isnt "' + headerData[i] + '" != "' + headerFeild.text() + '".');
+                }
+
+                for (var i = 1; i < data.length; i++) {
+                    var row = $(rows[i - 1]),
+                        record = data[i];
+                    for (var x = 0; x < headerData.length; x++) {
+                        var field = getField(row, x),
+                            value = record[x];
+                        ok(field.text() == value, 'Heading field value isnt "' + value + '" != "' + field.text() + '".');
+                    }
+                }
+
+                return count + (headerData.length * data.length);
+            },
+            checkArrayStyle = function (scope, data) {
+                var count = 0,
+                    headerData = data[0],
+                    rows = getRows(scope);
+                for (var i = 1; i < data.length; i++) {
+                    var row = $(rows[i - 1]),
+                        record = data[i];
+
+                    if (record.length > headerData.length) {
+                        count++;
+                        ok(row.hasClass(record[headerData.length]), 'Row should be implementing class "' + record[headerData.length] + '".');
+                    }
+                }
+
+                return count;
             };
 
         return {
@@ -390,7 +440,10 @@ glimpse.tab.register(args);
             hasRows: hasRows,
             hasHeader: hasHeader,
             isObject: isObject,
-            checkObject: checkObject
+            checkObject: checkObject,
+            isArray: isArray,
+            checkArray: checkArray,
+            checkArrayStyle: checkArrayStyle
         }
     })();
 
@@ -412,6 +465,7 @@ glimpse.tab.register(args);
     test("Rended Object Data", function () {
         expect(assert.checkObject(assert.getLayout($('.sample1')), data1));
     });
+
             
 
     var data2 = [
@@ -426,7 +480,19 @@ glimpse.tab.register(args);
         ['Kenny Baker', 'R2-D2', 'Droid', '150']
     ];
     processHeading($('.sample2'), 'Process array with row styling', '<ul><li>Row styling</li></ul>');
-    process($('.sample2'), data2); 
+    process($('.sample2'), data2);
+
+    module('Scenario 2');
+    test("Rended Object Shape", function () {
+        expect(assert.isArray(assert.getLayout($('.sample2'))));
+    });
+    test("Rended Object Data", function () {
+        expect(assert.checkArray(assert.getLayout($('.sample2')), data2));
+    });
+    test("Rended Object Data with Style", function () {
+        expect(assert.checkArrayStyle(assert.getLayout($('.sample2')), data2));
+    });
+
 
     
     var data3 = [
