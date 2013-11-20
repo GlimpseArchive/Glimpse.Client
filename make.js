@@ -3,13 +3,16 @@ var path = require('path');
 
 var outputDir = path.join(__dirname, 'build');
 var outputFile = path.join(outputDir, 'glimpse.js');
+var outputTestsFile = path.join(outputDir, 'glimpseTest.js');
 var sourceDir = path.join(__dirname, 'source');
+var testsDir = path.join(sourceDir, 'test', 'mock');
 
 var buildManifest = path.join(sourceDir, '_build.js');
+var testsManifest = path.join(testsDir, 'test.glimpse.ajax.js');
 
 var regex = /\/\*\(import:\S*\)\*\//g;
 
-var process = function (data) {
+var process = function (data, dir) {
     return data.replace(regex, function (match) {
         var matchIdentifier = match.substring(10, match.length - 3);
         var matchFileName = matchIdentifier;
@@ -26,7 +29,7 @@ var process = function (data) {
         }
 
         var matchContent = '';
-        matchContent = process(fs.readFileSync(path.join(sourceDir, matchFileName), 'UTF-8'));
+        matchContent = process(fs.readFileSync(path.join(dir, matchFileName), 'UTF-8'), dir);
 
         if (/(.htm|.css)/g.test(matchFileName)) {
             matchContent = matchContent.replace(/[\r|\n|\r\n|\t]/gi, '');
@@ -45,7 +48,7 @@ fs.readFile(buildManifest, 'UTF-8', function (err, data) {
         throw err;
     }
 
-    data = process(data);
+    data = process(data, sourceDir);
 
     fs.exists(outputDir, function (exists) {
         if (!exists) {
@@ -63,6 +66,34 @@ fs.readFile(buildManifest, 'UTF-8', function (err, data) {
                 }
 
                 console.log('Glimpse has been generated at ' + outputFile);
+            });
+        });
+    });
+});
+
+fs.readFile(testsManifest, 'UTF-8', function (err, data) {
+    if (err) {
+        throw err;
+    }
+
+    data = process(data, testsDir);
+
+    fs.exists(outputDir, function (exists) {
+        if (!exists) {
+            fs.mkdirSync(outputDir);
+        }
+
+        fs.exists(outputTestsFile, function (exists) {
+            if (exists) {
+                fs.unlinkSync(outputTestsFile);
+            }
+
+            fs.writeFile(outputTestsFile, data, function (err) {
+                if (err) {
+                    throw err;
+                }
+
+                console.log('Glimpse Tests has been generated at ' + outputTestsFile);
             });
         });
     });
