@@ -124,8 +124,6 @@
     <script src="../glimpse.render.engine.heading.js" type="text/javascript"></script>
     <script src="../google-code-prettify.js" type="text/javascript"></script>
     
-    
-
     <script type="text/javascript"> 
         (function($, util) { 
             var formatJson = function(val) {
@@ -205,11 +203,11 @@
 
             var assert = (function() {
                 var lengthJson = function (data) {
-                    var count = 0;
-                    if (data === Object(data))
-                        for (var key in data) { count++; };
-                    return count;
-                },
+                        var count = 0;
+                        if (data === Object(data))
+                            for (var key in data) { count++; };
+                        return count;
+                    },
                     getLayout = function (scope) {
                         return scope.find('> table');
                     },
