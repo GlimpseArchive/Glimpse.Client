@@ -1,4 +1,4 @@
-﻿(function($, pubsub, util, elements, data, renderEngine) {
+(function($, pubsub, util, elements, data, renderEngine) {
     var context = { resultCount : 0, notice: null, isActive: false, contextRequestId: null, isSelected: false },
         generateAjaxAddress = function() {
             var currentMetadata = data.currentMetadata();

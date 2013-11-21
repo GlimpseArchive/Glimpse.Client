@@ -1,4 +1,4 @@
-﻿glimpse.render = (function($, pubsub, util, data, settings) {
+glimpse.render = (function($, pubsub, util, data, settings) {
     var templates = {
             css: '/*(import:glimpse.render.shell.css)*/',
             html: '/*(import:glimpse.render.shell.html)*/'

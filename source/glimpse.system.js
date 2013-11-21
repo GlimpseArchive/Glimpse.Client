@@ -1,4 +1,4 @@
-﻿(function(pubsub) {
+(function(pubsub) {
     var start = function() { 
             pubsub.publish('trigger.system.init');
             

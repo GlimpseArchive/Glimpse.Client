@@ -1,4 +1,4 @@
-﻿(function ($) { 
+(function ($) { 
     $.fn.dropdown = function() {
         var scope = $(this);
         

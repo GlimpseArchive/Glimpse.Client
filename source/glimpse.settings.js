@@ -1,4 +1,4 @@
-﻿glimpse.settings = (function($, pubsub, util) {
+glimpse.settings = (function($, pubsub, util) {
     var globalSettings = {},
         localStorage = {},  
         init = function () {

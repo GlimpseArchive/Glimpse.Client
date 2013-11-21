@@ -1,4 +1,4 @@
-﻿(function ($) {
+(function ($) {
     var defaults = { 
             min: 50, 
             isUpDown: true,

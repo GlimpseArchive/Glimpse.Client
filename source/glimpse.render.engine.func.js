@@ -1,4 +1,4 @@
-﻿(function($, util, engine, engineUtil) {
+(function($, util, engine, engineUtil) {
     var build = function (data, level, forceFull, metadata, forceLimit) { 
             if (!forceFull)
                 return buildPreview(data, level); 

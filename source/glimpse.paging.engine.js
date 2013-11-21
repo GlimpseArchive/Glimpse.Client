@@ -1,4 +1,4 @@
-﻿glimpse.paging.engine = (function(pubsub) {
+glimpse.paging.engine = (function(pubsub) {
     var providers = {},
         retrieve = function(name) {
             return providers[name];

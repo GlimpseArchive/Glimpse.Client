@@ -1,4 +1,4 @@
-﻿(function($, engine) {
+(function($, engine) {
     var providers = engine._providers,
         stack = [],
         provider = {

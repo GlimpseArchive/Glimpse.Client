@@ -1,4 +1,4 @@
-﻿(function($, pubsub, elements, settings, util) {
+(function($, pubsub, elements, settings, util) {
     var wireListeners = function() {
             $.draggable({
                 handelScope: elements.holder().find('.glimpse-resizer'),

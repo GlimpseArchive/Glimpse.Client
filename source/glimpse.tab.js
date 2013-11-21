@@ -1,4 +1,4 @@
-﻿glimpse.tab = (function($, pubsub, data) {
+glimpse.tab = (function($, pubsub, data) {
     var register = function(args) {
             pubsub.publish('trigger.tab.register', args); 
         },

@@ -1,4 +1,4 @@
-﻿(function($, pubsub, elements, data, util) {
+(function($, pubsub, elements, data, util) {
     var wireListeners = function () { 
             elements.barHolder().find('.glimpse-icon').click(function () { pubsub.publish('trigger.tab.select.info', { key: 'info' }); }); 
         },  

@@ -1,4 +1,4 @@
-﻿(function($, util, engine, engineUtil) {
+(function($, util, engine, engineUtil) {
     var providers = engine._providers,
         build = function (data, level, forceFull, metadata, forceLimit) {  
             var limit = !$.isNumeric(forceLimit) ? 3 : forceLimit;

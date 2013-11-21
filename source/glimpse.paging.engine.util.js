@@ -1,4 +1,4 @@
-﻿glimpse.paging.engine.util = (function($, pubsub, data, elements, util, renderEngine) {
+glimpse.paging.engine.util = (function($, pubsub, data, elements, util, renderEngine) {
     var generatePagingAddress = function(pagerKey, pageIndex) {
             return util.uriTemplate(data.currentMetadata().resources.glimpse_paging, { 'key': pagerKey, 'pageIndex': pageIndex });
         },

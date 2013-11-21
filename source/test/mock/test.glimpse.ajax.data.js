@@ -1,4 +1,4 @@
-﻿data = function () {
+data = function () {
     var 
         metadata = {
             "environmentUrls":{"Dev":"http://localhost/","QA":"http://qa.getglimpse.com/","Prod":"http://getglimpse.com/"},

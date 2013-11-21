@@ -1,4 +1,4 @@
-﻿(function($, pubsub, data, elements) {
+(function($, pubsub, data, elements) {
     var renderLayout = function() {
             var requestData = data.currentData(),
                 name = requestData.clientId ? '"' + requestData.clientId + '"' : '&nbsp;';

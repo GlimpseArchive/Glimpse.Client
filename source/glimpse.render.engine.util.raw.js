@@ -1,4 +1,4 @@
-﻿glimpse.render.engine.util.raw = (function($, util) {
+glimpse.render.engine.util.raw = (function($, util) {
     var scrub = function(d) {
             return d.substr(1, d.length - 2);
         };

@@ -1,4 +1,4 @@
-﻿(function($, pubsub, settings, util, renderEngine) { 
+(function($, pubsub, settings, util, renderEngine) { 
     var timeline = {};
     
     // Elements

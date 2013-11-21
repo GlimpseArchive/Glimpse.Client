@@ -1,3 +1,3 @@
-﻿glimpse = (function($) { 
+glimpse = (function($) { 
     return {};
 })(jQueryGlimpse);
