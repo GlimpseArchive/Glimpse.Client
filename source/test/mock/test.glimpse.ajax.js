@@ -1,4 +1,4 @@
-﻿
+
 var glimpseTest = (function ($) {
     var //Support 
         testHandlers = {},

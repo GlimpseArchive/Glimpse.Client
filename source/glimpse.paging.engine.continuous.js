@@ -1,4 +1,4 @@
-﻿(function($, util, engine, engineUtil) {
+(function($, util, engine, engineUtil) {
     var provider = {
             removeExistingResults: false,
             renderControls: function (key, pagerContainer, pagerKey, pagerType, pageIndex, pageIndexLast) {

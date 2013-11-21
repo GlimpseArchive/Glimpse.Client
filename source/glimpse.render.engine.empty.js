@@ -1,4 +1,4 @@
-﻿(function($, engine) {
+(function($, engine) {
     var provider = {
             build: function(data) { 
                 if (data == null || data === '')

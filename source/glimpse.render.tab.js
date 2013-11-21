@@ -1,4 +1,4 @@
-﻿(function($, data, elements, util, pubsub, settings) {
+(function($, data, elements, util, pubsub, settings) {
     var wireListeners = function () {
             var tabHolder = elements.tabHolder();
             

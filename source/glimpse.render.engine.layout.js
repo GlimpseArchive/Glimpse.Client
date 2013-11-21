@@ -1,4 +1,4 @@
-﻿(function($, util, engine, engineUtil, engineUtilTable) {
+(function($, util, engine, engineUtil, engineUtilTable) {
     var providers = engine._providers, 
         buildFormatString = function(content, data, indexs, isHeadingRow) {  
             for (var i = 0; i < indexs.length; i++) {

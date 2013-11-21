@@ -1,4 +1,4 @@
-﻿(function($, data, elements, pubsub, renderEngine) {
+(function($, data, elements, pubsub, renderEngine) {
     var render = function (key, pluginData, pluginMetadata) {
             pubsub.publish('action.panel.rendering.' + key, { key: key, pluginData: pluginData, pluginMetadata: pluginMetadata });
             

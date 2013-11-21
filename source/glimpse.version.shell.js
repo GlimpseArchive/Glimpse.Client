@@ -1,4 +1,4 @@
-﻿(function($, pubsub, elements, util, settings) {
+(function($, pubsub, elements, util, settings) {
     var wireListeners = function() {
             elements.holder().find('.glimpse-meta-update').click(function() { pubsub.publish('trigger.shell.version.info.show'); });
         elements.lightbox().find('.close').live('click', function() { pubsub.publish('trigger.shell.version.info.close'); });

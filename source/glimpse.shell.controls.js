@@ -1,4 +1,4 @@
-﻿(function($, pubsub, elements, settings) {
+(function($, pubsub, elements, settings) {
     var wireListeners = function () { 
             elements.opener().find('.glimpse-icon').click(function () { pubsub.publish('trigger.shell.open', { isInitial: false }); });
             elements.barHolder().find('.glimpse-minimize').click(function () { pubsub.publish('trigger.shell.minimize'); });

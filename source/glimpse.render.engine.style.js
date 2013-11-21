@@ -1,4 +1,4 @@
-﻿(function($, pubsub) {
+(function($, pubsub) {
     var codeProcess = function(items) {
             $.each(items, function() {
                 var item = $(this).addClass('prettyprint'),

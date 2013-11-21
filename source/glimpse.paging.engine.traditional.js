@@ -1,4 +1,4 @@
-﻿(function($, util, engine, engineUtil) {
+(function($, util, engine, engineUtil) {
     var provider = {
             renderControls: function (key, pagerContainer, pagerKey, pagerType, pageIndex, pageIndexLast) {
                 var pagerFirstPageLink = $('<span href="javascript:void(0)" class="glimpse-button glimpse-pager-link glimpse-pager-link-firstPage"></span>'),

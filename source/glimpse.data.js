@@ -1,4 +1,4 @@
-﻿glimpse.data = (function($, pubsub, util) {
+glimpse.data = (function($, pubsub, util) {
     var innerBaseMetadata = { plugins : {}, resources : {} },
         innerBaseData = { data : {}, metadata : innerBaseMetadata, uri : window.location.href },
         innerCurrentData = innerBaseData,

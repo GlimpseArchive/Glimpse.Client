@@ -1,4 +1,4 @@
-﻿pager = function () {
+pager = function () {
     var generate = function (data) {
             var pagingInfo = { pageSize : 5, pageIndex : 1, totalNumberOfRecords : 31 },
                 result = [['Title 1', 'Title 2', 'Title 3']],

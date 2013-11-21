@@ -1,4 +1,4 @@
-﻿(function(settings, pubsub, elements) { 
+(function(settings, pubsub, elements) { 
     var readyOpen = function () {
             var isOpen = settings.local('isOpen'); 
             if (isOpen) 

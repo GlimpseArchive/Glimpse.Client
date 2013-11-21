@@ -1,4 +1,4 @@
-﻿(function($, pubsub, data, elements, util) {
+(function($, pubsub, data, elements, util) {
     var modify = function(options) {
             options.templates.css += '/*(import:glimpse.hud.css)*/';
         },

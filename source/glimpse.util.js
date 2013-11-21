@@ -1,4 +1,4 @@
-﻿glimpse.util = (function($) { 
+glimpse.util = (function($) { 
     var connectionNotice = function(scope) {
             var that = (this === window) ? {} : this;
             that.scope = scope;

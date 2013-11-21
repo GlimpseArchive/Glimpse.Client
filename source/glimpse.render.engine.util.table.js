@@ -1,4 +1,4 @@
-﻿glimpse.render.engine.util.table = (function($, util) {
+glimpse.render.engine.util.table = (function($, util) {
     var factories = {
             array: {
                 isHandled: function (data) {

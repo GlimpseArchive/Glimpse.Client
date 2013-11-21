@@ -1,4 +1,4 @@
-﻿(function($, pubsub, data, elements) {
+(function($, pubsub, data, elements) {
     var wireListeners = function() {
             elements.titleHolder().find('.glimpse-correlation .glimpse-link').live('click', function() { data.retrieve($(this).attr('data-requestId'), 'correlation'); });
             elements.titleHolder().find('.glimpse-correlation').dropdown();

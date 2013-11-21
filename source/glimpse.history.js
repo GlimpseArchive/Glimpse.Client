@@ -1,4 +1,4 @@
-﻿(function($, pubsub, util, settings, elements, data, renderEngine) {
+(function($, pubsub, util, settings, elements, data, renderEngine) {
     var context = { resultCount : 0, clientName : '', requestId : '', currentData: null, notice: null, isActive: false, isSelected: false, contextRequestId: undefined }, 
         generateHistoryAddress = function() {
             var currentMetadata = data.currentMetadata();

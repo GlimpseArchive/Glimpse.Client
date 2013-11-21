@@ -1,4 +1,4 @@
-﻿(function($, pubsub, data, elements) {
+(function($, pubsub, data, elements) {
     var wireListeners = function() {
             elements.titleHolder().find('.glimpse-snapshot-path .glimpse-link').live('click', function() { pubsub.publish('trigger.data.context.switch', { requestId: $(this).attr('data-requestId'), type: 'path' }); });
         }, 

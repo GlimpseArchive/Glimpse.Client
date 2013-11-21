@@ -1,4 +1,4 @@
-﻿(function($, pubsub, elements) {
+(function($, pubsub, elements) {
     var toast = function(options) {
             var toast  = $('<div class="glimpse-notification glimpse-notification-' + options.type + '">' + options.message + '</div>').appendTo(elements.notificationHolder());
             setTimeout(function() {

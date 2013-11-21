@@ -1,4 +1,4 @@
-﻿glimpse.pubsub = (function() {
+glimpse.pubsub = (function() {
     var messages = {},
         lastUid = -1,
         throwException = function(ex) {

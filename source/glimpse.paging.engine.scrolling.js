@@ -1,4 +1,4 @@
-﻿(function($, pubsub, util, engine, engineUtil, elements, data) {
+(function($, pubsub, util, engine, engineUtil, elements, data) {
     var provider = {
             renderControls: function (key, pagerContainer, pagerKey, pagerType, pageIndex, pageIndexLast, suppressRecheck) {
                 var panelItem = elements.panel(key),
