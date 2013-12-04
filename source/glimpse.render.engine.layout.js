@@ -58,9 +58,7 @@
                     if (!isHeadingRow) {
                         if (metadataItem.pre) { cellContent = '<span class="glimpse-soft">' + metadataItem.pre + '</span>' + cellContent; }
                         if (metadataItem.post) { cellContent = cellContent + '<span class="glimpse-soft">' + metadataItem.post + '</span>'; }
-                    }
-                    //else 
-                    //    cellContent = util.processCasing(cellContent);
+                    } 
                 }
             }
             
