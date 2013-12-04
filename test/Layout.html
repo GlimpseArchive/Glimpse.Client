@@ -125,7 +125,9 @@
     <script src="../source/google-code-prettify.js" type="text/javascript"></script>
     
     <script type="text/javascript"> 
-        (function($, util) { 
+        (function ($, util) {
+            var onlyProcess = null; //$('.sample26');
+
             var formatJson = function(val) {
                 var result = '',
                     stack = [],
@@ -175,7 +177,10 @@
 
 
 
-            var process = function(scope, data, metadata) {
+            var process = function (scope, data, metadata) {
+                if (onlyProcess != null && scope.selector != onlyProcess.selector)
+                    return;
+                
                 var dataPretty = '';
                 try {
                     dataPretty = formatJson(JSON.stringify(data));    
