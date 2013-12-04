@@ -14,8 +14,8 @@
             html += '<tbody class="glimpse-row-holder">';
             for (var key in data) {
                 var keyMetadata = engineUtil.keyMetadata(key, metadata),
-                    title = keyMetadata && keyMetadata.title ? keyMetadata.title : key;
-                html += '<tr class="glimpse-row"><th class="glimpse-key">' + engineUtil.raw.process(util.processCasing(title)) + '</th><td>' + providers.master.build(data[key], level + 1, null, keyMetadata) + '</td></tr>';
+                    title = keyMetadata && keyMetadata.title ? util.preserveWhitespace(engineUtil.raw.process(util.processCasing(keyMetadata.title))) : engineUtil.raw.process(util.processCasing(key));
+                html += '<tr class="glimpse-row"><th class="glimpse-key">' + title + '</th><td>' + providers.master.build(data[key], level + 1, null, keyMetadata) + '</td></tr>';
             }
             html += '</tbody></table>';
 
