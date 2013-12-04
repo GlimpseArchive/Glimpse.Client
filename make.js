@@ -5,7 +5,7 @@ var outputDir = path.join(__dirname, 'build');
 var outputFile = path.join(outputDir, 'glimpse.js');
 var outputTestsFile = path.join(outputDir, 'glimpseTest.js');
 var sourceDir = path.join(__dirname, 'source');
-var testsDir = path.join(sourceDir, 'test', 'mock');
+var testsDir = path.join(__dirname, 'test', 'mock');
 
 var buildManifest = path.join(sourceDir, '_build.js');
 var testsManifest = path.join(testsDir, 'test.glimpse.ajax.js');
