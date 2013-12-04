@@ -720,10 +720,10 @@
     
 
             var data21 = [
-                ['Actor', 'Character', 'Gender', 'Age', 'Details'],
+                ['Actor', 'Character', 'Gender', 'RealAge', 'fullDetails'],
                 ['Mark Hamill', 'Luke Skywalker', 'Male', '21', null ],
                 ['James Earl Jones', 'Darth Vader', 'Male', '45', [
-                    ['Person', 'Alias', 'Type', 'Duration'],
+                    ['personName', 'Alias', 'Type', 'Duration'],
                     ['Anthony Daniels', 'C-3PO', 'Droid', '101'],
                     ['Kenny Baker', 'R2-D2', 'Droid', '150']
                 ]], 
@@ -752,8 +752,12 @@
             ];
             processHeading($('.sample21'), 'Process custom layout array with targeted sub custom layout array');
             var metaData21 = { layout: [
-                [ { data : [ { data : '{{0}} - ({{1}})', key : true }, 
-                        { data : '\t{{2}}' }, { data : '\t{{3}}' } ], width : '250px' }, 
+                [ { data : [ 
+                            { data : '{{0}} - ({{1}})', key : true }, 
+                            { data : '\t{{2}}' }, 
+                            { data: '\t{{3}}' }
+                        ], width: '250px'
+                    },
                     { data : 4, layout : { 
                         2 : [ 
                             [ { data : [ { data : 0, align : 'right' }, { data : 2, align : 'right', className : 'mono' } ], width : '50%' }, 
