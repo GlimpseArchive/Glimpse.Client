@@ -1,4 +1,4 @@
-﻿glimpse.versionCheck = (function($, pubsub, settings, elements, data, util) {
+glimpse.versionCheck = (function($, pubsub, settings, elements, data, util) {
     var retrieveStamp = function() {
             if (!settings.local('stamp'))
                 settings.local('stamp', (new Date()).getTime());

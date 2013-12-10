@@ -1,4 +1,4 @@
-﻿(function($, util, engine, engineUtil) {
+(function($, util, engine, engineUtil) {
     var provider = {
             build: function (data, level, forceFull, forceLimit) { 
                 if (data == null)

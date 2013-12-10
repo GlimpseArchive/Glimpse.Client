@@ -1,4 +1,4 @@
-﻿glimpse.render.engine = (function($, pubsub) {
+glimpse.render.engine = (function($, pubsub) {
     var providers = {},
         addition = function (scope, data, metadata, insertType, targetType) {
             var html = $('<div>' + build(data, metadata) + '</div>').find('.glimpse-row-holder:first > .glimpse-row'),

@@ -1,4 +1,4 @@
-﻿(function($, pubsub, settings, util, renderEngine) { 
+(function($, pubsub, settings, util, renderEngine) { 
     var timeline = {};
     
     // Elements
@@ -162,14 +162,16 @@
                 var result = renderEngine.build(dataResult, metadata); 
                 elements.contentTableHolder.append(result);
 
+                pubsub.publish('trigger.panel.render.style', { scope: elements.contentTableHolder });
+
                 //Update the output 
-                elements.contentTableHolder.find('tbody tr').each(function(i) {
+                elements.contentTableHolder.find('.glimpse-row > tr').each(function (i) {
                     var row = $(this),
                         event = timeline.data.events[i],  
                         category = timeline.data.category[event.category];
                              
-                    row.find('td:first-child').prepend($('<div class="glimpse-tl-event"></div>').css({ 'backgroundColor' : category.eventColor, marginLeft : (15 * event.nesting) + 'px' }));
-                    row.find('td:nth-child(3)').css('position', 'relative').prepend($('<div class="glimpse-tl-event"></div>').css({ 'backgroundColor' : category.eventColor, 'margin-left' : event.startPersent + '%', width : event.widthPersent + '%' })); 
+                    row.find('> td:first-child').prepend($('<div class="glimpse-tl-event"></div>').css({ 'backgroundColor' : category.eventColor, marginLeft : (15 * event.nesting) + 'px' }));
+                    row.find('> td:nth-child(3)').css('position', 'relative').prepend($('<div class="glimpse-tl-event"></div>').css({ 'backgroundColor' : category.eventColor, 'margin-left' : event.startPersent + '%', width : event.widthPersent + '%' })); 
                 }); 
             },
             processCategories = function() {
@@ -297,7 +299,7 @@
                 colorElement(elements.contentDescHolder.find('> div'), filter, 'glimpse-row-alt-');
                 colorElement(elements.summaryBandHolder.find('> div'), filter, 'glimpse-row-');
                 colorElement(elements.summaryDescHolder.find('> div'), filter, 'glimpse-row-alt-');
-                colorElement(elements.contentTableHolder.find('tbody'), filter, 'glimpse-row-'); 
+                //colorElement(elements.contentTableHolder.find('tbody'), filter, 'glimpse-row-'); 
             },
             colorElement = function(scope, filter, baseClass) {
                 var odd = baseClass + 'odd',

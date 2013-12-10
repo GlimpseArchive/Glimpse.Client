@@ -1,4 +1,4 @@
-﻿(function($, pubsub, data, elements, util) {
+(function($, pubsub, data, elements, util) {
     var wireListeners = function() {
             elements.titleHolder().find('.glimpse-enviro').dropdown();
         },

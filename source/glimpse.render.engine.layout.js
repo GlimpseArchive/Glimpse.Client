@@ -1,10 +1,10 @@
-﻿(function($, util, engine, engineUtil, engineUtilTable) {
+(function($, util, engine, engineUtil, engineUtilTable) {
     var providers = engine._providers, 
         buildFormatString = function(content, data, indexs, isHeadingRow) {  
             for (var i = 0; i < indexs.length; i++) {
                 var pattern = "\\\{\\\{" + indexs[i] + "\\\}\\\}", regex = new RegExp(pattern, "g"),
                     value = isHeadingRow && !$.isNumeric(indexs[i]) ? indexs[i] : data[indexs[i]]; 
-                content = content.replace(regex, value);
+                content = content.replace(regex, isHeadingRow ? util.processCasing(value) : value);
             }
             return content;
         }, 
@@ -23,9 +23,15 @@
             }
             else { 
                 if (!metadataItem.indexs && util.containsTokens(metadataItem.data)) 
-                    metadataItem.indexs = util.getTokens(metadataItem.data, data); 
-                  
-                cellContent = metadataItem.indexs ? buildFormatString(metadataItem.data, data, metadataItem.indexs, isHeadingRow) : (isHeadingRow && !$.isNumeric(metadataItem.data) ? metadataItem.data : data[metadataItem.data]);
+                    metadataItem.indexs = util.getTokens(metadataItem.data, data);
+
+                if (metadataItem.indexs)
+                    cellContent = buildFormatString(metadataItem.data, data, metadataItem.indexs, isHeadingRow);
+                else {
+                    cellContent = isHeadingRow && !$.isNumeric(metadataItem.data) ? metadataItem.data : data[metadataItem.data];
+                    if (isHeadingRow)
+                        cellContent = util.processCasing(cellContent);
+                }
                 
                 if (metadataItem.engine && !isHeadingRow) {
                     cellContent = providers.master.build(cellContent, level + 1, metadataItem.forceFull, metadataItem, isHeadingRow ? undefined : metadataItem.limit);
@@ -52,7 +58,7 @@
                     if (!isHeadingRow) {
                         if (metadataItem.pre) { cellContent = '<span class="glimpse-soft">' + metadataItem.pre + '</span>' + cellContent; }
                         if (metadataItem.post) { cellContent = cellContent + '<span class="glimpse-soft">' + metadataItem.post + '</span>'; }
-                    }
+                    } 
                 }
             }
             
@@ -71,6 +77,8 @@
             //Cell Style  
             if (metadataItem.width) { cellStyle += 'width:' + metadataItem.width + ';'; };
             if (metadataItem.align) { cellStyle += 'text-align:' + metadataItem.align + ';'; };
+            if (metadataItem.paddingLeft) { cellStyle += 'padding-left:' + metadataItem.paddingLeft + ';'; };
+            if (metadataItem.paddingRight) { cellStyle += 'padding-right:' + metadataItem.paddingRight + ';'; };
             if (cellStyle) { cellAttr += ' style="' + cellStyle + '"'; };
             //Cell Span
             if (metadataItem.span) { cellAttr += ' colspan="' + metadataItem.span + '"'; };

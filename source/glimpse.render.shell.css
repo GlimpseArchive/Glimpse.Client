@@ -1,4 +1,4 @@
-﻿.glimpse, .glimpse *, .glimpse a, .glimpse td, .glimpse th, .glimpse table {
+.glimpse, .glimpse *, .glimpse a, .glimpse td, .glimpse th, .glimpse table {
     font-family: "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", "Helvetica Neue", Helvetica, Arial;
     background-color: transparent;
     border: 0px;
@@ -72,8 +72,13 @@
     background: #3c454f; 
     color: #fff; 
     white-space: nowrap;
+    -webkit-transform: translatez(0);
+    -moz-transform: translatez(0);
+    -ms-transform: translatez(0);
+    -o-transform: translatez(0);
+    transform: translatez(0);
 }
-.glimpse-open td, .glimpse-open span, .glimpse-open div {
+.glimpse-open td, .glimpse-open span, .glimpse-open div, .glimpse-open th {
     color: #fff;
     font-size: 13px;
     line-height: 13px;
@@ -100,6 +105,11 @@
     -moz-box-shadow: 0 0 5px #888;
     -webkit-box-shadow: 0 0 5px#888;
     box-shadow: 0 0 5px #888;
+    -webkit-transform: translatez(0);
+    -moz-transform: translatez(0);
+    -ms-transform: translatez(0);
+    -o-transform: translatez(0);
+    transform: translatez(0);
 }
 .glimpse-content {
     position: relative;
@@ -177,6 +187,11 @@
     cursor:pointer;
     font-weight:bold;
 }
+.glimpse .glimpse-sub-heading {
+    font-style: italic;
+    font-size: 1.3em;
+    opacity: 0.5;
+} 
 .glimpse-drop {
     padding: 0 1px 0 8px;
     height: 16px;
@@ -572,7 +587,7 @@ div.glimpse-ellipsis {
 .glimpse .error * {
     color: #B40000;
 }
-.glimpse .fail * {
+.glimpse .fail *, .glimpse .fail {
     color: #B40000;
     font-weight: bold;
 }

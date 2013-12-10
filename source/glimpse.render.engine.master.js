@@ -1,4 +1,4 @@
-﻿(function($, engine) {
+(function($, engine) {
     var providers = engine._providers,
         stack = [],
         provider = {
@@ -13,26 +13,30 @@
                     stack.push(data);
                 }
 
-                if (metadata) {
-                    if (metadata.engine && providers[metadata.engine])
-                        result = providers[metadata.engine].build(data, level, forceFull, metadata, forceLimit);
-                    else if (metadata.layout && isArray) 
-                        result = providers.layout.build(data, level, forceFull, metadata, forceLimit);
-                    else if (metadata.keysHeadings && isObject)
-                        result = providers.heading.build(data, level, forceFull, metadata, forceLimit);
-                }
+                try { 
+                    if (metadata) {
+                        if (metadata.engine && providers[metadata.engine])
+                            result = providers[metadata.engine].build(data, level, forceFull, metadata, forceLimit);
+                        else if (metadata.layout && isArray) 
+                            result = providers.layout.build(data, level, forceFull, metadata, forceLimit);
+                        else if (metadata.keysHeadings && isObject)
+                            result = providers.heading.build(data, level, forceFull, metadata, forceLimit);
+                    }
                 
-                if (result === '') {
-                    if (typeof data === 'function')
-                        result = providers.func.build(data, level, forceFull, metadata, forceLimit);
-                    else if (isArray)
-                        result = providers.table.build(data, level, forceFull, metadata, forceLimit);
-                    else if (isObject)
-                        result = providers.keyValue.build(data, level, forceFull, metadata, forceLimit);  
-                    else if (level == 0) 
-                        result = providers.empty.build(data);
-                    else 
-                        result = providers.string.build(data, level, forceFull, forceLimit);
+                    if (result === '') {
+                        if (typeof data === 'function')
+                            result = providers.func.build(data, level, forceFull, metadata, forceLimit);
+                        else if (isArray)
+                            result = providers.table.build(data, level, forceFull, metadata, forceLimit);
+                        else if (isObject)
+                            result = providers.keyValue.build(data, level, forceFull, metadata, forceLimit);  
+                        else if (level == 0) 
+                            result = providers.empty.build(data);
+                        else 
+                            result = providers.string.build(data, level, forceFull, forceLimit);
+                    } 
+                } catch (e) {
+                    result = '<span class="fail">Rendering issue "' + e.message + '"</span><br />Original Payload: ' + providers.string.build(JSON.stringify(data), 0);
                 }
                 
                 if (isObject || isArray)

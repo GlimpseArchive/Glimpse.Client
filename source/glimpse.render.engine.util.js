@@ -1,4 +1,4 @@
-﻿glimpse.render.engine.util = (function($) {
+glimpse.render.engine.util = (function($) {
     return {
         keyMetadata: function (key, metadata) {
             return metadata && metadata.layout === Object(metadata.layout) ? metadata.layout[key] : null;

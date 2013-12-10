@@ -1,4 +1,4 @@
-﻿(function($, util, engine, engineUtil, engineUtilTable) {
+(function($, util, engine, engineUtil, engineUtilTable) {
     var providers = engine._providers,
         build = function (data, level, forceFull, metadata, forceLimit) { 
             var limit = !$.isNumeric(forceLimit) ? 3 : forceLimit;
@@ -15,14 +15,14 @@
             if (engineUtil.includeHeading(metadata)) {
                 html += '<thead><tr class="glimpse-row-header glimpse-row-header-' + level + '">';
                 for (var x = 0; x < headers.length; x++)
-                    html += '<th>' + engineUtil.raw.process(headers[x]) + '</th>';
+                    html += '<th>' + engineUtil.raw.process(factory.getHeaderValue(headers, x)) + '</th>';
                 html += '</tr></thead>';
             }
             html += '<tbody class="glimpse-row-holder">';
             for (var i = factory.startingIndex(); i < data.length; i++) {
-                html += '<tr class="glimpse-row' + factory.getRowClass(data, i) + '">';
+                html += '<tr class="glimpse-row' + factory.getRowClass(data, i) + '">'; 
                 for (var x = 0; x < headers.length; x++)
-                    html += '<td>' + providers.master.build(factory.getRowValue(data[i], x, headers), level + 1) + '</td>';
+                    html += '<td>' + providers.master.build(factory.getRowValue(data[i], x, headers), level + 1) + '</td>'; 
                 html += '</tr>';
             }
             html += '</tbody></table>';
@@ -52,16 +52,16 @@
             for (var i = startingIndex; i < rowLimit; i++) { 
                 html += engineUtil.newItemSpacer(startingIndex, i, rowLimit, rowLength);
                 if (headers.length > 1)
-                    html += '<span class="start">[</span>';
+                    html += '<span class="start">{</span>';
                 var spacer = '';
                 for (var x = 0; x < columnLimit; x++) {
-                    html += spacer + '<span>\'</span>' + providers.string.build(factory.getRowValue(data[i], x, headers), level + 1, false, 12) + '<span>\'</span>';
+                    html += spacer + '<span>\'</span>' + providers.string.build(factory.getHeaderValue(headers, x), level + 1, false, 12) + '<span>\'</span><span class="mspace">:</span><span>\'</span>' + providers.string.build(factory.getRowValue(data[i], x, headers), level + 1, false, 12) + '<span>\'</span>';
                     spacer = '<span class="rspace">,</span>';
                 }
                 if (headers.length > 1) {
                     if (x < headers.length)
                         html += spacer + '<span>...</span>';
-                    html += '<span class="end">]</span>';
+                    html += '<span class="end">}</span>';
                 }
             }
             html += engineUtil.newItemSpacer(startingIndex, ++i, rowLimit, rowLength);

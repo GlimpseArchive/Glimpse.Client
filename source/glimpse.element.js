@@ -1,4 +1,4 @@
-﻿glimpse.elements = (function($) {
+glimpse.elements = (function($) {
     var scope = $(document),
         holder, opener, pageSpacer, barHolder, panelHolder, tabHolder, tabInstanceHolder, tabPermanentHolder, titleHolder, notificationHolder, lightbox, optionsHolder;
     

@@ -1,4 +1,4 @@
-﻿(function($, pubsub, util, elements, data, renderEngine) {
+(function($, pubsub, util, elements, data, renderEngine) {
     var context = { resultCount : 0, notice: null, isActive: false, contextRequestId: null, isSelected: false },
         generateAjaxAddress = function() {
             var currentMetadata = data.currentMetadata();
@@ -105,11 +105,11 @@
                 detailPanel = panel.find('table'); 
             
             if (detailPanel.length == 0) {
-                var detailData = [['Request URL', 'Method', 'Duration', 'Date/Time', 'View']],
-                    detailMetadata = { layout: [ [ { data : 0, key : true, width : '40%' }, { data : 1 }, { data : 2, width : '10%', className : 'mono', align : 'right' },  { data : 3, width : '20%' },  { data : 4, width : '100px' } ] ] };
+                var detailData = [['Request URL', 'Method', 'Status Code', 'Duration', 'Date/Time', 'View']],
+                    detailMetadata = { layout: [ [ { data : 0, key : true, width : '40%' }, { data : 1 }, { data : 2 }, { data : 3, width : '10%', className : 'mono', align : 'right' },  { data : 4, width : '20%' },  { data : 5, width : '100px' } ] ] };
                 
                 panel.html(renderEngine.build(detailData, detailMetadata)).find('table').append('<tbody class="glimpse-row-holder"></tbody>');
-                panel.find('table').addClass('glimpse-ellipsis').find('thead').append('<tr class="glimpse-head-message" style="display:none"><td colspan="5"><a href="javascript:void(0)" class="glimpse-pulse glimpse-context">Reset context back to starting page</a></td></tr>');
+                panel.find('table').addClass('glimpse-ellipsis').find('thead').append('<tr class="glimpse-head-message" style="display:none"><td colspan="6"><a href="javascript:void(0)" class="glimpse-pulse glimpse-context">Reset context back to starting page</a></td></tr>');
             }
         },
         layoutBuildContent = function(result) {
@@ -119,7 +119,7 @@
             
             for (var x = context.resultCount; x < result.length; x++) {
                 var item = result[x];
-                html = '<tr data-requestId="' + item.requestId + '" class="glimpse-row"><td><div class="glimpse-ellipsis" title="' + item.uri + '">' + item.uri + '</div></td><td>' + item.method + '</td><td class="mono" style="text-align:right">' + item.duration + '<span class="glimpse-soft"> ms</span></td><td>' + item.dateTime + '</td><td><a href="javascript:void(0)" class="glimpse-ajax-link" data-requestId="' + item.requestId + '">Inspect</a></td></tr>' + html;
+                html = '<tr data-requestId="' + item.requestId + '" class="glimpse-row"><td><div class="glimpse-ellipsis" title="' + item.uri + '">' + util.htmlEncode(item.uri) + '</div></td><td>' + item.method + '</td><td>' + item.statusCode + '</td><td class="mono" style="text-align:right">' + item.duration + '<span class="glimpse-soft"> ms</span></td><td>' + item.dateTime + '</td><td><a href="javascript:void(0)" class="glimpse-ajax-link" data-requestId="' + item.requestId + '">Inspect</a></td></tr>' + html;
             }
             detailBody.prepend(html);
             

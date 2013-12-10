@@ -1,10 +1,10 @@
-﻿(function($, util, engine, engineUtil) {
+(function($, util, engine, engineUtil) {
     var providers = engine._providers, 
         build = function (data, level, forceFull, metadata, forceLimit) {   
             var html = '<div class="glimpse-row-holder glimpse-row-holder-suppress"><div class="glimpse-row">';
             for (var key in data) {
                 var value = data[key];
-                html += '<div class="glimpse-header-item"><div class="glimpse-header">' + key + '</div>';
+                html += '<div class="glimpse-header-item"><div class="glimpse-header">' + engineUtil.raw.process(util.processCasing(key)) + '</div>';
                 if ($.isArray(value) || value === Object(value))
                     html += providers.master.build(value, 0, null, engineUtil.keyMetadata(key, metadata));
                 else 
