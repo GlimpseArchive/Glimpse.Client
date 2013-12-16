@@ -184,22 +184,7 @@
             context.contextRequestId = null;
             context.hasTried = null;
         };
-    
-    //var send = XMLHttpRequest.prototype.send;
-    //XMLHttpRequest.prototype.send = function() {
-    //    console.log(arguments);
-    //    try {
-    //        this.setRequestHeader("Glimpse-Parent-RequestID", data.baseData().requestId);
-    //    }catch(e) {  
-    //        console.log('Error occurred');
-    //        console.log(e);
-    //    }
-        
-    //    pubsub.publish('trigger.ajax.request.send');
-        
-    //    send.apply(this, arguments);
-    //};
-    
+     
     var open = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function(method, uri) { 
         open.apply(this, arguments);
