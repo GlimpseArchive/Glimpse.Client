@@ -64,12 +64,11 @@
 } 
 .glimpse-open {
     z-index: 100010;
-    position: fixed;
+    position: relative;
     right: 0;
     bottom: 0;
     height: 34px;
     min-width: 54px;
-    background: #3c454f; 
     color: #fff; 
     white-space: nowrap;
     -webkit-transform: translatez(0);
@@ -776,7 +775,7 @@ div.glimpse-ellipsis {
 
 
 .glimpse-open .glimpse-icon {
-    float: left;
+    float: right;
 }
 
 
@@ -827,3 +826,21 @@ div.glimpse-ellipsis {
 	overflow: visible;
 	width: 16px;
 }
+.glimpse-nowrap {
+    right: 0;
+    bottom: 0;
+    float: right;
+    position: fixed;
+    -webkit-transform: translatez(0);
+    min-width: 1370px;
+    height: 34px;
+    -moz-transform: translatez(0);
+    -ms-transform: translatez(0);
+    -o-transform: translatez(0);
+}
+
+    .glimpse-nowrap .glimpse-icon {
+        background-color: #3c454f;
+        margin: 0;
+        padding: 0 8px;
+    }

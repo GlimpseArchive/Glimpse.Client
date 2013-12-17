@@ -11,7 +11,7 @@
             html += display.host.render(details, opened[1], args.newData);
             html += display.ajax.render(details, opened[2], args.newData);
 
-            elements.opener().prepend('<div class="glimpse-hud">' + html + '</div>');
+            elements.opener().append('<div class="glimpse-hud">' + html + '</div>');
             state.setup();
 
             display.host.postRender();
