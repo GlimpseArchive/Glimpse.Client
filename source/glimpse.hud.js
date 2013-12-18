@@ -6,6 +6,8 @@
             var html = '',
                 details = args.newData.hud,
                 opened = state.current();
+            
+            pubsub.publish('trigger.hud.init');
 
             html += display.http.render(details, opened[0], args.newData);
             html += display.host.render(details, opened[1], args.newData);
@@ -16,6 +18,8 @@
 
             display.host.postRender();
             display.ajax.postRender(); 
+            
+            pubsub.publish('trigger.hud.ready');
         }, 
         state = (function() {
             return { 
