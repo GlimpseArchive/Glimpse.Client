@@ -13,6 +13,7 @@
     min-width: 0;
     border-collapse: collapse;
     border-spacing: 0;
+    width: 100%;
 }
 .glimpse a, .glimpse a:hover, .glimpse a:visited, .glimpse-link {
     color: #2200C1;
