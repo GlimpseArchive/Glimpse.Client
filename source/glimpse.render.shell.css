@@ -840,8 +840,8 @@ div.glimpse-ellipsis {
     -o-transform: translatez(0);
 }
 
-    .glimpse-nowrap .glimpse-icon {
-        background-color: #3c454f;
-        margin: 0;
-        padding: 0 8px;
-    }
+.glimpse-nowrap .glimpse-icon {
+    background-color: #3c454f;
+    margin: 0;
+    padding: 0 8px;
+}
