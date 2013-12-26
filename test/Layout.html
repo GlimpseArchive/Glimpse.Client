@@ -79,6 +79,8 @@
         <div class="glimpse"><div class="sample31 glimpse-panel"></div></div> 
         <h4>Scenario 32 (Pass)</h4>
         <div class="glimpse"><div class="sample32 glimpse-panel"></div></div>
+        <h4>Scenario 33 (Pass)</h4>
+        <div class="glimpse"><div class="sample33 glimpse-panel"></div></div>
     </div>
 
     <h1>Test Results</h1>
@@ -812,13 +814,13 @@
 
     
             var data24EngineA = {
-                build: function(data) {
-                    var val = [];
-                    for (var key in data)
-                        val.push(' &nbsp; &nbsp; - ' + key + ': \'' + data[key] + '\'');
-                    return '{<br />' + val.join(',<br />') + '<br />}';
-                }
-            },
+                    build: function(data) {
+                        var val = [];
+                        for (var key in data)
+                            val.push(' &nbsp; &nbsp; - ' + key + ': \'' + data[key] + '\'');
+                        return '{<br />' + val.join(',<br />') + '<br />}';
+                    }
+                },
                 data24EngineB = {
                     build: function(data) {
                         if (data !== Object(data))
@@ -845,7 +847,7 @@
             processHeading($('.sample24'), 'Process custom layout array with custom rendering engine');
             process($('.sample24'), data24, metaData24);
             processFunction($('.sample24'), 'Custom Engine - data24EngineA', data24EngineA.build);
-            processFunction($('.sample24'), 'Custom Engine - data24EngineB', data24EngineA.build);    
+            processFunction($('.sample24'), 'Custom Engine - data24EngineB', data24EngineB.build);    
 
     
             var data25Engine = {
@@ -1090,12 +1092,58 @@
                     { 'ActorName': 'Carrie Fisher', 'characterTitle': 'Princess Leia Organa', 'Gender': 'Female', 'Age': '21' },
                     { 'ActorName': 'Peter Cushing', 'characterTitle': 'Grand Moff Tarkin', 'Gender': 'Female', 'Age': '69' },
                     { 'ActorName': 'Alec Guinness', 'characterTitle': 'Ben Obi-Wan Kenobi', 'Gender': 'Female', 'Age': '70' },
-                    { 'ActorName': 'Anthony Daniels', 'characterTitle': 'C-3PO', 'Gender': 'Droid', 'Age': '101' },
+                    { 'ActorName': 'Anthony Daniels', 'characterTitle': 'C-3PO', 'Gender': 'Droid', 'Age': '101' }
                 ]
             };
             processHeading($('.sample32'), 'Adjust casings of keys');
             process($('.sample32'), data32);
      
+
+            var data33Engine = {
+                    build: function(data, level) {
+                        var headings = {},
+                            html = '<table>';
+                        
+                        for (var i = 0; i < data.length; i++) {
+                            var row = data[i];
+                            for (var key in row)
+                                headings[key] = null;
+                        }
+                         
+                        html += '<thead><tr class="glimpse-row-header glimpse-row-header-' + level + '">';
+                        for (var key in headings) {
+                            html += '<th>' + glimpse.render.engine.util.raw.process(glimpse.util.processCasing(key)) + '</th>';
+                        }
+                        html += '</tr></thead><tbody class="glimpse-row-holder">';
+                        for (var i = 0; i < data.length; i++) {
+                            html += '<tr class="glimpse-row">'; 
+                            for (var key in headings) 
+                                html += '<td>' + glimpse.render.engine._providers['master'].build(data[i][key], level + 1) + '</td>'; 
+                            html += '</tr>'; 
+                        }
+                        html += '</tbody></table>';
+                        
+                        return html;
+                    }
+                };
+            glimpse.render.engine.register('data33Engine', data33Engine); 
+    
+    
+            var data33 = [
+                { 'ActorName': 'Mark Hamill', 'characterTitle': 'Luke Skywalker', 'Gender': 'Male', 'Age': '21', 'Document': 'Large' },
+                { 'ActorName': 'James Earl Jones', 'characterTitle': 'Darth Vader', 'Gender': 'Male', 'Age': '45' },
+                { 'ActorName': 'Harrison Ford',  'Gender': 'Male', 'Age': '25' },
+                { 'ActorName': 'Carrie Fisher', 'characterTitle': 'Princess Leia Organa', 'Gender': 'Female', 'Age': '21', 'Title': 'Best in show' },
+                { 'ActorName': 'Peter Cushing', 'Gender': 'Female', 'Age': '69', 'Angle': '75 Degrees' },
+                { 'ActorName': 'Alec Guinness', 'Gender': 'Female', 'Age': '70', 'Angle': '45 Degrees' },
+                { 'ActorName': 'Anthony Daniels', 'characterTitle': 'C-3PO', 'Gender': 'Droid', 'Age': '101' }
+            ];
+            var metaData33 = { engine: 'data33Engine' };
+            processHeading($('.sample33'), 'Process custom layout array with custom rendering engine');
+            process($('.sample33'), data33, metaData33);
+            processFunction($('.sample33'), 'Custom Engine - data33Engine', data33Engine.build); 
+
+
         })(jQueryGlimpse, glimpse.util);
     </script> 
 </body>
