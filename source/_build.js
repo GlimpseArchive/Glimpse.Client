@@ -115,4 +115,5 @@
 // google-code-prettify.js
 /*(import:google-code-prettify.js)*/
 
-glimpse.pubsub.publish('trigger.system.start');
+if (!glimpse.suppressStart)
+    glimpse.pubsub.publish('trigger.system.start');
