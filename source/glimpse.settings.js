@@ -9,9 +9,9 @@ glimpse.settings = (function($, pubsub, util) {
                 if (e.originalEvent.key == 'glimpseOptions') 
                     localStorage = JSON.parse(e.originalEvent.newValue); 
             });
-        };
-
-    pubsub.subscribe('trigger.system.init', init);
+        }; 
+    
+    init();
 
     return {
         global: function (key, value) { 
