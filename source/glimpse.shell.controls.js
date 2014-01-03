@@ -1,5 +1,6 @@
 (function($, pubsub, elements, settings) {
-    var wireListeners = function () { 
+    var firstOpen = true,
+        wireListeners = function () { 
             elements.opener().find('.glimpse-icon').click(function () { pubsub.publish('trigger.shell.open', { isInitial: false }); });
             elements.barHolder().find('.glimpse-minimize').click(function () { pubsub.publish('trigger.shell.minimize'); });
             elements.barHolder().find('.glimpse-close').click(function () { pubsub.publish('trigger.shell.close'); });
@@ -11,6 +12,8 @@
             if (!settings.local('hidden') || args.force) {
                 settings.local('isOpen', true);
 
+                if (firstOpen)
+                    pubsub.publish('action.shell.initial.opening'); 
                 pubsub.publish('action.shell.opening', { isInitial: args.isInitial });
 
                 var height = settings.local('height') || 300,
@@ -38,6 +41,10 @@
                 }
                 
                 pubsub.publish('action.shell.opened', { isInitial: args.isInitial });
+                if (firstOpen)
+                    pubsub.publish('action.shell.initial.opened');
+
+                firstOpen = false;
             }
             else
                 pubsub.publish('trigger.shell.suppressed.open');
