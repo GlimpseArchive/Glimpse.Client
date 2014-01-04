@@ -77,7 +77,7 @@ glimpse.pubsub = (function() {
         publish: function(message, data) {
             return publish(message, data, true);
         },
-        subscribe: function(message, func) {
+        subscribe: function(message, func, _unshift) {
             // message is not registered yet
             if (!messages.hasOwnProperty(message)) {
                 messages[message] = [];
@@ -85,8 +85,9 @@ glimpse.pubsub = (function() {
 
             // forcing token as String, to allow for future expansions without breaking usage
             // and allow for easy use as key names for the 'messages' object
-            var token = String(++lastUid);
-            messages[message].push({ token: token, func: func });
+            var token = String(++lastUid),
+                method = _unshift ? 'unshift' : 'push'; 
+            messages[message][method]({ token: token, func: func });
 
             // return token for unsubscribing
             return token;
