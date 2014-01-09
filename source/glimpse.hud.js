@@ -6,16 +6,20 @@
             var html = '',
                 details = args.newData.hud,
                 opened = state.current();
+            
+            pubsub.publish('trigger.hud.init');
 
             html += display.http.render(details, opened[0], args.newData);
             html += display.host.render(details, opened[1], args.newData);
             html += display.ajax.render(details, opened[2], args.newData);
 
-            elements.opener().prepend('<div class="glimpse-hud">' + html + '</div>');
+            elements.opener().append('<div class="glimpse-hud">' + html + '</div>');
             state.setup();
 
             display.host.postRender();
             display.ajax.postRender(); 
+            
+            pubsub.publish('trigger.hud.ready');
         }, 
         state = (function() {
             return { 
@@ -423,7 +427,10 @@
                              
                             //Update data records
                             var rowClass = (status == 304 ? ' glimpse-hud-quite' : !(status >= 200 && status < 300) ? ' glimpse-hud-error' : '');
-                            
+
+                            //Build the rows that we are inserting
+                            uri = util.htmlEncode(uri);
+
                             var clickableUri = uri;
                             if(requestId) {
                                 clickableUri = '<a href="javascript:void(0)" class="glimpse-ajax-link" data-requestId="' + requestId + '">' + uri + '</a>';

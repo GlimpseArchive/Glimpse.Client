@@ -1,6 +1,7 @@
 .glimpse-open .glimpse-hud { 
     padding: 0 5px 0 0;
-    float: left; 
+    float: right; 
+    background-color: #3c454f;
 }
 .glimpse-open .glimpse-hud-section {
     float: left; 
