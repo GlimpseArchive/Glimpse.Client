@@ -452,10 +452,9 @@
                             stack.push(row);
                         },
                         postRender = function() {
-                            var open = XMLHttpRequest.prototype.open;
-                        
-                            XMLHttpRequest.prototype.open = function(method, uri, async, user, pass) {
-                                if (uri.indexOf('Glimpse.axd') === -1) {
+                            var open = XMLHttpRequest.prototype.open; 
+                            XMLHttpRequest.prototype.open = function(method, uri) {
+                                if (util.isLocalUri(uri) && uri.indexOf('Glimpse.axd') == -1) {
                                     var startTime = new Date().getTime(); 
                                     this.addEventListener("readystatechange", function() {
                                             if (this.readyState == 4 && this.getResponseHeader("Glimpse-RequestID"))  { 
