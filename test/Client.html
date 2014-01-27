@@ -28,147 +28,161 @@
         <ol id="qunit-tests"></ol>
         <div id="qunit-fixture"></div>
     </div>
-     
-    <script src="../source/glimpse.insight.js" type="text/javascript"></script> 
-    <script src="../build/glimpse.js" type="text/javascript"></script>
-    <script src="../build/glimpseTest.js" type="text/javascript"></script>    
-    <script type="text/javascript">  
-        (function($, pubsub) { 
-            //Support tab for viewing insight data 
-            (function(engine) {
-                var layout = [
-                        [ { data: 'index', key: true, width: '80px' }, { data: 'event', key: true, width: '150px' }, { data: 'properties' } ]
-                    ],
-                    index = 1,
-                    onlineStore = [],
-                    targetPanel = null,
-                    render = function(data) {
-                        if (data.length > 0) {
-                            var firstRun = index == 1, 
-                                tempIndex = index + data.length,
-                                list = [];
 
-                            index = tempIndex;
+    <script type="text/javascript">
+var glimpse = glimpse || {};   
+    glimpse.extensions = glimpse.extensions || []; 
+(function() {
+    var init = (function($, pubsub) {
+        //Support tab for viewing insight data
+        (function(engine) {
+            var layout = [
+                [{ data: 'index', key: true, width: '80px' }, { data: 'event', key: true, width: '150px' }, { data: 'properties' }]
+            ],
+                index = 1,
+                onlineStore = [],
+                targetPanel = null,
+                render = function(data) {
+                    if (data.length > 0) {
+                        var firstRun = index == 1,
+                            tempIndex = index + data.length,
+                            list = [];
 
-                            for (var i = data.length - 1; i >= 0; i--) {
-                                var item = $.extend(true, {}, data[i]); 
-                                item.index = --tempIndex;
-                                item.properties = [ item.properties ];
+                        index = tempIndex;
 
-                                list.push(item);
-                            }
-                            
-                            if (firstRun)
-                                engine.insert(targetPanel, list, { layout: layout }); 
-                            else 
-                                engine.prepend(targetPanel, list, { suppressHeader: true, layout: layout });
+                        for (var i = data.length - 1; i >= 0; i--) {
+                            var item = $.extend(true, {}, data[i]);
+                            item.index = --tempIndex;
+                            item.properties = [item.properties];
+
+                            list.push(item);
                         }
-                    };
 
-                pubsub.subscribe('action.panel.rendered.glimpse_insights', function(args) {   
-                    targetPanel = args.panel;
+                        if (firstRun)
+                            engine.insert(targetPanel, list, { layout: layout });
+                        else
+                            engine.prepend(targetPanel, list, { suppressHeader: true, layout: layout });
+                    }
+                };
 
-                    render(onlineStore);
-                });
+            pubsub.subscribe('action.panel.rendered.glimpse_insights', function(args) {
+                targetPanel = args.panel;
 
-                pubsub.subscribe('trigger.insight.event', function(data) { 
+                render(onlineStore);
+            });
+
+            pubsub.subscribe('trigger.insight.event', function(data) {
+                if (targetPanel == null)
+                    onlineStore.push(data);
+                else
+                    render([data]);
+            });
+
+            pubsub.subscribe('action.data.initial.changed', function(args) {
+                var key = 'glimpse_insights';
+
+                args.newData.data[key] = { name: 'Insights', isPermanent: true, data: 'No data yet' };
+                args.metadata.plugins[key] = null;
+            });
+        })(glimpse.render.engine);
+
+        //Support tab for viewing pubsub data
+        (function(engine) {
+            var onlineStore = [],
+                targetPanel = null,
+                cleanData = function(data) {
+                    if (!data)
+                        return '';
+
+                    data = $.extend({}, data);
+                    
+                    var hasData = false;
+                    for (var key in data) {
+                        var value = data[key];
+                        if (value == null)
+                            value = '--';
+                        else if ($.isArray(value))
+                            value = '[ ... ]';
+                        else if ($.isPlainObject(value))
+                            value = '{ ... }';
+                        else
+                            value = value.toString().substring(0, 20);
+
+                        data[key] = value;
+
+                        hasData = true;
+                    }
+
+                    return !hasData ? null : data;
+                },
+                render = function(data) {
+                    if (data.length > 0) {
+                        var html = '';
+                        for (var i = 0; i < data.length; i++)
+                            html += data[i];
+
+                        targetPanel.append(html);
+                    }
+                },
+                logData = function(data) {
                     if (targetPanel == null)
                         onlineStore.push(data);
-                    else 
-                        render([ data ]); 
-                });
-                 
-                pubsub.subscribe('action.data.initial.changed', function(args) { 
-                    var key = 'glimpse_insights';
-
-                    args.newData.data[key] = { name : 'Insights', isPermanent : true, data : 'No data yet' };
-                    args.metadata.plugins[key] = null;
-                });
-            })(glimpse.render.engine);
-            
-            //Support tab for viewing pubsub data 
-            (function(engine, engineUtil) {
-                var onlineStore = [],
-                    targetPanel = null, 
-                    cleanData = function(data) { 
-                        if (!data)
-                            return '';
-
-                        data = $.extend({}, data);
-                        for (var key in data) {
-                            var value = data[key];
-                            if (value == null)
-                                value = '--';
-                            else if ($.isArray(value))
-                                value = '[ ... ]';
-                            else if ($.isPlainObject(value))
-                                value = '{ ... }';
-                            else 
-                                value = value.toString().substring(0, 20);
-
-                            data[key] = value;
-                        }
-
-                        return data;
-                    },
-                    render = function(data) {
-                        if (data.length > 0) { 
-                            var html = '';
-                            for (var i = 0; i < data.length; i++)  
-                                html += data[i]; 
-
-                            targetPanel.append(html);
-                        }
-                    },
-                    logData = function(data) {
-                        if (targetPanel == null)
-                            onlineStore.push(data);
-                        else 
-                            render([ data ]); 
-                    };
-
-                pubsub.subscribe('action.panel.rendered.glimpse_pubsub', function(args) {
-                    args.panel.html('<table class="glimpse-row-holder"><thead><tr class="glimpse-row-header glimpse-row-header-0"><th class="glimpse-key">Summary</th><th class="glimpse-key">Data</th></tr></thead><tbody class="glimpse-row-holder"></tbody></table>');
-                    
-                    targetPanel = args.panel.find('.glimpse-row-holder');
-                     
-                    render(onlineStore);
-                }); 
-                pubsub._debug.logCaller = function(subscriber, message, data, level) {   
-                    var html = '<tr class="glimpse-row"><td style="padding-left:' + ((level * 20) + 10) + 'px;" colspan="2">' + engine._providers.string.build(subscriber.toString(), 1, false, 80) + '</td></tr>'; 
-
-                    logData(html);  
+                    else
+                        render([data]);
                 };
-                pubsub._debug.logPublish = function(message, data, level) {        
-                    var html = '<tr class="glimpse-row"><th style="padding-left:' + ((level * 20) + 10) + 'px; width:40%;">' + message + '</th><td>' + engine._providers.keyValue.buildPreview(cleanData(data), 2) + '</td></tr>';
-                     
-                    logData(html); 
-                };
-                 
-                pubsub.subscribe('action.data.initial.changed', function(args) { 
-                    var key = 'glimpse_pubsub';
 
-                    args.newData.data[key] = { name : 'PubSub', isPermanent : true, data : 'No data yet' };
-                    args.metadata.plugins[key] = null;
-                });
-            })(glimpse.render.engine, glimpse.render.engine.util);
-        })(jQueryGlimpse, glimpse.pubsub);
-    </script>    
+            pubsub.subscribe('action.panel.rendered.glimpse_pubsub', function(args) {
+                args.panel.html('<table class="glimpse-row-holder"><thead><tr class="glimpse-row-header glimpse-row-header-0"><th class="glimpse-key">Summary</th><th class="glimpse-key">Data</th></tr></thead><tbody class="glimpse-row-holder"></tbody></table>');
+
+                targetPanel = args.panel.find('.glimpse-row-holder');
+
+                render(onlineStore);
+            });
+            pubsub._debug.logCaller = function(subscriber, message, data, level) {
+                var html = '<tr class="glimpse-row"><td style="padding-left:' + ((level * 20) + 10) + 'px;" colspan="2">' + engine._providers.string.build(subscriber.toString(), 1, false, 80) + '</td></tr>';
+
+                logData(html);
+            };
+            pubsub._debug.logPublish = function(message, data, level) {
+                var data = cleanData(data),
+                    html = '<tr class="glimpse-row"><th style="padding-left:' + ((level * 20) + 10) + 'px; width:40%;">' + message + '</th><td>' + (data ? engine._providers.keyValue.buildPreview(data, 2) : '') + '</td></tr>';
+
+                logData(html);
+            };
+
+            pubsub.subscribe('action.data.initial.changed', function(args) {
+                var key = 'glimpse_pubsub';
+
+                args.newData.data[key] = { name: 'PubSub', isPermanent: true, data: 'No data yet' };
+                args.metadata.plugins[key] = null;
+            });
+        })(glimpse.render.engine, glimpse.render.engine.util);
+    });
+     
+    glimpse.extensions.push(function() {
+        init(jQueryGlimpse, glimpse.pubsub);
+    }); 
+})();
+    </script>
+    
+    <script src="../source/glimpse.insight.js" type="text/javascript"></script> 
+    <script src="../build/glimpse.js" type="text/javascript"></script>
+    <script src="../build/glimpseTest.js" type="text/javascript"></script>      
     <script type="text/javascript">
-var glimpseData = {
-        method : 'Get',  
-        browser : '',
-        clientId : 'Chrome 22.0',
-        dateTime : '',
-        requestId : '1234' + (window.location.search ? Math.round(new Date().getTime() / 1000) : ''),
-        isAjax : false,
-        uri : '/Help/Feature',  
-        metadata : {"correlation" : { 
-                            title : 'PRG Request', 
-                            legs : [ { method : 'POST', uri : '/Help/Feature/Add', requestId : 'PRG' }, 
-                                    { method : 'GET', uri : '/Help/Feature', requestId : '1234' } ] }
+        var glimpseData = {
+            method : 'Get',  
+            browser : '',
+            clientId : 'Chrome 22.0',
+            dateTime : '',
+            requestId : '1234' + (window.location.search ? Math.round(new Date().getTime() / 1000) : ''),
+            isAjax : false,
+            uri : '/Help/Feature',  
+            metadata : {"correlation" : { 
+                    title : 'PRG Request', 
+                    legs : [ { method : 'POST', uri : '/Help/Feature/Add', requestId : 'PRG' }, 
+                        { method : 'GET', uri : '/Help/Feature', requestId : '1234' } ] }
             },
-        data : {
+            data : {
                 "Session":{ name : 'Session', data : [["Key","Value","Type"],["CartId","2dc2f24f-5816-4e8e-bc70-2438ce628be8","string"],["__ControllerTempData",{"Test":"A bit of temp"},"System.Collections.Generic.Dictionary<string,object>"]] },
                 "Server":{ name : 'Server', data : {"ALL_HTTP":"HTTP_CONNECTION:keep-alive\r\nHTTP_ACCEPT:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nHTTP_ACCEPT_CHARSET:ISO-8859-1,utf-8;q=0.7,*;q=0.3\r\nHTTP_ACCEPT_ENCODING:gzip,deflate,sdch\r\nHTTP_ACCEPT_LANGUAGE:en-US,en;q=0.8\r\nHTTP_COOKIE:glimpseId=null; glimpsePolicy=On; ASP.NET_SessionId=1k33gr33dxqvzw3tm41koizh; prgLocation=/StoreManager/; prgLocationRedirect=/Account/LogOn?ReturnUrl=%2fStoreManager%2f; prgLocationId=25620064-8eb8-4879-842d-092a99b2b0ef; prgLocationMethod=GET; glimpseOptions=%7B%220%22%3A%22n%22%2C%221%22%3A%22u%22%2C%222%22%3A%22l%22%2C%223%22%3A%22l%22%2C%22open%22%3Atrue%2C%22height%22%3A447%2C%22activeTab%22%3A%22Views%22%2C%22.On%22%3Afalse%2C%22firstPopup%22%3Atrue%2C%22timeView%22%3Afalse%7D\r\nHTTP_HOST:localhost:33333\r\nHTTP_USER_AGENT:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.83 Safari/535.2\r\n","ALL_RAW":"Connection: keep-alive\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3\r\nAccept-Encoding: gzip,deflate,sdch\r\nAccept-Language: en-US,en;q=0.8\r\nCookie: glimpseId=null; glimpsePolicy=On; ASP.NET_SessionId=1k33gr33dxqvzw3tm41koizh; prgLocation=/StoreManager/; prgLocationRedirect=/Account/LogOn?ReturnUrl=%2fStoreManager%2f; prgLocationId=25620064-8eb8-4879-842d-092a99b2b0ef; prgLocationMethod=GET; glimpseOptions=%7B%220%22%3A%22n%22%2C%221%22%3A%22u%22%2C%222%22%3A%22l%22%2C%223%22%3A%22l%22%2C%22open%22%3Atrue%2C%22height%22%3A447%2C%22activeTab%22%3A%22Views%22%2C%22popupOn%22%3Afalse%2C%22firstPopup%22%3Atrue%2C%22timeView%22%3Afalse%7D\r\nHost: localhost:33333\r\nUser-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.83 Safari/535.2\r\n","APPL_MD_PATH":"","APPL_PHYSICAL_PATH":"C:\\Users\\avanderhoorn\\Glimpse\\source\\Glimpse.Sample.MVC3\\","AUTH_TYPE":"","AUTH_USER":"","AUTH_PASSWORD":"","LOGON_USER":"CORP\\AVanDerHoorn","REMOTE_USER":"","CERT_COOKIE":"","CERT_FLAGS":"","CERT_ISSUER":"","CERT_KEYSIZE":"","CERT_SECRETKEYSIZE":"","CERT_SERIALNUMBER":"","CERT_SERVER_ISSUER":"","CERT_SERVER_SUBJECT":"","CERT_SUBJECT":"","CONTENT_LENGTH":"0","CONTENT_TYPE":"","GATEWAY_INTERFACE":"","HTTPS":"","HTTPS_KEYSIZE":"","HTTPS_SECRETKEYSIZE":"","HTTPS_SERVER_ISSUER":"","HTTPS_SERVER_SUBJECT":"","INSTANCE_ID":"","INSTANCE_META_PATH":"","LOCAL_ADDR":"127.0.0.1","PATH_INFO":"/","PATH_TRANSLATED":"C:\\Users\\avanderhoorn\\Glimpse\\source\\Glimpse.Sample.MVC3","QUERY_STRING":"","REMOTE_ADDR":"127.0.0.1","REMOTE_HOST":"127.0.0.1","REMOTE_PORT":"","REQUEST_METHOD":"GET","SCRIPT_NAME":"/","SERVER_NAME":"localhost","SERVER_PORT":"33333","SERVER_PORT_SECURE":"0","SERVER_PROTOCOL":"HTTP/1.1","SERVER_SOFTWARE":"","URL":"/","HTTP_CONNECTION":"keep-alive","HTTP_ACCEPT":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","HTTP_ACCEPT_CHARSET":"ISO-8859-1,utf-8;q=0.7,*;q=0.3","HTTP_ACCEPT_ENCODING":"gzip,deflate,sdch","HTTP_ACCEPT_LANGUAGE":"en-US,en;q=0.8","HTTP_COOKIE":"glimpseId=null; glimpsePolicy=On; ASP.NET_SessionId=1k33gr33dxqvzw3tm41koizh; prgLocation=/StoreManager/; prgLocationRedirect=/Account/LogOn?ReturnUrl=%2fStoreManager%2f; prgLocationId=25620064-8eb8-4879-842d-092a99b2b0ef; prgLocationMethod=GET; glimpseOptions=%7B%220%22%3A%22n%22%2C%221%22%3A%22u%22%2C%222%22%3A%22l%22%2C%223%22%3A%22l%22%2C%22open%22%3Atrue%2C%22height%22%3A447%2C%22activeTab%22%3A%22Views%22%2C%22popupOn%22%3Afalse%2C%22firstPopup%22%3Atrue%2C%22timeView%22%3Afalse%7D","HTTP_HOST":"localhost:33333","HTTP_USER_AGENT":"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.83 Safari/535.2"} },
                 "Configuration":{ name : "Configuration", data : {"test":null,"/configuration/appSettings":{"webpages:Version":"1.0.0.0","ClientValidationEnabled":"true","UnobtrusiveJavaScriptEnabled":"true","GlimpseVersionCheckAPIDomain":"localhost:28785"},"/configuration/connectionStrings":[["Key","ProviderName","Connection String"],["LocalSqlServer","System.Data.SqlClient",{"raw":"data source=.\\SQLEXPRESS;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|aspnetdb.mdf;User Instance=true","details":{"Data Source":".\\SQLEXPRESS","Failover Partner":"","AttachDbFilename":"|DataDirectory|aspnetdb.mdf","Initial Catalog":"","Integrated Security":true,"Persist Security Info":false,"User ID":"","Password":"","Enlist":true,"Pooling":true,"Min Pool Size":0,"Max Pool Size":100,"Asynchronous Processing":false,"Connection Reset":true,"MultipleActiveResultSets":false,"Replication":false,"Connect Timeout":15,"Encrypt":false,"TrustServerCertificate":false,"Load Balance Timeout":0,"Network Library":"","Packet Size":8000,"Type System Version":"Latest","Application Name":".Net SqlClient Data Provider","Current Language":"","Workstation ID":"","User Instance":true,"Context Connection":false,"Transaction Binding":"Implicit Unbind","ApplicationIntent":0,"MultiSubnetFailover":false}}],["MusicStoreEntities","System.Data.SqlServerCe.4.0",{"raw":"Data Source=|DataDirectory|MvcMusicStore.sdf","details":{"Autoshrink Threshold":60,"Case Sensitive":false,"Data Source":"|DataDirectory|MvcMusicStore.sdf","Default Lock Escalation":100,"Default Lock Timeout":5000,"Encrypt Database":false,"Encryption Mode":null,"Enlist":true,"File Access Retry Timeout":0,"Mode":"Read Write","Flush Interval":10,"Locale Identifier":-1,"Max Buffer Size":4096,"Max Database Size":256,"Password":"","Persist Security Info":false,"Temp File Max Size":256,"Temp File Directory":null}}],["TestDatabase","System.Data.Odbc",{"raw":"Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\mydatabase.accdb;Locale Identifier=2057;Uid=Admin;Pwd=########;","details":{"Dsn":"","Driver":"{Microsoft Access Driver (*.mdb, *.accdb)}","dbq":"C:\\mydatabase.accdb","locale identifier":"2057","uid":"Admin","pwd":"########"}}]],"/configuration/system.web/authentication":{"mode":"Forms","forms":null},"/configuration/system.web/roleManager":{"cookieRequireSSL":false,"cacheRolesInCookie":false,"cookieName":".ASPXROLES","cookiePath":"/","cookieProtection":"All","cookieSlidingExpiration":true,"cookieTimeout":"00:30:00","createPersistentCookie":false,"defaultProvider":"AspNetSqlRoleProvider","domain":null,"enabled":true,"maxCachedResults":25,"providers":[["Name","Type","Parameters"],["AspNetSqlRoleProvider","System.Web.Security.SqlRoleProvider, System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",{"connectionStringName":"LocalSqlServer","applicationName":"/"}],["AspNetWindowsTokenRoleProvider","System.Web.Security.WindowsTokenRoleProvider, System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",{"applicationName":"/"}]]},"/configuration/system.web/customErrors":{"defaultRedirect":null,"errors":[],"redirectMode":"ResponseRedirect","mode":"RemoteOnly"},"/configuration/system.web/httpModules":[["Name","Type"],["OutputCache","System.Web.Caching.OutputCacheModule"],["Session","System.Web.SessionState.SessionStateModule"],["WindowsAuthentication","System.Web.Security.WindowsAuthenticationModule"],["FormsAuthentication","System.Web.Security.FormsAuthenticationModule"],["PassportAuthentication","System.Web.Security.PassportAuthenticationModule"],["RoleManager","System.Web.Security.RoleManagerModule"],["UrlAuthorization","System.Web.Security.UrlAuthorizationModule"],["FileAuthorization","System.Web.Security.FileAuthorizationModule"],["AnonymousIdentification","System.Web.Security.AnonymousIdentificationModule"],["Profile","System.Web.Profile.ProfileModule"],["ErrorHandlerModule","System.Web.Mobile.ErrorHandlerModule, System.Web.Mobile, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"],["ServiceModel","System.ServiceModel.Activation.HttpModule, System.ServiceModel.Activation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"],["UrlRoutingModule-4.0","System.Web.Routing.UrlRoutingModule"],["ScriptModule-4.0","System.Web.Handlers.ScriptModule, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"],["Glimpse","Glimpse.AspNet.HttpModule"]],"/configuration/system.web/httpHandlers":[["Type","Verb","Path","Validate"],["Glimpse.AspNet.HttpHandler","GET,POST","glimpse.axd",true],["System.Web.HttpNotFoundHandler","*","eurl.axd",true],["System.Web.Handlers.TraceHandler","*","trace.axd",true],["System.Web.Handlers.AssemblyResourceLoader","GET","WebResource.axd",true],["System.Web.Script.Services.ScriptHandlerFactory, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35","*","*_AppService.axd",false],["System.Web.Handlers.ScriptResourceHandler, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35","GET,HEAD","ScriptResource.axd",false],["System.Web.HttpNotFoundHandler","*","*.axd",true],["System.Web.UI.PageHandlerFactory","*","*.aspx",true],["System.Web.UI.SimpleHandlerFactory","*","*.ashx",true],["System.Web.Script.Services.ScriptHandlerFactory, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35","*","*.asmx",false],["System.Runtime.Remoting.Channels.Http.HttpRemotingHandlerFactory, System.Runtime.Remoting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089","*","*.rem",false],["System.Runtime.Remoting.Channels.Http.HttpRemotingHandlerFactory, System.Runtime.Remoting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089","*","*.soap",false],["System.Web.HttpForbiddenHandler","*","*.asax",true],["System.Web.HttpForbiddenHandler","*","*.ascx",true],["System.Web.HttpForbiddenHandler","*","*.master",true],["System.Web.HttpForbiddenHandler","*","*.skin",true],["System.Web.HttpForbiddenHandler","*","*.browser",true],["System.Web.HttpForbiddenHandler","*","*.sitemap",true],["System.Web.StaticFileHandler","GET,HEAD","*.dll.config",true],["System.Web.StaticFileHandler","GET,HEAD","*.exe.config",true],["System.Web.HttpForbiddenHandler","*","*.config",true],["System.Web.HttpForbiddenHandler","*","*.cs",true],["System.Web.HttpForbiddenHandler","*","*.csproj",true],["System.Web.HttpForbiddenHandler","*","*.vb",true],["System.Web.HttpForbiddenHandler","*","*.vbproj",true],["System.Web.HttpForbiddenHandler","*","*.webinfo",true],["System.Web.HttpForbiddenHandler","*","*.licx",true],["System.Web.HttpForbiddenHandler","*","*.resx",true],["System.Web.HttpForbiddenHandler","*","*.resources",true],["System.Web.HttpForbiddenHandler","*","*.mdb",true],["System.Web.HttpForbiddenHandler","*","*.vjsproj",true],["System.Web.HttpForbiddenHandler","*","*.java",true],["System.Web.HttpForbiddenHandler","*","*.jsl",true],["System.Web.HttpForbiddenHandler","*","*.ldb",true],["System.Web.HttpForbiddenHandler","*","*.ad",true],["System.Web.HttpForbiddenHandler","*","*.dd",true],["System.Web.HttpForbiddenHandler","*","*.ldd",true],["System.Web.HttpForbiddenHandler","*","*.sd",true],["System.Web.HttpForbiddenHandler","*","*.cd",true],["System.Web.HttpForbiddenHandler","*","*.adprototype",true],["System.Web.HttpForbiddenHandler","*","*.lddprototype",true],["System.Web.HttpForbiddenHandler","*","*.sdm",true],["System.Web.HttpForbiddenHandler","*","*.sdmDocument",true],["System.Web.HttpForbiddenHandler","*","*.mdf",true],["System.Web.HttpForbiddenHandler","*","*.ldf",true],["System.Web.HttpForbiddenHandler","*","*.exclude",true],["System.Web.HttpForbiddenHandler","*","*.refresh",true],["System.ServiceModel.Activation.HttpHandler, System.ServiceModel.Activation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35","*","*.svc",false],["System.Web.HttpForbiddenHandler","*","*.rules",true],["System.ServiceModel.Activation.HttpHandler, System.ServiceModel.Activation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35","*","*.xoml",false],["System.Xaml.Hosting.XamlHttpHandlerFactory, System.Xaml.Hosting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35","*","*.xamlx",false],["System.Web.HttpForbiddenHandler","*","*.aspq",true],["System.Web.HttpForbiddenHandler","*","*.cshtm",true],["System.Web.HttpForbiddenHandler","*","*.cshtml",true],["System.Web.HttpForbiddenHandler","*","*.vbhtm",true],["System.Web.HttpForbiddenHandler","*","*.vbhtml",true],["System.Web.DefaultHttpHandler","GET,HEAD,POST","*",true],["System.Web.HttpMethodNotAllowedHandler","*","*",true]]}},
@@ -214,15 +228,15 @@ var glimpseData = {
                     duration :'230'
                 } }
             },
-        hud: {
-            sql: {"data": {"queryCount":15,"connectionCount":6,"transactionCount":2,"queryExecutionTime":10.25,"connectionOpenTime":20.48}, "name":"sql"},
-            environment: {"data": {"serverName":"ANTHONY","user":""}, "name":"environment"},
-            timings: {"data": [{"title":"Controller: Home.Index","startTime":"06/16/2013 10:25:33","duration":122.55,"startPoint":1.47,"category":"Controller"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":1.32,"startPoint":9.01,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":1.68,"startPoint":26.32,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":1.12,"startPoint":28.1,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.56,"startPoint":29.4,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.58,"startPoint":30.01,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.56,"startPoint":30.68,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.61,"startPoint":31.34,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.55,"startPoint":32.03,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.55,"startPoint":32.63,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.55,"startPoint":40.94,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.25,"startPoint":41.54,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.27,"startPoint":42.28,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.56,"startPoint":49.88,"category":"Command"},{"title":"Render: Home.Index","startTime":"06/16/2013 10:25:33","duration":36.09,"startPoint":125.86,"category":"View"},{"title":"Controller: ShoppingCart.CartSummary","startTime":"06/16/2013 10:25:33","duration":9.88,"startPoint":129.94,"category":"Controller"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.6,"startPoint":137.34,"category":"Command"},{"title":"Render: ShoppingCart.CartSummary","startTime":"06/16/2013 10:25:33","duration":1.0,"startPoint":142.03,"category":"View"},{"title":"Controller: Store.GenreMenu","startTime":"06/16/2013 10:25:33","duration":9.86,"startPoint":144.61,"category":"Controller"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.5,"startPoint":151.64,"category":"Command"},{"title":"Render: Store.GenreMenu","startTime":"06/16/2013 10:25:33","duration":4.44,"startPoint":156.66,"category":"View"}], "name":"Timings"},
-            mvc: {"data": {"controllerName":"Home","actionName":"Index","actionExecutionTime":122.55,"childActionCount":2,"childViewCount":2,"viewName":"Index","viewRenderTime":36.09,"matchedRouteName":"Default"}, "name":"mvc"}
-        }};
+            hud: {
+                sql: {"data": {"queryCount":15,"connectionCount":6,"transactionCount":2,"queryExecutionTime":10.25,"connectionOpenTime":20.48}, "name":"sql"},
+                environment: {"data": {"serverName":"ANTHONY","user":""}, "name":"environment"},
+                timings: {"data": [{"title":"Controller: Home.Index","startTime":"06/16/2013 10:25:33","duration":122.55,"startPoint":1.47,"category":"Controller"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":1.32,"startPoint":9.01,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":1.68,"startPoint":26.32,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":1.12,"startPoint":28.1,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.56,"startPoint":29.4,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.58,"startPoint":30.01,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.56,"startPoint":30.68,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.61,"startPoint":31.34,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.55,"startPoint":32.03,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.55,"startPoint":32.63,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.55,"startPoint":40.94,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.25,"startPoint":41.54,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.27,"startPoint":42.28,"category":"Command"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.56,"startPoint":49.88,"category":"Command"},{"title":"Render: Home.Index","startTime":"06/16/2013 10:25:33","duration":36.09,"startPoint":125.86,"category":"View"},{"title":"Controller: ShoppingCart.CartSummary","startTime":"06/16/2013 10:25:33","duration":9.88,"startPoint":129.94,"category":"Controller"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.6,"startPoint":137.34,"category":"Command"},{"title":"Render: ShoppingCart.CartSummary","startTime":"06/16/2013 10:25:33","duration":1.0,"startPoint":142.03,"category":"View"},{"title":"Controller: Store.GenreMenu","startTime":"06/16/2013 10:25:33","duration":9.86,"startPoint":144.61,"category":"Controller"},{"title":"Command: Executed","startTime":"06/16/2013 10:25:33","duration":0.5,"startPoint":151.64,"category":"Command"},{"title":"Render: Store.GenreMenu","startTime":"06/16/2013 10:25:33","duration":4.44,"startPoint":156.66,"category":"View"}], "name":"Timings"},
+                mvc: {"data": {"controllerName":"Home","actionName":"Index","actionExecutionTime":122.55,"childActionCount":2,"childViewCount":2,"viewName":"Index","viewRenderTime":36.09,"matchedRouteName":"Default"}, "name":"mvc"}
+            }};
 
-var glimpseMetadata = {"environmentUrls":{"Dev":"http://localhost/","QA":"http://qa.getglimpse.com/","Prod":"http://getglimpse.com/"},
-           /* "version":[{name: 'Glimpse', version: '0.83'}, {name: 'Glimpse.Elmah', version: '0.9.2'}],*/
+        var glimpseMetadata = {"environmentUrls":{"Dev":"http://localhost/","QA":"http://qa.getglimpse.com/","Prod":"http://getglimpse.com/"},
+            /* "version":[{name: 'Glimpse', version: '0.83'}, {name: 'Glimpse.Elmah', version: '0.9.2'}],*/
             "version": "1.0.0",
             "resources" : { 
                 "glimpse_request" : "Request?requestId={requestId}&version={version}{&Callback}",
@@ -257,9 +271,9 @@ var glimpseMetadata = {"environmentUrls":{"Dev":"http://localhost/","QA":"http:/
                 "Execution":{"documentationUri":"http://getGlimpse.com/Help/Plugin/Execution", "keysHeadings": true},
                 "MetaData":{"documentationUri":"http://getGlimpse.com/Help/Plugin/MetaData","layout":[[{"width":"150px","data":0},{"width":"25%","data":1},{"data":2}]]}
             } 
-    };
-glimpse.data.initMetadata(glimpseMetadata);
-glimpse.data.initData(glimpseData); 
+        };
+        glimpse.data.initMetadata(glimpseMetadata);
+        glimpse.data.initData(glimpseData); 
     </script>
 </body>
 </html>
