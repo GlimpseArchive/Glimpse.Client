@@ -63,17 +63,18 @@ var process = function (data, dir) {
         });
     };
 
-var outputDir = path.join(__dirname, 'build');
+var outputDir = path.join(__dirname, 'build'); 
+var sourceDir = path.join(__dirname, 'source'); 
 
-var coreSourceDir = path.join(__dirname, 'source'); 
-var coreManifest = path.join(coreSourceDir, '_build.js');
-var coreOutputFile = path.join(outputDir, 'glimpse.js');
-
-output(coreManifest, coreSourceDir, outputDir, coreOutputFile);
-
+var coreManifest = path.join(sourceDir, '_build.js');
+var coreOutputFile = path.join(outputDir, 'glimpse.js'); 
+output(coreManifest, sourceDir, outputDir, coreOutputFile);
+  
+var corePreManifest = path.join(sourceDir, '_buildPre.js');
+var corePreOutputFile = path.join(outputDir, 'glimpsePre.js'); 
+output(corePreManifest, sourceDir, outputDir, corePreOutputFile);
 
 var testSourceDir = path.join(__dirname, 'test', 'mock');
 var testManifest = path.join(testSourceDir, 'test.glimpse.ajax.js');
-var testOutputFile = path.join(outputDir, 'glimpseTest.js');
-
+var testOutputFile = path.join(outputDir, 'glimpseTest.js'); 
 output(testManifest, testSourceDir, outputDir, testOutputFile);
