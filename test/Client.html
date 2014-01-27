@@ -31,7 +31,62 @@
      
     <script src="../source/glimpse.insight.js" type="text/javascript"></script> 
     <script src="../build/glimpse.js" type="text/javascript"></script>
-    <script src="../build/glimpseTest.js" type="text/javascript"></script>     
+    <script src="../build/glimpseTest.js" type="text/javascript"></script>    
+    <script type="text/javascript">  
+        (function($, pubsub) { 
+            //Support tab for viewing insight data 
+            (function(engine) {
+                var layout = [
+                        [ { data: 'index', key: true, width: '80px' }, { data: 'event', key: true, width: '150px' }, { data: 'properties' } ]
+                    ],
+                    index = 1,
+                    onlineStore = [],
+                    targetPanel = null,
+                    render = function(data) {
+                        if (data.length > 0) {
+                            var firstRun = index == 1, 
+                                tempIndex = index + data.length,
+                                list = [];
+
+                            index = tempIndex;
+
+                            for (var i = data.length - 1; i >= 0; i--) {
+                                var item = $.extend(true, {}, data[i]); 
+                                item.index = --tempIndex;
+                                item.properties = [ item.properties ];
+
+                                list.push(item);
+                            }
+                            
+                            if (firstRun)
+                                engine.insert(targetPanel, list, { layout: layout }); 
+                            else 
+                                engine.prepend(targetPanel, list, { suppressHeader: true, layout: layout });
+                        }
+                    };
+
+                pubsub.subscribe('action.panel.rendered.glimpse_insights', function(args) {   
+                    targetPanel = args.panel;
+
+                    render(onlineStore);
+                });
+
+                pubsub.subscribe('trigger.insight.event', function(data) { 
+                    if (targetPanel == null)
+                        onlineStore.push(data);
+                    else 
+                        render([ data ]); 
+                });
+                 
+                pubsub.subscribe('action.data.initial.changed', function(args) { 
+                    var key = 'glimpse_insights';
+
+                    args.newData.data[key] = { name : 'Insights', isPermanent : true, data : 'No data yet' };
+                    args.metadata.plugins[key] = null;
+                });
+            })(glimpse.render.engine);
+        })(jQueryGlimpse, glimpse.pubsub);
+    </script>    
     <script type="text/javascript">
 var glimpseData = {
         method : 'Get',  
