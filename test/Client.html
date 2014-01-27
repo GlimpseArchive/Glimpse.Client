@@ -85,6 +85,73 @@
                     args.metadata.plugins[key] = null;
                 });
             })(glimpse.render.engine);
+            
+            //Support tab for viewing pubsub data 
+            (function(engine, engineUtil) {
+                var onlineStore = [],
+                    targetPanel = null, 
+                    cleanData = function(data) { 
+                        if (!data)
+                            return '';
+
+                        data = $.extend({}, data);
+                        for (var key in data) {
+                            var value = data[key];
+                            if (value == null)
+                                value = '--';
+                            else if ($.isArray(value))
+                                value = '[ ... ]';
+                            else if ($.isPlainObject(value))
+                                value = '{ ... }';
+                            else 
+                                value = value.toString().substring(0, 20);
+
+                            data[key] = value;
+                        }
+
+                        return data;
+                    },
+                    render = function(data) {
+                        if (data.length > 0) { 
+                            var html = '';
+                            for (var i = 0; i < data.length; i++)  
+                                html += data[i]; 
+
+                            targetPanel.append(html);
+                        }
+                    },
+                    logData = function(data) {
+                        if (targetPanel == null)
+                            onlineStore.push(data);
+                        else 
+                            render([ data ]); 
+                    };
+
+                pubsub.subscribe('action.panel.rendered.glimpse_pubsub', function(args) {
+                    args.panel.html('<table class="glimpse-row-holder"><thead><tr class="glimpse-row-header glimpse-row-header-0"><th class="glimpse-key">Summary</th><th class="glimpse-key">Data</th></tr></thead><tbody class="glimpse-row-holder"></tbody></table>');
+                    
+                    targetPanel = args.panel.find('.glimpse-row-holder');
+                     
+                    render(onlineStore);
+                }); 
+                pubsub._debug.logCaller = function(subscriber, message, data, level) {   
+                    var html = '<tr class="glimpse-row"><td style="padding-left:' + ((level * 20) + 10) + 'px;" colspan="2">' + engine._providers.string.build(subscriber.toString(), 1, false, 80) + '</td></tr>'; 
+
+                    logData(html);  
+                };
+                pubsub._debug.logPublish = function(message, data, level) {        
+                    var html = '<tr class="glimpse-row"><th style="padding-left:' + ((level * 20) + 10) + 'px; width:40%;">' + message + '</th><td>' + engine._providers.keyValue.buildPreview(cleanData(data), 2) + '</td></tr>';
+                     
+                    logData(html); 
+                };
+                 
+                pubsub.subscribe('action.data.initial.changed', function(args) { 
+                    var key = 'glimpse_pubsub';
+
+                    args.newData.data[key] = { name : 'PubSub', isPermanent : true, data : 'No data yet' };
+                    args.metadata.plugins[key] = null;
+                });
+            })(glimpse.render.engine, glimpse.render.engine.util);
         })(jQueryGlimpse, glimpse.pubsub);
     </script>    
     <script type="text/javascript">
