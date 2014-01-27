@@ -1,12 +1,8 @@
 glimpse.pubsub = (function() {
     var debug = {
             level: 0,
-            logCaller: function(subscriber, message, data, level) { 
-                console.log(level + '- ' + subscriber.toString().replace(/\r\n/g, ' ').replace(/\n/g, ' ').replace(/  /g, '').substring(0, 50)); 
-            },
-            logPublish: function(message, data, level) {
-                console.log(level + '+ ' + message);
-            }
+            logCaller: function(subscriber, message, data, level) { },
+            logPublish: function(message, data, level) { }
         }, 
         messages = {},
         lastUid = -1,
