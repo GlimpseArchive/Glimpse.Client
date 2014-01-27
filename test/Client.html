@@ -28,9 +28,10 @@
         <ol id="qunit-tests"></ol>
         <div id="qunit-fixture"></div>
     </div>
-
+     
+    <script src="../source/glimpse.insight.js" type="text/javascript"></script> 
     <script src="../build/glimpse.js" type="text/javascript"></script>
-    <script src="../build/glimpseTest.js" type="text/javascript"></script>    
+    <script src="../build/glimpseTest.js" type="text/javascript"></script>     
     <script type="text/javascript">
 var glimpseData = {
         method : 'Get',  
@@ -100,7 +101,7 @@ var glimpseData = {
 
 var glimpseMetadata = {"environmentUrls":{"Dev":"http://localhost/","QA":"http://qa.getglimpse.com/","Prod":"http://getglimpse.com/"},
            /* "version":[{name: 'Glimpse', version: '0.83'}, {name: 'Glimpse.Elmah', version: '0.9.2'}],*/
-            "version": "1.0",
+            "version": "1.0.0",
             "resources" : { 
                 "glimpse_request" : "Request?requestId={requestId}&version={version}{&Callback}",
                 "glimpse_ajax" : "Ajax?parentRequestId={parentRequestId}&version={version}{&Callback}",
