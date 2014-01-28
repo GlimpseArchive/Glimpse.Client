@@ -70,9 +70,9 @@ var coreManifest = path.join(sourceDir, '_build.js');
 var coreOutputFile = path.join(outputDir, 'glimpse.js'); 
 output(coreManifest, sourceDir, outputDir, coreOutputFile);
   
-var corePreManifest = path.join(sourceDir, '_buildPre.js');
-var corePreOutputFile = path.join(outputDir, 'glimpsePre.js'); 
-output(corePreManifest, sourceDir, outputDir, corePreOutputFile);
+var insightManifest = path.join(sourceDir, '_buildInsight.js');
+var insightOutputFile = path.join(outputDir, 'glimpseInsight.js'); 
+output(insightManifest, sourceDir, outputDir, insightOutputFile);
 
 var testSourceDir = path.join(__dirname, 'test', 'mock');
 var testManifest = path.join(testSourceDir, 'test.glimpse.ajax.js');
