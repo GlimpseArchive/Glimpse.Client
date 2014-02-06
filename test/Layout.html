@@ -85,7 +85,7 @@
         <div class="glimpse"><div class="sample33 glimpse-panel"></div></div>
     </div>
 
-    <h1>Test Results</h1>
+    <h1>Test Results <em>(more tests coming)</em></h1>
     <script src="./lib/qunit.js" type="text/javascript"></script>
     <div class="glipse-tests">
         <h1 id="qunit-header">QUnit Test Suite</h1>
@@ -408,16 +408,16 @@
             processHeading($('.sample3'), 'Process array with row/cell styling', '<ul><li>Row styling</li><li>Trim long string content</li><li>Markup support</li></ul>');
             process($('.sample3'), data3);
 
-            module('Scenario 3');
-            test("Rended Object Shape", function () {
-                expect(assert.isArray(assert.getLayout($('.sample3'))));
-            });
-            test("Rended Object Data", function () {
-                expect(assert.checkArray(assert.getLayout($('.sample3')), data3));
-            });
-            test("Rended Object Data with Style", function () {
-                expect(assert.checkArrayStyle(assert.getLayout($('.sample3')), data3));
-            });
+            //module('Scenario 3');
+            //test("Rended Object Shape", function () {
+            //    expect(assert.isArray(assert.getLayout($('.sample3'))));
+            //});
+            //test("Rended Object Data", function () {
+            //    expect(assert.checkArray(assert.getLayout($('.sample3')), data3));
+            //});
+            //test("Rended Object Data with Style", function () {
+            //    expect(assert.checkArrayStyle(assert.getLayout($('.sample3')), data3));
+            //});
     
 
     
