@@ -13,7 +13,9 @@
 <body>
     <h1>Render Test</h1>
     <div class="glimpse-example">
-        
+
+        <h4>Scenario 0 (Pass)</h4>
+        <div class="glimpse"><div class="sample0 glimpse-panel"></div></div>
         <h4>Scenario 1 (Pass)</h4>
         <div class="glimpse"><div class="sample1 glimpse-panel"></div></div>
         <h4>Scenario 2 (Pass)</h4>
@@ -336,8 +338,11 @@
                     checkArrayStyle: checkArrayStyle
                 }
             })();
+            
 
-
+            var data0 = [];
+            processHeading($('.sample0'), 'Process empty array');
+            process($('.sample0'), data0); 
 
             var data1 = {
                 'Movie': 'Star Wars',
