@@ -86,6 +86,10 @@ glimpse.util = (function($) {
                 uri = uri.split('://')[1];
             return uri.split('/')[0];
         },
+        isLocalUri: function(uri) {
+            return uri && (!(uri.indexOf('http://') == 0 || uri.indexOf('https://') == 0 || uri.indexOf('//') == 0) || 
+                    (uri.substring(uri.indexOf('//') + 2, uri.length) + '/').indexOf(window.location.host + '/') == 0);
+        },
         sortTabs: function (data) {
             var sorted = {},
                 i, temp = [];

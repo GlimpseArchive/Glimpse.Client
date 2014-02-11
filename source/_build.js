@@ -115,5 +115,8 @@
 // google-code-prettify.js
 /*(import:google-code-prettify.js)*/
 
-if (!glimpse.suppressStart)
-    glimpse.pubsub.publish('trigger.system.start');
+if (glimpse.extensions) {
+    for (var i = 0; i < glimpse.extensions.length; i++)
+        glimpse.extensions[i]();
+}
+glimpse.pubsub.publish('trigger.system.start');

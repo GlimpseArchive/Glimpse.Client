@@ -2,7 +2,7 @@ glimpse.render.engine.util.table = (function($, util) {
     var factories = {
             array: {
                 isHandled: function (data) {
-                    var valid = true;
+                    var valid = data.length > 0;
                     for (var i = 0; i < data.length; i++) {
                         if (!$.isArray(data[i])) {
                             valid = false;
@@ -29,7 +29,7 @@ glimpse.render.engine.util.table = (function($, util) {
             },
             object: {
                 isHandled: function (data) {
-                    var valid = true;
+                    var valid = data.length > 0;
                     for (var i = 0; i < data.length; i++) {
                         if ($.isArray(data[i]) || data[i] !== Object(data[i])) {
                             valid = false;

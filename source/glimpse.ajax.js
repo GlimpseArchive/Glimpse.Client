@@ -189,7 +189,7 @@
     XMLHttpRequest.prototype.open = function(method, uri) { 
         open.apply(this, arguments);
           
-        if (uri && (!(uri.indexOf('http://') == 0 || uri.indexOf('https://') == 0 || uri.indexOf('//') == 0) || (uri.substring(uri.indexOf('//') + 2, uri.length) + '/').indexOf(window.location.host + '/') == 0)) {
+        if (util.isLocalUri(uri)) {
             this.setRequestHeader("Glimpse-Parent-RequestID", data.baseData().requestId);
 
             pubsub.publish('trigger.ajax.request.send');

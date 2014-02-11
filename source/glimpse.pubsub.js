@@ -1,5 +1,10 @@
 glimpse.pubsub = (function() {
-    var messages = {},
+    var debug = {
+            level: 0,
+            logCaller: function(subscriber, message, data, level) { },
+            logPublish: function(message, data, level) { }
+        }, 
+        messages = {},
         lastUid = -1,
         throwException = function(ex) {
             return function() {
@@ -7,7 +12,8 @@ glimpse.pubsub = (function() {
             };
         },
         callSubscriber = function(subscriber, message, data) {
-            try { 
+            try {
+                debug.logCaller(subscriber, message, data, debug.level);
                 subscriber(data, message);
             } catch(ex) {
                 setTimeout(throwException(ex), 0);
@@ -27,6 +33,7 @@ glimpse.pubsub = (function() {
         },
         createDeliveryFunction = function(message, data) {
             return function() {
+                
                 var topic = String(message),
                     position = topic.lastIndexOf('.');
 
@@ -39,6 +46,8 @@ glimpse.pubsub = (function() {
                     position = topic.lastIndexOf('.');
                     deliverMessage(message, topic, data);
                 }
+                
+                debug.level--; 
             };
         },
         messageHasSubscribers = function(message) {
@@ -57,10 +66,14 @@ glimpse.pubsub = (function() {
         publish = function(message, data, sync) {
             var deliver = createDeliveryFunction(message, data),
                 hasSubscribers = messageHasSubscribers(message);
-
+             
+            debug.logPublish(message, data, debug.level);
+            
             if (!hasSubscribers) {
                 return false;
             }
+
+            debug.level++; 
 
             if (sync === true) {
                 deliver();
@@ -71,6 +84,7 @@ glimpse.pubsub = (function() {
         };
 
     return {
+        _debug: debug,
         publishAsync: function(message, data) {
             return publish(message, data, false);
         },
