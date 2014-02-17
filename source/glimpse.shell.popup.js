@@ -21,7 +21,7 @@
             return util.uriTemplate(currentMetadata.resources.glimpse_popup, { 'requestId': data.currentData().requestId, 'hash': currentMetadata.hash });
         },
         isPopup = function() {
-            return data.currentMetadata().resources.glimpse_popup ? window.location.href.indexOf('n=glimpse_popup') > -1 : false;
+            return window.location.href.indexOf('n=glimpse_popup') > -1;
         },
         openPopup = function() { //WHEN USE CLICKS OPEN BUTTON 
             settings.local('popupOn', true);   //Indicates popup should be used
@@ -52,10 +52,15 @@
                 settings.local('popupOn', false);
                 settings.local('popupKeep', false);
             }
+        },
+        loaded = function() {
+            if (isPopup())
+                elements.root().removeClass('glimpse-inline').addClass('glimpse-fullscreen');  
         };
 
     pubsub.subscribe('trigger.shell.popup', openPopup);
     pubsub.subscribe('trigger.shell.subscriptions', wireListeners);
+    pubsub.subscribe('action.shell.loaded', loaded);
     pubsub.subscribe('action.shell.closed', terminate);
     pubsub.subscribe('action.shell.opening', terminate); 
     pubsub.subscribe('action.data.initial.changed', dataLoaded);
