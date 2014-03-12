@@ -71,13 +71,13 @@ data = function () {
         ],
         requests = {
             '' : requests1,
-            'iPhone' : requests2,
+            '"iPhone"' : requests2,
             'Remote' : requests3 
         },  
         
         requestTracker = [ 
             { name : '', count : 0, max : 7 },
-            { name : 'iPhone', count : 0, max : 4 },
+            { name : '"iPhone"', count : 0, max : 4 },
             { name : 'Remote', count : 0, max : 3 } 
         ],  
         requestTrackerResults = {},
