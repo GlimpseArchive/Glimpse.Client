@@ -16,23 +16,20 @@
                     pubsub.publish('action.shell.initial.opening'); 
                 pubsub.publish('action.shell.opening', { isInitial: args.isInitial });
 
-                var height = settings.local('height') || 300,
-                    body = $.fn.add.call(elements.holder(), elements.pageSpacer()).show();
-                
+                var height = settings.local('height') || 300; 
                 settings.local('height', height);
                 settings.local('panelHeight', height - 52);
-
-                elements.opener().hide();
-                if (args.isInitial)
-                    body.height(height);
-                else 
-                    body.animate({ height: settings.local('height') }, 'fast');
                 
+                var heightTargets = $.fn.add.call(elements.holder(), elements.pageSpacer());
+                if (!args.fullScreen) 
+                    heightTargets.height(height);
+                elements.root().removeClass('glimpse-minimized').addClass('glimpse-opened');
+                if (args.isInitial)
+                    elements.root().addClass('glimpse-heightset');  
+                 
                 if (args.fullScreen) {
                     elements.pageSpacer().remove();
-                    
-                    var holder = elements.holder();
-                    holder.height('');
+                     
                     $(window).resize(function() {
                         var panelHeight = $(window).height() - 54; 
                         elements.panels().height(panelHeight); 
@@ -51,19 +48,10 @@
         },
         minimize = function() {
             settings.local('isOpen', false);
-            
-            pubsub.publish('action.shell.minimizing');
-
-            var count = 0;
-            $.fn.add.call(elements.holder(), elements.pageSpacer())
-                .animate({ height : '0' }, 'fast', function() {
-                    $(this).hide();
-                
-                    if (count++ == 1) {
-                        elements.opener().show(); 
-                        pubsub.publish('action.shell.minimized'); 
-                    }
-                });
+             
+            pubsub.publish('action.shell.minimizing'); 
+            elements.root().removeClass('glimpse-opened').addClass('glimpse-minimized'); 
+            pubsub.publish('action.shell.minimized');  
             
         },
         hide = function () {

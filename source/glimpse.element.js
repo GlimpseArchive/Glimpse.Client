@@ -1,43 +1,47 @@
 glimpse.elements = (function($) {
     var scope = $(document),
-        holder, opener, pageSpacer, barHolder, panelHolder, tabHolder, tabInstanceHolder, tabPermanentHolder, titleHolder, notificationHolder, lightbox, optionsHolder;
+        rootFunc = function () {
+            return root || (root = scope.find('.glimpse'));;
+        }, 
+        root, holder, opener, pageSpacer, barHolder, panelHolder, tabHolder, tabInstanceHolder, tabPermanentHolder, titleHolder, notificationHolder, lightbox, optionsHolder;
     
     return {
         scope: function () {
             return scope;
         },
+        root: rootFunc,
         holder: function () {
-            return holder || (holder = scope.find('.glimpse-holder'));
+            return holder || (holder = rootFunc().find('.glimpse-holder'));
         },
         opener: function () {
-            return opener || (opener = scope.find('.glimpse-open'));
+            return opener || (opener = rootFunc().find('.glimpse-open'));
         },
         pageSpacer: function () {
-            return pageSpacer || (pageSpacer = scope.find('.glimpse-spacer'));
+            return pageSpacer || (pageSpacer = rootFunc().find('.glimpse-spacer'));
         },
         barHolder: function () {
-            return barHolder || (barHolder = scope.find('.glimpse-bar'));
+            return barHolder || (barHolder = rootFunc().find('.glimpse-bar'));
         },
         titleHolder: function () {
-            return titleHolder || (titleHolder = scope.find('.glimpse-title'));
+            return titleHolder || (titleHolder = rootFunc().find('.glimpse-title'));
         },
         tabHolder: function() {
-             return tabHolder || (tabHolder = scope.find('.glimpse-tabs ul'));
+             return tabHolder || (tabHolder = rootFunc().find('.glimpse-tabs ul'));
         },
         tabInstanceHolder: function() {
-             return tabInstanceHolder || (tabInstanceHolder = scope.find('.glimpse-tabs-instance ul'));
+             return tabInstanceHolder || (tabInstanceHolder = rootFunc().find('.glimpse-tabs-instance ul'));
         },
         tabPermanentHolder: function() {
-             return tabPermanentHolder || (tabPermanentHolder = scope.find('.glimpse-tabs-permanent ul'));
+             return tabPermanentHolder || (tabPermanentHolder = rootFunc().find('.glimpse-tabs-permanent ul'));
         },
         panelHolder: function() {
-             return panelHolder || (panelHolder = scope.find('.glimpse-panel-holder'));
+             return panelHolder || (panelHolder = rootFunc().find('.glimpse-panel-holder'));
         },
         notificationHolder: function() {
-            return notificationHolder || (notificationHolder = scope.find('.glimpse-notification-holder'));
+            return notificationHolder || (notificationHolder = rootFunc().find('.glimpse-notification-holder'));
         },
         lightbox: function() {
-            return lightbox || (lightbox = scope.find('.glimpse-lightbox'));
+            return lightbox || (lightbox = rootFunc().find('.glimpse-lightbox'));
         },
         panel: function(key) {
              return this.panelHolder().find('.glimpse-panel[data-glimpseKey="' + key + '"]');
@@ -49,7 +53,7 @@ glimpse.elements = (function($) {
              return this.panelHolder().find('.glimpse-panel');
         },
         optionsHolder: function() {
-            return optionsHolder || (optionsHolder = scope.find('.glimpse-options'));
+            return optionsHolder || (optionsHolder = rootFunc().find('.glimpse-options'));
         }
     };
 })(jQueryGlimpse);
