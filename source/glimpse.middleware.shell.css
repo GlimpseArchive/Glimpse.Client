@@ -1,0 +1,107 @@
+.glimpse-arrow-holder-left, .glimpse-arrow-holder-right {
+    position: absolute;
+    z-index: 1;
+}
+.glimpse-arrow-holder-left {
+    bottom: 33px;
+    left: -19px;
+}
+.glimpse-arrow-holder-right {
+    top: 3px;
+    left: -10px;
+}
+.glimpse-arrow-head, .glimpse-arrow-head-back {
+    width: 0; 
+    height: 0; 
+    position: absolute;
+}
+.glimpse-arrow-head {
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+}
+.glimpse-arrow-head-back {
+    border-top: 17px solid transparent;
+    border-bottom: 17px solid transparent;
+    top: -2px;
+}
+.glimpse-arrow-bar { 
+    position: absolute;
+    width: 5px; 
+    height: 14px;
+    top: 8px;
+}
+.glimpse-arrow-holder-right .glimpse-arrow-head {
+	border-left: 14px solid;
+    left: 5px;
+}
+.glimpse-arrow-holder-right .glimpse-arrow-head-back { 
+	border-left: 16px solid white; 
+    left: 5px;
+} 
+.glimpse-arrow-holder-left .glimpse-arrow-head {
+    border-right: 14px solid; 
+}
+.glimpse-arrow-holder-left .glimpse-arrow-head-back { 
+    border-right: 16px solid white; 
+    left: -2px;
+}
+.glimpse-arrow-holder-left .glimpse-arrow-bar {
+    left: 14px;
+}
+.glimpse .glimpse-middleware-holder {
+    margin: 10px;
+    width: inherit;
+}
+.glimpse .glimpse-middleware-holder-main {
+    background: #d6d6d6;
+    background: -moz-linear-gradient(left, #ffffff 0%, #d6d6d6 50%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(50%,#d6d6d6));
+    background: -webkit-linear-gradient(left, #ffffff 0%,#d6d6d6 50%);
+    background: -o-linear-gradient(left, #ffffff 0%,#d6d6d6 50%); 
+    background: -ms-linear-gradient(left, #ffffff 0%,#d6d6d6 50%); 
+    background: linear-gradient(to right, #ffffff 0%,#d6d6d6 50%); 
+}
+.glimpse .glimpse-middleware-holder-childless { 
+    margin-right: 0;
+}
+.glimpse .glimpse-middleware-holder-important {
+    min-height: 70px;
+}
+.glimpse .glimpse-middleware-holder td {
+    padding:0px; 
+    position:relative;
+}
+.glimpse .glimpse-middleware-content {
+    color: white;
+}
+.glimpse .glimpse-middleware-title, .glimpse .glimpse-middleware-main-title {
+    font-size: 140%;
+    font-weight: bold; 
+    font-family: "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", "Helvetica Neue", Helvetica, Arial;
+}
+.glimpse .glimpse-middleware-title {
+    margin: 10px 15px;
+}
+.glimpse .glimpse-middleware-main-title { 
+    -webkit-transform-origin: bottom center;
+    -moz-transform-origin: bottom center;
+    -ms-transform-origin: bottom center;
+    -o-transform-origin: bottom center;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+
+    padding: 6px 6px 2px 0;
+}
+.glimpse .glimpse-middleware-duration {
+    font-size: 3.5em;
+    line-height: 1em;
+    opacity: 0.8;
+    position: absolute;
+    bottom: -11px;
+    font-family: "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", "Helvetica Neue", Helvetica, Arial;
+}
+.glimpse .glimpse-middleware-duration span {
+    font-size: 0.5em;
+}
