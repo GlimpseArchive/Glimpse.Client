@@ -54,12 +54,6 @@
 }
 .glimpse .glimpse-middleware-holder-main {
     background: #d6d6d6;
-    background: -moz-linear-gradient(left, #ffffff 0%, #d6d6d6 50%);
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(50%,#d6d6d6));
-    background: -webkit-linear-gradient(left, #ffffff 0%,#d6d6d6 50%);
-    background: -o-linear-gradient(left, #ffffff 0%,#d6d6d6 50%); 
-    background: -ms-linear-gradient(left, #ffffff 0%,#d6d6d6 50%); 
-    background: linear-gradient(to right, #ffffff 0%,#d6d6d6 50%); 
 }
 .glimpse .glimpse-middleware-holder-childless { 
     margin-right: 0;
