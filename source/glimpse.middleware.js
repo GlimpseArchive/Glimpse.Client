@@ -1,19 +1,30 @@
 (function($, pubsub, util, settings, elements, data, renderEngine) {
     var middleware = {};
 
-    var renderArrow = function(side, color) {
+    var generateColor = (function() {
+            var color = ['#9b59b6','#3498db','#2ecc71','#1abc9c','#f1c40f','#e67e22','#e74c3c'],
+                index = -1;
+
+            return function() {
+                index = index >= color.length - 1 ? 0 : index + 1;
+
+                return color[index];
+            };
+        })(),
+        renderArrow = function(side, color) {
             return '<div class="glimpse-arrow-holder-' + side + '"><div class="glimpse-arrow-bar" style="background-color:' + color + ';"></div><div class="glimpse-arrow-head-back"></div><div class="glimpse-arrow-head" style="border-' + (side == 'left' ? 'right' : 'left') + '-color:' + color + '"></div></div>';
         }, 
         renderMiddlewareItem = function(item, previousColor) {
-            var html = '<table class="glimpse-middleware-holder' + (!item.children ? ' glimpse-middleware-holder-childless' : '') + (item.childlessDuration ? ' glimpse-middleware-holder-important' : '') + '"><tr>';
+            var nextColor = item.color || generateColor(),
+                html = '<table class="glimpse-middleware-holder' + (!item.children ? ' glimpse-middleware-holder-childless' : '') + (item.childlessDuration ? ' glimpse-middleware-holder-important' : '') + '"><tr>';
 
             // item 
-            html += '<td style="background-color:' + item.color + ';">';
+            html += '<td style="background-color:' + nextColor + ';">';
 
                 // arror
                 if (item.duration) {
                     html += renderArrow('right', previousColor);
-                    html += renderArrow('left', item.color);
+                    html += renderArrow('left', nextColor);
                 }
                 // content
                 html += '<div class="glimpse-middleware-content">';
@@ -30,7 +41,7 @@
             if (item.children) {
                 html += '<td>';
                 item.children.forEach(function(element) {
-                    html += renderMiddlewareItem(element, item.color);
+                    html += renderMiddlewareItem(element, nextColor);
                 });
                 html += '</td>';
             }
