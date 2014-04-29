@@ -18,7 +18,7 @@
             return '<div class="glimpse-terminator-holder"><div class="glimpse-terminator-head" style="background-color:' + color + ';"></div><div class="glimpse-terminator-bar" style="background-color:' + color + ';"></div></div>'
         },
         renderMiddlewareItem = function(item, previousColor) {
-            var nextColor = item.color || (!item.duration ? '#B8B8B8' : generateColor()),
+            var nextColor = item.color || (!item.duration ? '#7A7A7A' : generateColor()),
                 html = '<div class="glimpse-middleware-holder-outer"><table class="glimpse-middleware-holder' + (!item.children ? ' glimpse-middleware-holder-childless' : '') + (item.duration ? ' glimpse-middleware-holder-important' : '') + (!item.duration ? ' glimpse-middleware-holder-none' : '') + '"><tr>';
 
             // item 
