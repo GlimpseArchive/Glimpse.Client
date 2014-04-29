@@ -1,4 +1,4 @@
-.glimpse-arrow-holder-left, .glimpse-arrow-holder-right {
+.glimpse-arrow-holder-left, .glimpse-arrow-holder-right, .glimpse .glimpse-terminator-holder {
     position: absolute;
     z-index: 1;
 }
@@ -52,7 +52,7 @@
     margin: 10px;
     width: inherit;
 }
-.glimpse .glimpse-middleware-holder-main {
+.glimpse .glimpse-middleware-holder-root {
     background: #d6d6d6;
 }
 .glimpse .glimpse-middleware-holder-childless { 
@@ -79,7 +79,7 @@
 .glimpse .glimpse-middleware-content {
     color: white;
 }
-.glimpse .glimpse-middleware-title, .glimpse .glimpse-middleware-main-title {
+.glimpse .glimpse-middleware-title, .glimpse .glimpse-middleware-root-title {
     font-size: 140%;
     font-weight: bold; 
     font-family: "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", "Helvetica Neue", Helvetica, Arial;
@@ -87,7 +87,7 @@
 .glimpse .glimpse-middleware-title {
     margin: 10px 15px;
 }
-.glimpse .glimpse-middleware-main-title { 
+.glimpse .glimpse-middleware-root-title { 
     -webkit-transform-origin: bottom center;
     -moz-transform-origin: bottom center;
     -ms-transform-origin: bottom center;
@@ -96,7 +96,6 @@
     -moz-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
     -o-transform: rotate(-90deg);
-
     padding: 6px 6px 2px 0;
 }
 .glimpse .glimpse-middleware-duration {
@@ -109,4 +108,26 @@
 }
 .glimpse .glimpse-middleware-duration span {
     font-size: 0.5em;
+}
+.glimpse .glimpse-terminator-holder {
+
+}
+.glimpse .glimpse-terminator-head { 
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    padding-bottom: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    top: 7px;
+    left: -10px;
+}
+.glimpse .glimpse-terminator-bar {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 12px;
+    left: -10px;
 }
