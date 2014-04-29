@@ -15,8 +15,8 @@
             return '<div class="glimpse-arrow-holder-' + side + '"><div class="glimpse-arrow-bar" style="background-color:' + color + ';"></div><div class="glimpse-arrow-head-back"></div><div class="glimpse-arrow-head" style="border-' + (side == 'left' ? 'right' : 'left') + '-color:' + color + '"></div></div>';
         }, 
         renderMiddlewareItem = function(item, previousColor) {
-            var nextColor = item.color || generateColor(),
-                html = '<div class="glimpse-middleware-holder-outer"><table class="glimpse-middleware-holder' + (!item.children ? ' glimpse-middleware-holder-childless' : '') + (item.childlessDuration ? ' glimpse-middleware-holder-important' : '') + '"><tr>';
+            var nextColor = item.color || (!item.duration ? '#B8B8B8' : generateColor()),
+                html = '<div class="glimpse-middleware-holder-outer"><table class="glimpse-middleware-holder' + (!item.children ? ' glimpse-middleware-holder-childless' : '') + (item.duration ? ' glimpse-middleware-holder-important' : '') + (!item.duration ? ' glimpse-middleware-holder-none' : '') + '"><tr>';
 
             // item 
             html += '<td style="background-color:' + nextColor + ';">';
@@ -50,8 +50,8 @@
         },
         renderMiddleware = function(item) { 
             var html = '<div class="glimpse-header">Execution Pipline</div>';
-            html += '<table class="glimpse-middleware-holder"><tr><td class="glimpse-middleware-holder-main"><div class="glimpse-middleware-main-title">Host</div></td><td>'
-            html += renderMiddlewareItem(item, '#d6d6d6'); //' + renderArrow('right', '#d6d6d6') + '
+            html += '<table class="glimpse-middleware-holder"><tr><td class="glimpse-middleware-holder-root"><div class="glimpse-middleware-root-title">Host</div></td><td>'
+            html += renderMiddlewareItem(item, '#d6d6d6');
             html += '</td></tr></table>'
 
             return html;
