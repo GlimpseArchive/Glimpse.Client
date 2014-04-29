@@ -16,7 +16,7 @@
         }, 
         renderMiddlewareItem = function(item, previousColor) {
             var nextColor = item.color || generateColor(),
-                html = '<table class="glimpse-middleware-holder' + (!item.children ? ' glimpse-middleware-holder-childless' : '') + (item.childlessDuration ? ' glimpse-middleware-holder-important' : '') + '"><tr>';
+                html = '<div class="glimpse-middleware-holder-outer"><table class="glimpse-middleware-holder' + (!item.children ? ' glimpse-middleware-holder-childless' : '') + (item.childlessDuration ? ' glimpse-middleware-holder-important' : '') + '"><tr>';
 
             // item 
             html += '<td style="background-color:' + nextColor + ';">';
@@ -46,7 +46,7 @@
                 html += '</td>';
             }
 
-            return html + '</tr></table>';
+            return html + '</tr></table></div>';
         },
         renderMiddleware = function(item) { 
             var html = '<div class="glimpse-header">Execution Pipline</div>';

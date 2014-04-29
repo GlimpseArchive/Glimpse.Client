@@ -4,11 +4,11 @@
 }
 .glimpse-arrow-holder-left {
     bottom: 33px;
-    left: -19px;
+    left: -9px;
 }
 .glimpse-arrow-holder-right {
     top: 3px;
-    left: -10px;
+    left: 0px;
 }
 .glimpse-arrow-head, .glimpse-arrow-head-back {
     width: 0; 
@@ -59,10 +59,12 @@
     margin-right: 0;
 }
 .glimpse .glimpse-middleware-holder-important {
-    min-height: 70px;
+    height: 70px;
 }
-.glimpse .glimpse-middleware-holder td {
+.glimpse .glimpse-middleware-holder td  {
     padding:0px; 
+}
+.glimpse .glimpse-middleware-holder-outer {
     position:relative;
 }
 .glimpse .glimpse-middleware-content {
