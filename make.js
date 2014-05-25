@@ -50,7 +50,7 @@ var process = function (data, dir) {
                     if (exists) {
                         fs.unlinkSync(outputFile);
                     }
-                    
+
                     fs.writeFile(outputFile, data, function (err) {
                         if (err) {
                             throw err;
@@ -63,18 +63,18 @@ var process = function (data, dir) {
         });
     };
 
-var outputDir = path.join(__dirname, 'build'); 
+var outputDir = path.join(__dirname, 'build');
 var sourceDir = path.join(__dirname, 'source'); 
 
 var coreManifest = path.join(sourceDir, '_build.js');
-var coreOutputFile = path.join(outputDir, 'glimpse.js'); 
+var coreOutputFile = path.join(outputDir, 'glimpse.js');
 output(coreManifest, sourceDir, outputDir, coreOutputFile);
-  
+
 var insightManifest = path.join(sourceDir, '_buildInsight.js');
-var insightOutputFile = path.join(outputDir, 'glimpseInsight.js'); 
+var insightOutputFile = path.join(outputDir, 'glimpseInsight.js');
 output(insightManifest, sourceDir, outputDir, insightOutputFile);
 
 var testSourceDir = path.join(__dirname, 'test', 'mock');
 var testManifest = path.join(testSourceDir, 'test.glimpse.ajax.js');
-var testOutputFile = path.join(outputDir, 'glimpseTest.js'); 
+var testOutputFile = path.join(outputDir, 'glimpseTest.js');
 output(testManifest, testSourceDir, outputDir, testOutputFile);

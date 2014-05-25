@@ -109,6 +109,8 @@
 /*(import:glimpse.history.js)*/
 // glimpse.timeline.js
 /*(import:glimpse.timeline.js)*/
+// glimpse.middleware.js
+/*(import:glimpse.middleware.js)*/
 // glimpse.hud.js
 /*(import:glimpse.hud.js)*/
 
