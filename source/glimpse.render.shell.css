@@ -27,6 +27,9 @@
     border-spacing: 0;
     width: 100%;
 }
+.glimpse table tr:nth-of-type(even) {
+    background-color: transparent;
+}
 .glimpse a, .glimpse a:hover, .glimpse a:visited, .glimpse-link {
     color: #2200C1;
     text-decoration: underline;
@@ -305,6 +308,7 @@
     color: #fff;
 }
 .glimpse-tabs ul { 
+    line-height: 13px;
     padding: 0px;
 }
 .glimpse-tabs li {
