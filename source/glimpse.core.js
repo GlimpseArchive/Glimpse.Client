@@ -1,1 +1,0 @@
-var glimpse = glimpse || {};

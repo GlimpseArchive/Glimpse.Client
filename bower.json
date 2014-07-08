@@ -1,0 +1,21 @@
+{
+  "name": "glimpse.client",
+  "version": "2.0.0-dev",
+  "authors": [
+    "Anthony van der Hoorn"
+  ],
+  "description": "The JavaScript client that acts as a viewer for the various Glimpse server backends",
+  "main": "dist/glimpse.js",
+  "keywords": [
+    "performance",
+    "debugging",
+    "diagnostics"
+  ],
+  "license": "Apache License, Version 2.0",
+  "homepage": "http://getglimpse.com",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "tests"
+  ]
+}
