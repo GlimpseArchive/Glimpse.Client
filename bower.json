@@ -17,9 +17,9 @@
     "node_modules",
     "bower_components",
     "tests"
-  ]
   ],
   "devDependencies": {
+    "react": "~0.10.0",
     "bootstrap-sass-official": "~3.2.0"
   }
 }
