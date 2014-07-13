@@ -11,6 +11,7 @@ var gulp = require('gulp'),
     react = require('gulp-react'),
     typescript = require('gulp-tsc'),
     sass = require('gulp-sass'),
+    htmlcompress = require('gulp-minify-html'),
     watch = require('gulp-watch'),
     plumber = require('gulp-plumber'),
     webpack = require('gulp-webpack'),
@@ -31,11 +32,13 @@ var gulp = require('gulp'),
             ts: [ './src/**/*.ts' ],
             jsx: [ './src/**/*.jsx' ],
             sass: [ './src/**/*.sass', './src/**/*.scss' ],
+            html: [ './src/index.html' ]
         },
         build: {
             output: './build',
             content: './build/**/*.*',
-            entry: './build/app.js'
+            entry: './build/app.js',
+            html: [ './build/index.html' ]
         },
         dist: {
             output: './dist'
@@ -109,6 +112,17 @@ var gulp = require('gulp'),
         .pipe(autoprefixer, [ 'last 2 version' ])
         .pipe(gulp.dest, config.build.output),
 
+    htmlFiles = function() {
+        return gulp.src(config.app.html);
+    },
+    htmlbuildFiles = function() {
+        return gulp.src(config.build.html);
+    },
+    htmlcompileTask = lazypipe()
+        .pipe(htmlcompress)
+        .pipe(gulp.dest, config.build.output),
+    htmlpackTask = lazypipe()
+        .pipe(gulp.dest, config.dist.output),
     buildentryFiles = function() {
         return gulp.src(config.build.entry);
     },
@@ -148,9 +162,11 @@ gulp.task('jsxcompile', function() {
 gulp.task('sasscompile', function() {
     return sassFiles().pipe(sasscompileTask());
 });
-gulp.task('compile', [ 'jscompile', 'jsxcompile', 'tscompile', 'sasscompile' ]);
-
-gulp.task('compile', [ 'jscompile', 'jsxcompile', 'tscompile' ]);
+gulp.task('htmlcompile', function() {
+    return htmlFiles().pipe(htmlcompileTask());
+});
+gulp.task('compile', [ 'jscompile', 'jsxcompile', 'tscompile', 'sasscompile',
+     'htmlcompile' ]);
 
 gulp.task('pack', function() {
     return buildentryFiles().pipe(packTask());
