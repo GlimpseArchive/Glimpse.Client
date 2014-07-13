@@ -19,7 +19,7 @@ var gulp = require('gulp'),
     //filelog = require('gulp-filelog'),  // NOTE: Used for debug
     //sourcemaps = require('gulp-sourcemaps'),
     livereload = require('gulp-livereload'),
-    //livereloadEmbed = require('gulp-embedlr'),
+    livereloadembed = require('gulp-embedlr'),
 
     openbrowser = require('open'),
     lazypipe = require('lazypipe'),
@@ -42,15 +42,13 @@ var gulp = require('gulp'),
             html: [ './build/index.html' ]
         },
         dist: {
-            output: './dist'
-        },
-        lr: {
-            port: 7000,
-            embed: false
+            output: './dist',
+            outputall: './dist/index.html'
         },
         server: {
             port: 8080,
-            dir: './dist'
+            dir: './dist',
+            livereload: false
         }
     },
 
@@ -124,6 +122,10 @@ var gulp = require('gulp'),
         .pipe(gulp.dest, config.build.output),
     htmlpackTask = lazypipe()
         .pipe(gulp.dest, config.dist.output),
+    htmllivereloadembedTask = lazypipe()
+        .pipe(livereloadembed)
+        .pipe(gulp.dest, config.dist.output),
+
     buildentryFiles = function() {
         return gulp.src(config.build.entry);
     },
@@ -169,8 +171,21 @@ gulp.task('htmlcompile', function() {
 gulp.task('compile', [ 'jscompile', 'jsxcompile', 'tscompile', 'sasscompile',
      'htmlcompile' ]);
 
-gulp.task('pack', function() {
+gulp.task('htmlpack', function() {
+    return htmlbuildFiles().pipe(htmlpackTask());
+});
+gulp.task('pack', [ 'htmlpack' ], function() {
     return buildentryFiles().pipe(packTask());
+});
+
+gulp.task('livereloadembed', function() {
+    return htmlbuildFiles().pipe(htmllivereloadembedTask());
+});
+gulp.task('livereload', function() {
+    if (config.server.livereload) {
+        return gulp.src(config.dist.outputall)
+            .pipe(livereload({ auto: false }));
+    }
 });
 
 gulp.task('build', function(cb) {
@@ -216,20 +231,17 @@ gulp.task('srcwatch', function() {
     });
 });
 gulp.task('buildwatch', function() {
+    config.server.livereload = livereload.listen();
+
     watch({ glob: config.build.content, emitOnGlob: false, name: 'WATCH: WebPack on "' + config.build.content + '"' }, function() {
-        gulp.start('pack') // NOTE: Triggering task as we want to run whole task
-            .on('task_stop', function() {
-                if (config.lr.embed) {
-                    console.log('TEST TEST TEST');
-                }
-            });
+        runSequence('pack', 'livereloadembed', 'livereload');
     });
 });
 gulp.task('watch', [ 'srcwatch', 'buildwatch' ]);
 
 gulp.task('server', function(cb) {
     var stat = require('node-static'),
-        server = new stat.Server(config.server.dir),
+        server = new stat.Server(config.server.dir, { cache: false }),
         port = config.server.port;
 
     gutil.log('Starting Server');
@@ -252,7 +264,7 @@ gulp.task('open', function() {
 });
 
 gulp.task('dev', function(cb) {
-    runSequence('build', 'watch', 'server', 'open', function() { cb(); });
+    runSequence('build', 'livereloadembed', 'watch', 'server', 'open', function() { cb(); });
 });
 
 gulp.task('default', [ 'dev' ]);  // NOTE: might change in the future
