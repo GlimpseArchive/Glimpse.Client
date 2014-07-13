@@ -4,7 +4,8 @@ module.exports = {
     output: {
         path: __dirname,
         filename: './[name].js',
-        chunkFilename: './[id].chunk.js'
+        chunkFilename: './[id].chunk.js',
+        pathinfo: true
     },
     resolve: {
         modulesDirectories: ['bower_components']
