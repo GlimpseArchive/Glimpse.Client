@@ -6,9 +6,11 @@ var gulp = require('gulp'),
     jscs = require('gulp-jscs'),
     jshint = require('gulp-jshint'),
     tslint = require('gulp-tslint'),
+    sasslint = require('gulp-scss-lint'),
     typedoc = require('gulp-typedoc'),
     react = require('gulp-react'),
     typescript = require('gulp-tsc'),
+    sass = require('gulp-sass'),
     watch = require('gulp-watch'),
     plumber = require('gulp-plumber'),
     webpack = require('gulp-webpack'),
@@ -27,7 +29,8 @@ var gulp = require('gulp'),
         app: {
             js: [ './src/**/*.js' ],
             ts: [ './src/**/*.ts' ],
-            jsx: [ './src/**/*.jsx' ]
+            jsx: [ './src/**/*.jsx' ],
+            sass: [ './src/**/*.sass', './src/**/*.scss' ],
         },
         build: {
             output: './build',
@@ -95,6 +98,17 @@ var gulp = require('gulp'),
         .pipe(jslintTask)
         .pipe(gulp.dest, config.build.output),
 
+    sassFiles = function() {
+        return gulp.src(config.app.sass);
+    },
+    sasslintTask = lazypipe()
+        .pipe(sasslint),
+    sasscompileTask = lazypipe()
+        //.pipe(sass, {sourceComments: 'map'})
+        .pipe(sass, { includePaths: [ './bower_components/bootstrap-sass-official/assets/stylesheets/' ] })
+        .pipe(autoprefixer, [ 'last 2 version' ])
+        .pipe(gulp.dest, config.build.output),
+
     buildentryFiles = function() {
         return gulp.src(config.build.entry);
     },
@@ -117,7 +131,10 @@ gulp.task('tslint', function() {
 gulp.task('jsxlint', function() {
     return jsxFiles().pipe(jsxlintTask());
 });
-gulp.task('lint', [ 'jslint', 'jsxlint', 'tslint' ]);
+gulp.task('sasslint', function() {
+    return sassFiles().pipe(sasslintTask()); // TODO: Need to get to work
+});
+gulp.task('lint', [ 'jslint', 'jsxlint', 'tslint'/*, 'sasslint'*/ ]);
 
 gulp.task('jscompile', function() {
     return jsFiles().pipe(jscompileTask());
@@ -128,6 +145,10 @@ gulp.task('tscompile', function() {
 gulp.task('jsxcompile', function() {
     return jsxFiles().pipe(jsxcompileTask());
 });
+gulp.task('sasscompile', function() {
+    return sassFiles().pipe(sasscompileTask());
+});
+gulp.task('compile', [ 'jscompile', 'jsxcompile', 'tscompile', 'sasscompile' ]);
 
 gulp.task('compile', [ 'jscompile', 'jsxcompile', 'tscompile' ]);
 
@@ -169,6 +190,12 @@ gulp.task('srcwatch', function() {
         return files
             .pipe(plumberDefault())
             .pipe(jsxcompileTask());
+    });
+
+    watch({ glob: config.app.sass, emitOnGlob: false, name: 'WATCH: React on "' + config.app.sass + '"' }, function(files) {
+        return files
+            .pipe(plumberDefault())
+            .pipe(sasscompileTask());
     });
 });
 gulp.task('buildwatch', function() {
