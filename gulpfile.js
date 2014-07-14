@@ -90,14 +90,14 @@ var gulp = require('gulp'),
     jsxFiles = function() {
         return gulp.src(config.app.jsx);
     },
-    jsxlintTask = lazypipe()
-        .pipe(react)
-        .pipe(jslintTask),
+    //jsxlintTask = lazypipe()
+    //    .pipe(react)
+    //    .pipe(jslintTask),                // NOTE: jslint doesn't work very well atm
     jsxcompileTask = lazypipe()
         //.pipe(sourcemaps.init)            // NOTE: SourceMaps not currently supported
         .pipe(react, { sourceMap: true })
         //.pipe(sourcemaps.write, './')
-        .pipe(jslintTask)
+        //.pipe(jslintTask)                 // NOTE: jslint doesn't work very well atm
         .pipe(gulp.dest, config.build.output),
 
     sassFiles = function() {
@@ -146,7 +146,7 @@ gulp.task('tslint', function() {
     return tsFiles().pipe(tslintTask());
 });
 gulp.task('jsxlint', function() {
-    return jsxFiles().pipe(jsxlintTask());
+    //return jsxFiles().pipe(jsxlintTask()); // NOTE: jslint doesn't work very well atm
 });
 gulp.task('sasslint', function() {
     return sassFiles().pipe(sasslintTask()); // TODO: Need to get to work
