@@ -1,56 +1,56 @@
 {
-  "name": "glimpse.client",
-  "version": "2.0.0-dev",
-  "description": "The JavaScript client that acts as a viewer for the various Glimpse server backends",
-  "main": "dist/glimpse.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Glimpse/Glimpse.Client.git"
-  },
-  "keywords": [
-    "performance",
-    "debugging",
-    "diagnostics"
-  ],
-  "author": "Anthony van der Hoorn",
-  "license": "Apache License, Version 2.0",
-  "bugs": {
-    "url": "https://github.com/Glimpse/Glimpse.Client/issues"
-  },
-  "scripts": {
-    "init": "npm install && gulp build",
-    "start": "gulp dev",
-    "test": "gulp test"
-  },
-  "homepage": "https://github.com/Glimpse/Glimpse.Client",
-  "devDependencies": {
-    "css-loader": "^0.7.0",
-    "gulp": "^3.8.2",
-    "gulp-autoprefixer": "0.0.8",
-    "gulp-jscs": "^0.5.0",
-    "gulp-jshint": "^1.6.3",
-    "gulp-minify-html": "^0.1.4",
-    "gulp-react": "^0.4.0",
-    "gulp-sass": "^0.7.2",
-    "gulp-scss-lint": "^0.1.0",
-    "gulp-tslint": "^1.2.0",
-    "gulp-tsc": "^0.9.1",
-    "gulp-typedoc": "^1.0.3",
-    "gulp-sourcemaps": "^0.4.4",
-    "gulp-util": "^2.2.19",
-    "gulp-watch": "^0.6.8",
-    "gulp-webpack": "^0.1.0",
-    "gulp-embedlr": "^0.5.2",
-    "gulp-livereload": "^2.1.0",
-    "gulp-plumber": "^0.6.3",
-    "gulp-filelog": "^0.2.0",
-    "jshint-stylish": "^0.2.0",
-    "lazypipe": "^0.2.1",
-    "node-static": "^0.7.3",
-    "open": "0.0.5",
-    "run-sequence": "^0.3.6",
-    "webpack": "^1.3.1-beta5",
-    "source-map-loader": "^0.1.3",
-    "style-loader": "^0.6.4"
-  }
+    "name": "glimpse.client",
+    "version": "2.0.0-dev",
+    "description": "The JavaScript client that acts as a viewer for the various Glimpse server backends",
+    "main": "dist/glimpse.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Glimpse/Glimpse.Client.git"
+    },
+    "keywords": [
+        "performance",
+        "debugging",
+        "diagnostics"
+    ],
+    "author": "Anthony van der Hoorn",
+    "license": "Apache License, Version 2.0",
+    "bugs": {
+        "url": "https://github.com/Glimpse/Glimpse.Client/issues"
+    },
+    "scripts": {
+        "init": "npm install && gulp build",
+        "start": "gulp dev",
+        "test": "gulp test"
+    },
+    "homepage": "https://github.com/Glimpse/Glimpse.Client",
+    "devDependencies": {
+        "gulp": "^3.8.2",
+        "gulp-autoprefixer": "0.0.8",
+        "gulp-jscs": "^0.5.0",
+        "gulp-jshint": "^1.6.3",
+        "gulp-minify-html": "^0.1.4",
+        "gulp-react": "^0.4.0",
+        "gulp-sass": "^0.7.2",
+        "gulp-scss-lint": "^0.1.0",
+        "gulp-tslint": "^1.2.0",
+        "gulp-tsc": "^0.9.1",
+        "gulp-typedoc": "^1.0.3",
+        "gulp-sourcemaps": "^0.4.4",
+        "gulp-util": "^2.2.19",
+        "gulp-watch": "^0.6.8",
+        "gulp-webpack": "^0.1.0",
+        "gulp-embedlr": "^0.5.2",
+        "gulp-livereload": "^2.1.0",
+        "gulp-plumber": "^0.6.3",
+        "gulp-filelog": "^0.2.0",
+        "jshint-stylish": "^0.2.0",
+        "lazypipe": "^0.2.1",
+        "node-static": "^0.7.3",
+        "open": "0.0.5",
+        "run-sequence": "^0.3.6",
+        "webpack": "^1.3.1-beta5",
+        "source-map-loader": "^0.1.3",
+        "css-loader": "^0.7.0",
+        "style-loader": "^0.6.4"
+    }
 }
