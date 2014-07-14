@@ -13,7 +13,8 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.css$/, loader: 'style!css' },
-            { test: /\.js$/, loader: 'source-map-loader' }
+            { test: /\.js$/, loader: 'source-map-loader' },
+            { test: /react/, loader: 'expose-loader?React' }
         ]
     },
     plugins: [
