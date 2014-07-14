@@ -1,6 +1,6 @@
 require('./style/index.css');
 
 var React = require('react'),
-    Shell = require('./components/shell');
+    Application = require('./components/application.js');
 
-React.renderComponent(<Shell />, document.getElementById('shell-holder'));
+React.renderComponent(<Application />, document.getElementById('application-holder'));
