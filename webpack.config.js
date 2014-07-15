@@ -1,4 +1,5 @@
-var webpack = require('webpack');
+var webpack = require('webpack'),
+    path = require('path');
 
 module.exports = {
     output: {
@@ -8,8 +9,13 @@ module.exports = {
         pathinfo: true
     },
     resolve: {
-        modulesDirectories: ['bower_components']
-    },
+        modulesDirectories: ['bower_components'],
+		alias: {
+			'glimpse': path.resolve(__dirname, './build/glimpse.js'),
+            'shell': path.resolve(__dirname, './build/shell'),
+            'request': path.resolve(__dirname, './build/request')
+		}
+	},
     module: {
         loaders: [
             { test: /\.css$/, loader: 'style!css' },

@@ -38,7 +38,7 @@ var gulp = require('gulp'),
         build: {
             output: './build',
             content: './build/**/*.*',
-            entry: './build/app.js',
+            entry: './build/index.js',
             html: [ './build/index.html' ]
         },
         dist: {
