@@ -5,7 +5,7 @@ module.exports = React.createClass({
         var session = this.props.session;
         return (
             <li className="request-session-item-holder">
-                {session.id} ({session.count}) - {session.last}
+                {session.id} ({session.count})<br /> - {session.last}
             </li>
         );
     }
