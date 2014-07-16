@@ -9,11 +9,12 @@ module.exports = {
         pathinfo: true
     },
     resolve: {
-        modulesDirectories: ['bower_components'],
+        modulesDirectories: ['node_modules', 'bower_components'],
 		alias: {
 			'glimpse': path.resolve(__dirname, './build/glimpse.js'),
             'shell': path.resolve(__dirname, './build/shell'),
-            'request': path.resolve(__dirname, './build/request')
+            'request': path.resolve(__dirname, './build/request'),
+            'fake': path.resolve(__dirname, './test/fake/fake-data.js')
 		}
 	},
     module: {
