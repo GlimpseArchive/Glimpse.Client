@@ -14,6 +14,9 @@ module.exports = React.createClass({
         for (var key in allSessions) {
           sessions.push(<SessionItem key={key} session={allSessions[key]} />);
         }
+        if (sessions.length == 0) {
+            sessions = <em>No found sessions.</em>;
+        }
 
         return (
             <ul className="request-session-list-holder">

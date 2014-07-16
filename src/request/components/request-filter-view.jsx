@@ -5,6 +5,7 @@ module.exports = React.createClass({
         return (
             <div className="request-session-holder">
                 <h2>Filter</h2>
+                <em>No found filters.</em>
             </div>
         );
     }
