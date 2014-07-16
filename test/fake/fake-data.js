@@ -1,1 +1,1 @@
-require('./fake-session-data.js');
+require('./fake-request-session-data.js');
