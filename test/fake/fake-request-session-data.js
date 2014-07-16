@@ -1,22 +1,20 @@
-var faker = require('faker'),
+var chance = require('chance'),
     glimpse = require('glimpse'),
     names = [];
 
-function generateNumber(down, up) {
-    return Math.floor((Math.random() * up) + down);
-}
-
 function generateNames() {
-    var range = generateNumber(3, 8);
+    var range = chance.integerRange(3, 8);
     for (var i = 0; i < range; i++) {
-        names.push(faker.Name.firstName());
+        names.push(chance.first());
     }
 }
 
 function publishSession() {
-    glimpse.emit('data.request.session.update', { id: faker.random.array_element(names), count: faker.random.number(30), last: (generateNumber(1, 45) + ' sec ago ') });
+    var item = { id: chance.pick(names), count: chance.integer(30), last: (chance.integerRange(1, 45) + ' sec ago ') };
 
-    setTimeout(publishSession, generateNumber(250, 3000));
+    glimpse.emit('data.request.session.update', item);
+
+    setTimeout(publishSession, chance.integerRange(250, 3000));
 }
 
 generateNames();
