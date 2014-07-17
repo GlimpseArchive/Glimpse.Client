@@ -1,12 +1,6 @@
 var React = require('react'),
     SessionItem = require('./request-session-item-view.js');
 
-function getSessionState() {
-    return {
-        allSessions: sessionStore.getAll()
-    };
-};
-
 module.exports = React.createClass({
     render: function() {
         var allSessions = this.props.allSessions;
