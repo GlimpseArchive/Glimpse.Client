@@ -1,4 +1,4 @@
-var chance = require('chance'),
+var chance = require('./fake-extension.js'),
     glimpse = require('glimpse'),
     names = [];
 

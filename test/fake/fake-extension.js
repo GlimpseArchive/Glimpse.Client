@@ -1,4 +1,5 @@
-var chance = require('chance');
+var Chance = require('chance'),
+    chance = new Chance();
 
 chance.mixin({
     'integerRange': function(min, max) {
