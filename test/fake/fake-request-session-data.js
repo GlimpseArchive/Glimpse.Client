@@ -10,7 +10,7 @@ function generateNames() {
 }
 
 function publishSession() {
-    var item = { id: chance.pick(names), count: chance.integer(30), last: (chance.integerRange(1, 45) + ' sec ago ') };
+    var item = { id: chance.pick(names), count: chance.integerRange(1, 30), last: (chance.integerRange(1, 45) + ' sec ago ') };
 
     glimpse.emit('data.request.session.update', item);
 
