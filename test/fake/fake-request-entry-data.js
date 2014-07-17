@@ -1,5 +1,7 @@
 var chance = require('./fake-extension.js'),
-    glimpse = require('glimpse');
+    glimpse = require('glimpse'),
+    maxEvents = chance.integerRange(25, 35),
+    currentEvent = 0;
 
 function publishEntry() {
     var mvc = chance.mvc(),
@@ -34,7 +36,9 @@ function publishEntry() {
 
     glimpse.emit('data.request.entry.updated', item);
 
-    setTimeout(publishEntry, chance.integerRange(3000, 5000));
+    if (currentEvent++ < maxEvents) {
+        setTimeout(publishEntry, chance.integerRange(3000, 5000));
+    }
 }
 
 publishEntry();
