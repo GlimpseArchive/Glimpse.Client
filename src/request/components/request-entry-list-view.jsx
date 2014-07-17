@@ -6,7 +6,8 @@ module.exports = React.createClass({
         var allEntries = this.props.allEntries;
         var entries = [];
         for (var key in allEntries) {
-          entries.push(<EntryItem key={key} entry={allEntries[key]} />);
+            var entry = allEntries[key];
+            entries.push(<EntryItem key={entry.id} entry={entry} />);
         }
         if (entries.length == 0) {
             entries = <em>No found entries.</em>;
