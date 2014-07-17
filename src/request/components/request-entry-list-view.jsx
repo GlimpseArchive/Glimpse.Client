@@ -13,9 +13,9 @@ module.exports = React.createClass({
         }
 
         return (
-            <ul className="request-entry-list-holder">
+            <div className="request-entry-list-holder">
                 {entries}
-            </ul>
+            </div>
         );
     }
 });
