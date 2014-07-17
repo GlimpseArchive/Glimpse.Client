@@ -13,9 +13,9 @@ module.exports = React.createClass({
         }
 
         return (
-            <ul className="request-session-list-holder">
+            <div className="request-session-list-holder">
                 {sessions}
-            </ul>
+            </div>
         );
     }
 });
