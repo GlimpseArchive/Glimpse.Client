@@ -6,7 +6,7 @@
             var html = '',
                 details = args.newData.hud,
                 opened = state.current();
-
+            
             pubsub.publish('trigger.hud.init');
 
             html += display.http.render(details, opened[0], args.newData);
@@ -17,53 +17,51 @@
             state.setup();
 
             display.host.postRender();
-            display.ajax.postRender();
-
+            display.ajax.postRender(); 
+            
             pubsub.publish('trigger.hud.ready');
-        },
+        }, 
         state = (function() {
-            return {
-                setup: function() {
-                    var inputs = elements.opener().find('.glimpse-hud-section-input').change(function() {
-                        var state = [];
-                        inputs.each(function() { state.push(this.checked); });
-                        util.localStorage('glimpseHudDisplay', state);
-                    });
+            return { 
+                setup: function () {
+                   var inputs = elements.opener().find('.glimpse-hud-section-input').change(function() {
+                       var state = [];
+                       inputs.each(function() { state.push(this.checked); });
+                       util.localStorage('glimpseHudDisplay', state);
+                   });
                 },
-                current: function() {
+                current: function () {
                     return util.localStorage('glimpseHudDisplay') || [];
                 }
             };
         })(),
         display = function() {
             var rendering = (function() {
-                    var sizes = ['extra-large', 'large', 'normal', 'small', 'extra-small'],
-                        position = ['top', 'bottom', 'left', 'right'],
-                        align = ['left', 'right'],
+                    var sizes = [ 'extra-large', 'large', 'normal', 'small', 'extra-small' ],
+                        position = [ 'top', 'bottom', 'left', 'right' ],
+                        align = [ 'left', 'right' ],
                         shouldUse = function(isVisible, details) {
                             if (isVisible !== undefined && isVisible) {
                                 var isFunction = $.isFunction(isVisible);
                                 return (isFunction && isVisible(details)) || (!isFunction && isVisible);
                             }
                             return true;
-                        },
+                        }, 
                         popup = function(structure, details) {
                             return '<div class="glimpse-hud-popup" style="border-color:' + structure.color + ';"><label class="glimpse-hud-title" for="glimpse-hud-section-input-' + structure.id + '"><span>' + structure.title + '</span></label><div class="glimpse-hud-popup-inner">' + structure.popup.render(details) + '</div></div><div class="glimpse-hud-popup-expander"></div>';
                         },
                         section = function(structure, details, opened) {
                             var html = '<div class="glimpse-hud-section glimpse-hud-section-' + structure.id + '" style="border-color:' + structure.color + '">';
-
+                            
                             html += '<label class="glimpse-hud-title" for="glimpse-hud-section-input-' + structure.id + '"><span>' + structure.title + '</span></label><input type="checkbox" class="glimpse-hud-section-input" id="glimpse-hud-section-input-' + structure.id + '"' + (opened ? ' checked="checked"' : '') + ' />';
-                            html += '<div class="glimpse-hud-section-inner">';
+                            html += '<div class="glimpse-hud-section-inner">';  
                             for (var key in structure.layout.mini) {
                                 html += item(structure.layout.mini[key], details);
                             }
                             html += '</div>';
-
-                            if (!structure.popup.suppress) {
-                                html += popup(structure, details);
-                            }
-
+                            
+                            if (!structure.popup.suppress) { html += popup(structure, details); }
+                            
                             return html + '</div>';
                         },
                         item = function(item, details) {
@@ -73,13 +71,13 @@
                                     postfix = item.postfix ? '<span class="glimpse-hud-postfix">' + item.postfix + '</span>' : '',
                                     value = item.getLayoutData ? item.getLayoutData(details) : '<span class="glimpse-hud-data">' + item.getData(details) + '</span>' + postfix,
                                     id = item.id ? ' ' + item.id : '';
-
+                                
                                 html += item.getLayout ? item.getLayout(details) : '<div class="glimpse-hud-detail glimpse-hud-detail-' + sizes[item.size] + ' glimpse-hud-detail-position-' + position[item.position] + ' glimpse-hud-detail-align-' + align[item.align] + id + '" title="' + item.description + '">' + (item.position % 2 == 0 ? title : '') + '<div class="glimpse-hud-value">' + value + '</div>' + (item.position % 2 == 1 ? title : '') + '</div>';
                             }
 
                             return html;
                         };
-
+                
                     return {
                         section: section,
                         item: item,
@@ -92,7 +90,7 @@
                             layout[key] = $.extend(true, {}, defaults[key], layout[key]);
                         }
                     };
-
+                
                     return {
                         init: function(payload) {
                             item(payload.layout.mini, payload.defaults);
@@ -106,16 +104,16 @@
                     var timingsRaw = (window.performance || window.mozPerformance || window.msPerformance || window.webkitPerformance || {}).timing,
                         structure = {
                             title: 'HTTP',
-                            id: 'http',
+                            id: 'http', 
                             color: '#e2875e',
                             popup: {
                                 render: function(details) {
                                     var requestDetails = details.request.data,
                                         html = '<div class="glimpse-hud-popup-header">Browser Request</div>';
                                     html += '<div><div class="glimpse-hud-summary-left">' + rendering.item(structure.layout.popup.request, details) + '</div>';
-                                    html += '<table class="glimpse-hud-summary glimpse-hud-summary-right"><tr><td width="1" class="glimpse-hud-listing-overflow">' + rendering.item(structure.layout.popup.host, details) + '</td></tr><tr><td class="glimpse-hud-listing-overflow">' + rendering.item(structure.layout.popup.principal, details) + '</td></tr></table></div>';
+                                    html += '<table class="glimpse-hud-summary glimpse-hud-summary-right"><tr><td width="1" class="glimpse-hud-listing-overflow">' + rendering.item(structure.layout.popup.host, details) + '</td></tr><tr><td class="glimpse-hud-listing-overflow">' + rendering.item(structure.layout.popup.principal, details)  + '</td></tr></table></div>';
                                     html += '<div class="glimpse-hud-popup-clear"></div>';
-                                    html += '<div class="glimpse-data-request-parts"><table><tr><td colspan="3"><div class="glimpse-hud-bar glimpse-hud-tooltips-non"><div><div class="glimpse-hud-bar-item" style="width: 100%;background-color: ' + requestDetails.browser.categoryColor + '"></div><div class="glimpse-hud-bar-item" style="width: ' + requestDetails.server.percentage + '%;background-color: ' + requestDetails.server.categoryColor + ';"></div><div class="glimpse-hud-bar-item" style="width: ' + requestDetails.network.percentage + '%;background-color: ' + requestDetails.network.categoryColor + ';"></div></div></div></td></tr><tr><td class="glimpse-data-wire-part">' + rendering.item(structure.layout.popup.wire, details) + '</td><td class="glimpse-data-server-part">' + rendering.item(structure.layout.popup.server, details) + '</td><td class="glimpse-data-client-part">' + rendering.item(structure.layout.popup.client, details) + '</td></tr></table></div>';
+                                    html += '<div class="glimpse-data-request-parts"><table><tr><td colspan="3"><div class="glimpse-hud-bar glimpse-hud-tooltips-non"><div><div class="glimpse-hud-bar-item" style="width: 100%;background-color: ' + requestDetails.browser.categoryColor + '"></div><div class="glimpse-hud-bar-item" style="width: ' + requestDetails.server.percentage + '%;background-color: ' + requestDetails.server.categoryColor + ';"></div><div class="glimpse-hud-bar-item" style="width: ' + requestDetails.network.percentage + '%;background-color: ' + requestDetails.network.categoryColor + ';"></div></div></div></td></tr><tr><td class="glimpse-data-wire-part">' + rendering.item(structure.layout.popup.wire, details) + '</td><td class="glimpse-data-server-part">' + rendering.item(structure.layout.popup.server, details) + '</td><td class="glimpse-data-client-part">' + rendering.item(structure.layout.popup.client, details) + '</td></tr></table></div>'; 
 
                                     return html;
                                 }
@@ -124,8 +122,8 @@
                                 request: { title: 'Request', description: 'Total request time from click to dom ready', visible: true, size: 1, position: 0, align: 0, postfix: 'ms', getData: function(details) { return details.request.data.total.duration; } },
                                 wire: { title: 'Wire', description: 'Total time on the network', visible: true, size: 2, position: 0, align: 0, postfix: 'ms', getData: function(details) { return details.request.data.network.duration; } },
                                 server: { title: 'Server', description: 'Total time on the server', visible: true, size: 2, position: 0, align: 0, postfix: 'ms', getData: function(details) { return details.request.data.server.duration; } },
-                                client: { title: 'Client', description: 'Total time once client kicks in to dom ready', visible: true, size: 2, position: 0, align: 0, postfix: 'ms', getData: function(details) { return details.request.data.browser.duration; } },
-                                host: { title: 'Host', description: 'Server that responded to the request', visible: true, size: 2, position: 1, align: 1, postfix: '', getLayoutData: function(details) { return '<div class="glimpse-hud-listing-overflow" style="max-width:170px;">' + details.environment.data.serverName + '</div>'; } },
+                                client: { title: 'Client', description: 'Total time once client kicks in to dom ready', visible: true, size: 2, position: 0, align: 0, postfix: 'ms', getData: function(details) { return details.request.data.browser.duration; } }, 
+                                host: { title: 'Host', description: 'Server that responded to the request', visible: true, size: 2, position: 1, align: 1, postfix: '', getLayoutData: function(details) { return '<div class="glimpse-hud-listing-overflow" style="max-width:170px;">' + details.environment.data.serverName + '</div>'; } }, 
                                 principal: { title: 'Principal', description: 'Principal that is currently logged in for this session', visible: function(details) { return details.environment.data.user; }, size: 2, position: 1, align: 1, postfix: '', getLayoutData: function(details) { return '<div class="glimpse-hud-listing-overflow" style="max-width:120px;">' + details.environment.data.user + '</div>'; } }
                             },
                             layout: {
@@ -140,51 +138,51 @@
                                     wire: { position: 1, align: 1 },
                                     server: { position: 1, align: 1 },
                                     client: { position: 1, align: 1 },
-                                    host: {},
-                                    principal: {}
+                                    host: { },
+                                    principal: { }
                                 }
                             }
-                        },
+                        }, 
                         processTimings = function(details) {
-                            var result = {},
+                            var result = { },
                                 networkPre = calculateTimings('navigationStart', 'requestStart'),
                                 networkPost = calculateTimings('responseStart', 'responseEnd'),
                                 network = networkPre + networkPost,
                                 server = calculateTimings('requestStart', 'responseStart'),
                                 browser = calculateTimings('responseEnd', 'loadEventEnd'),
                                 total = network + server + browser;
-
+                      
                             result.networkSending = { categoryColor: '#FDBF45', duration: networkPre, percentage: (networkPre / total) * 100 };
                             result.networkReceiving = { categoryColor: '#FDBF45', duration: networkPost, percentage: (networkPost / total) * 100 };
                             result.network = { categoryColor: '#FDBF45', duration: network, percentage: (network / total) * 100 };
                             result.server = { categoryColor: '#AF78DD', duration: server, percentage: (server / total) * 100 };
                             result.browser = { categoryColor: '#72A3E4', duration: browser, percentage: (browser / total) * 100 };
                             result.total = { categoryColor: '#10E309', duration: network + server + browser, percentage: 100 };
-
+                         
                             details.request = { data: result, name: 'Request' };
                         },
-                        calculateTimings = function(startIndex, finishIndex) {
+                        calculateTimings = function(startIndex, finishIndex) { 
                             return timingsRaw[finishIndex] - timingsRaw[startIndex];
-                        },
+                        }, 
                         render = function(details, opened) {
                             var html = '';
                             if (timingsRaw) {
                                 process.init(structure);
-                                processTimings(details);
-                                html = rendering.section(structure, details, opened);
+                                processTimings(details); 
+                                html = rendering.section(structure, details, opened); 
                             }
 
                             return html;
                         };
-
+                
                     return {
-                        render: render
-                    };
+                            render: render
+                        };
                 }(),
                 host: function() {
                     var structure = {
                             title: 'Host',
-                            id: 'host',
+                            id: 'host', 
                             color: '#6161e0',
                             popup: {
                                 render: function(details) {
@@ -192,26 +190,24 @@
                                         html = '<div class="glimpse-hud-popup-header">Server Side</div>';
                                     html += '<div><div style="position: absolute; right: 0; margin-right: 16px;">' + rendering.item(structure.layout.popup.time, details) + '</div><table class="glimpse-hud-summary glimpse-hud-summary-space glimpse-hud-summary-left"><tr><th>' + (rendering.item(structure.layout.popup.action, details) || rendering.item(structure.layout.popup.loading, details)) + '</th></tr><tr><td>' + (rendering.item(structure.layout.popup.controller, details) || rendering.item(structure.layout.popup.viewStateSize, details)) + '</td></tr></table>';
                                     html += '<table class="glimpse-hud-summary glimpse-hud-summary-space glimpse-hud-summary-right"><tr><td width="1">' + (rendering.item(structure.layout.popup.view, details) || rendering.item(structure.layout.popup.rendering, details)) + '</td>' + (details.sql ? '<td width="60"></td><td>' + rendering.item(structure.layout.popup.queries, details) + '</td>' : '') + '</tr><tr><td>' + rendering.item(structure.layout.popup.server, details) + '</td>' + (details.sql ? '<td></td><td>' + rendering.item(structure.layout.popup.connections, details) + '</td>' : '') + '</tr></table></div>';
-                                    html += '<div class="glimpse-hud-popup-clear"></div>';
-                                    html += '<table class="glimpse-hud-listing" style="table-layout:fixed;"><thead><tr><th></th><th class="glimpse-hud-listing-value glimpse-data-childless-duration">duration (ms)</th><th class="glimpse-hud-listing-value glimpse-data-childless-start-point">from start (ms)</th></tr></thead>';
+                                    html += '<div class="glimpse-hud-popup-clear"></div>'; 
+                                    html += '<table class="glimpse-hud-listing" style="table-layout:fixed;"><thead><tr><th></th><th class="glimpse-hud-listing-value glimpse-data-childless-duration">duration (ms)</th><th class="glimpse-hud-listing-value glimpse-data-childless-start-point">from start (ms)</th></tr></thead>';  
                                     for (var i = 0; i < details.timings.data.length; i++) {
                                         var item = details.timings.data[i],
                                             isTrivial = item.childlessDuration < 2;
-
+                                        
                                         if (!item.suppress) {
                                             var maxLength = (16 + (details.sql ? 10 : 0)) - item.nesting * 2;
-
+                                            
                                             html += '<tbody' + (isTrivial ? ' class="glimpse-data-trivial"' : '') + '>';
-                                            html += '<tr' + (isTrivial ? ' class="glimpse-hud-quite"' : '') + '><td class="glimpse-hud-listing-overflow" style="padding-left:' + (item.nesting * 15) + 'px;" ' + (item.description.length > maxLength ? 'title="' + item.description + '"' : '') + '>' + item.description + '</td><td class="glimpse-hud-listing-value glimpse-data-childless-duration">' + item.childlessDuration + '</td><td class="glimpse-hud-listing-value glimpse-data-childless-start-point"><span class="glimpse-hud-prefix">+</span>' + item.startPoint + '</td></tr>';
+                                            html += '<tr' + (isTrivial ? ' class="glimpse-hud-quite"' : '') + '><td class="glimpse-hud-listing-overflow" style="padding-left:' + (item.nesting * 15) + 'px;" ' + (item.description.length > maxLength ? 'title="' + item.description + '"' : '') +'>' + item.description + '</td><td class="glimpse-hud-listing-value glimpse-data-childless-duration">' + item.childlessDuration + '</td><td class="glimpse-hud-listing-value glimpse-data-childless-start-point"><span class="glimpse-hud-prefix">+</span>' + item.startPoint + '</td></tr>';
                                             if (item.queries && item.queries.listing.length > 0) {
                                                 html += '<tr><td class="glimpse-data-query-summary" style="padding-left:' + ((item.nesting * 15) + 20) + 'px;"><span class="glimpse-hud-prefix">➥</span><span class="glimpse-hud-listing-value">' + item.queries.listing.length + '</span><span class="glimpse-hud-postfix">' + (item.queries.listing.length == 1 ? 'query' : 'queries') + '</span> <span class="glimpse-hud-listing-value">' + item.queries.durationSum.toFixed(2) + '</span><span class="glimpse-hud-postfix">ms</span></td><td></td><td></td></tr>';
                                             }
                                             html += '</tbody>';
-                                            if (isTrivial) {
-                                                hasTrivial = true;
-                                            }
+                                            if (isTrivial) { hasTrivial = true; }
                                         }
-                                    }
+                                    }    
                                     html += '</table>';
                                     if (hasTrivial) {
                                         html += '<div class="glimpse-hud-controls"><span class="glimpse-control-trivial">Show Trivial</span><span class="glimpse-control-trivial" style="display:none">Hide Trivial</span></div>';
@@ -221,28 +217,16 @@
                                 }
                             },
                             defaults: {
-                                server: { title: 'Server Time', description: 'Total time on the server', visible: function(details) { return details.request; }, size: 1, position: 1, align: 1, postfix: 'ms', getData: function(details) { return details.request.data.server.duration; } },
+                                server: { title: 'Server Time', description: 'Total time on the server', visible: function(details) { return details.request; }, size: 1, position: 1, align: 1, postfix: 'ms', getData: function (details) { return details.request.data.server.duration; } },
                                 action: { title: 'Action', description: 'How long root Action took to execute', visible: function(details) { return details.mvc && details.mvc.data && details.mvc.data.actionExecutionTime != null; }, size: 1, position: 0, align: 0, postfix: 'ms', getData: function(details) { return parseInt(details.mvc.data.actionExecutionTime); } },
                                 view: { title: 'View', description: 'How long root View took to render', visible: function(details) { return details.mvc && details.mvc.data && details.mvc.data.viewRenderTime != null; }, size: 1, position: 0, align: 0, postfix: 'ms', getData: function(details) { return parseInt(details.mvc.data.viewRenderTime); } },
                                 controller: { title: 'Controller/Action', description: 'Name of the root Controller and Action', visible: function(details) { return details.mvc && details.mvc.data; }, size: 2, position: 0, align: 0, postfix: 'ms', getLayoutData: function(details) { return '<span class="glimpse-hud-data">' + details.mvc.data.controllerName + '</span><span class="glimpse-hud-plain">.</span><span class="glimpse-hud-data">' + details.mvc.data.actionName + '</span><span class="glimpse-hud-plain">(...)</span>'; } },
-                                queries: { title: 'DB Queries', description: 'Total query duration and number of all SQL queries', visible: function(details) { return details.sql && details.sql.data; }, size: 1, position: 0, align: 0, getLayoutData: function(details) { return '<span class="glimpse-hud-data">' + parseInt(details.sql.data.queryExecutionTime) + '</span><span class="glimpse-hud-postfix">ms</span><span class="glimpse-hud-spacer">/</span><span class="glimpse-hud-data">' + details.sql.data.queryCount + '</span>'; } },
-                                connections: { title: 'DB Connections', description: 'Total connection open time and number of all SQL connections used', visible: function(details) { return details.sql && details.sql.data; }, size: 1, position: 1, align: 1, getLayoutData: function(details) { return '<span class="glimpse-hud-data">' + parseInt(details.sql.data.connectionOpenTime) + '</span><span class="glimpse-hud-postfix">ms</span><span class="glimpse-hud-spacer">/</span><span class="glimpse-hud-data">' + details.sql.data.connectionCount + '</span>'; } },
-                                time: {
-                                    title: 'Server Time', description: 'Time on the server', visible: function(details) { return details.environment && details.environment.data; }, size: 4, position: 2, align: 1,
-                                    getLayoutData: function(details) {
-                                        var diff = parseInt((new Date(details.environment.data.serverTime + ' ' + details.environment.data.serverTimezoneOffset) - new Date()) / 1000 / 60 / 60);
-                                        return '<span class="glimpse-hud-data">' + details.environment.data.serverTime + '</span> <span class="glimpse-hud-prefix">GMT</span><span class="glimpse-hud-data">' + details.environment.data.serverTimezoneOffset + '</span> ' + (details.environment.data.serverDaylightSavingTime ? ' <span class="glimpse-hud-plain">(</span><span class="glimpse-hud-data">w/DLS</span><span class="glimpse-hud-plain">)</span>' : '') + (diff ? '<span class="glimpse-hud-spacer"> </span><span title="Time difference between server and client"><span class="glimpse-hud-prefix">Δ</span><span class="glimpse-hud-data glimpse-hud-data-important">' + (diff > 0 ? '+' : '') + diff + '</span></span>' : '');
-                                    }
-                                },
-                                viewStateSize: {
-                                    title: 'ViewState', description: 'Size of your page ViewState', visible: function(details) { return details.webforms && details.webforms.data; }, size: 1, position: 0, align: 0, postfix: 'bytes',
-                                    getData: function(details) {
-                                        var viewstate;
-                                        return (viewstate = $('#__VIEWSTATE').val()) ? viewstate.length : 0;
-                                    }
-                                },
-                                loading: { title: 'Load', description: 'Time between Begin PreLoad and End LoadComplete', visible: function(details) { return details.webforms && details.webforms.data && details.webforms.data.loadingTime != null; }, size: 1, position: 0, align: 0, postfix: 'ms', getData: function(details) { return parseInt(details.webforms.data.loadingTime); } },
-                                rendering: { title: 'Render', description: 'Time between Begin PreRender and End Render (including SaveState events)', visible: function(details) { return details.webforms && details.webforms.data && details.webforms.data.renderingTime != null; }, size: 1, position: 0, align: 0, postfix: 'ms', getData: function(details) { return parseInt(details.webforms.data.renderingTime); } },
+                                queries: { title: 'DB Queries', description: 'Total query duration and number of all SQL queries', visible: function(details) { return details.sql && details.sql.data; }, size: 1, position: 0, align: 0, getLayoutData: function(details) { return '<span class="glimpse-hud-data">' + parseInt(details.sql.data.queryExecutionTime) + '</span><span class="glimpse-hud-postfix">ms</span><span class="glimpse-hud-spacer">/</span><span class="glimpse-hud-data">'  + details.sql.data.queryCount + '</span>'; } },
+                                connections: { title: 'DB Connections', description: 'Total connection open time and number of all SQL connections used', visible: function (details) { return details.sql && details.sql.data; }, size: 1, position: 1, align: 1, getLayoutData: function (details) { return '<span class="glimpse-hud-data">' + parseInt(details.sql.data.connectionOpenTime) + '</span><span class="glimpse-hud-postfix">ms</span><span class="glimpse-hud-spacer">/</span><span class="glimpse-hud-data">' + details.sql.data.connectionCount + '</span>'; } },
+                                time: { title: 'Server Time', description: 'Time on the server', visible: function (details) { return details.environment && details.environment.data; }, size: 4, position: 2, align: 1, getLayoutData: function (details) { var diff = parseInt((new Date(details.environment.data.serverTime + ' ' + details.environment.data.serverTimezoneOffset) - new Date()) / 1000 / 60 / 60); return '<span class="glimpse-hud-data">' + details.environment.data.serverTime + '</span> <span class="glimpse-hud-prefix">GMT</span><span class="glimpse-hud-data">' + details.environment.data.serverTimezoneOffset + '</span> ' + (details.environment.data.serverDaylightSavingTime ? ' <span class="glimpse-hud-plain">(</span><span class="glimpse-hud-data">w/DLS</span><span class="glimpse-hud-plain">)</span>' : '') + (diff ? '<span class="glimpse-hud-spacer"> </span><span title="Time difference between server and client"><span class="glimpse-hud-prefix">Δ</span><span class="glimpse-hud-data glimpse-hud-data-important">' + (diff > 0 ? '+' : '') + diff + '</span></span>' : ''); } },
+                                viewStateSize: { title: 'ViewState', description: 'Size of your page ViewState', visible: function (details) { return details.webforms && details.webforms.data; }, size: 1, position: 0, align: 0, postfix: 'bytes', getData: function (details) { var viewstate; return (viewstate = $('#__VIEWSTATE').val()) ? viewstate.length : 0; } },
+                                loading: { title: 'Load', description: 'Time between Begin PreLoad and End LoadComplete', visible: function (details) { return details.webforms && details.webforms.data && details.webforms.data.loadingTime != null; }, size: 1, position: 0, align: 0, postfix: 'ms', getData: function (details) { return parseInt(details.webforms.data.loadingTime); } },
+                                rendering: { title: 'Render', description: 'Time between Begin PreRender and End Render (including SaveState events)', visible: function (details) { return details.webforms && details.webforms.data && details.webforms.data.renderingTime != null; }, size: 1, position: 0, align: 0, postfix: 'ms', getData: function (details) { return parseInt(details.webforms.data.renderingTime); } },
                             },
                             layout: {
                                 mini: {
@@ -268,21 +252,21 @@
                                 }
                             }
                         },
-                        processEvents = function(details, payload) {
-                            var eventStack = [],
-                                lastEvent = { startPoint: 0, duration: 0, childlessDuration: 0, endPoint: 0 },
-                                lastControllerEvent = {},
+                        processEvents = function (details, payload) {
+                            var eventStack = [], 
+                                lastEvent = { startPoint : 0, duration : 0, childlessDuration : 0, endPoint : 0 },
+                                lastControllerEvent = { },
                                 rootDuration = details.request ? details.request.data.server.duration : 1,
                                 rootChildlessDuration = rootDuration;
 
                             //Hack needed for the time being
                             processEventsWebforms(details, payload);
-
+                            
                             for (var i = 0; i < details.timings.data.length; i += 1) {
                                 var event = details.timings.data[i],
-                                    topEvent = eventStack.length > 0 ? eventStack[eventStack.length - 1] : null,
-                                    left = (event.startPoint / rootDuration) * 100,
-                                    width = (event.duration / rootDuration) * 100,
+                                    topEvent = eventStack.length > 0 ? eventStack[eventStack.length - 1] : null, 
+                                    left = (event.startPoint / rootDuration) * 100,  
+                                    width = (event.duration / rootDuration) * 100, 
                                     stackParsed = false;
 
                                 event.endPoint = parseFloat((event.startPoint + event.duration).toFixed(2));
@@ -291,7 +275,8 @@
                                 if (event.category == "Controller" || event.category == "Request" || event.category == "Webforms") {
                                     lastControllerEvent = event;
                                     lastControllerEvent.queries = { durationSum: 0, listing: [] };
-                                } else if (event.category == "Command" && lastControllerEvent.queries) {
+                                }
+                                else if (event.category == "Command" && lastControllerEvent.queries) { 
                                     lastControllerEvent.queries.listing.push(event);
                                     lastControllerEvent.queries.durationSum += event.duration;
                                     event.suppress = true;
@@ -299,22 +284,24 @@
 
                                 //Derive event nesting  
                                 while (!stackParsed) {
-                                    if (event.startPoint > lastEvent.startPoint && event.endPoint <= lastEvent.endPoint) {
-                                        eventStack.push(lastEvent);
+                                    if (event.startPoint > lastEvent.startPoint && event.endPoint <= lastEvent.endPoint) { 
+                                        eventStack.push(lastEvent); 
                                         stackParsed = true;
-                                    } else if (topEvent != null && topEvent.endPoint < event.endPoint) {
-                                        eventStack.pop();
-                                        topEvent = eventStack.length > 0 ? eventStack[eventStack.length - 1] : null;
+                                    }
+                                    else if (topEvent != null && topEvent.endPoint < event.endPoint) {
+                                        eventStack.pop(); 
+                                        topEvent = eventStack.length > 0 ? eventStack[eventStack.length - 1] : null; 
                                         stackParsed = false;
-                                    } else
-                                        stackParsed = true;
+                                    }
+                                    else 
+                                        stackParsed = true; 
                                 }
-
+                        
                                 //Work out childless timings 
-                                var temp = eventStack.length > 0 ? eventStack[eventStack.length - 1] : undefined;
+                                var temp = eventStack.length > 0 ? eventStack[eventStack.length - 1] : undefined; 
                                 if (temp) {
                                     temp.childlessDuration = parseFloat((temp.childlessDuration - event.duration).toFixed(2));
-                                }
+                                } 
 
                                 //Work out root childless timings 
                                 if (eventStack.length == 0)
@@ -325,46 +312,46 @@
                                 event.startPercent = left;
                                 event.endPercent = left + width;
                                 event.widthPercent = width;
-                                event.nesting = eventStack.length + 1;
-                                event.description = event.title;
-
+                                event.nesting = eventStack.length + 1; 
+                                event.description = event.title; 
+                        
                                 lastEvent = event;
                             }
-
+                             
                             details.timings.data.unshift({
-                                description: 'Request: ' + (window.location.pathname + window.location.search),
-                                title: (window.location.pathname + window.location.search),
-                                startTime: 'NOT SURE',
-                                duration: rootDuration,
-                                startPoint: '0.0',
-                                category: 'Request',
-                                childlessDuration: Math.round(rootChildlessDuration * 10) / 10,
-                                startPercent: 0,
-                                endPercent: 100,
-                                widthPercent: 100,
-                                nesting: 0
-                            });
-                        },
-                        processEventsWebforms = function(details, payload) {
+                                    description: 'Request: ' + (window.location.pathname + window.location.search),
+                                    title: (window.location.pathname + window.location.search),
+                                    startTime: 'NOT SURE',
+                                    duration: rootDuration,
+                                    startPoint: '0.0',
+                                    category: 'Request',
+                                    childlessDuration: Math.round(rootChildlessDuration * 10) / 10,
+                                    startPercent: 0,
+                                    endPercent: 100,
+                                    widthPercent: 100,
+                                    nesting: 0
+                                }); 
+                        }, 
+                        processEventsWebforms = function (details, payload) {
                             if (payload.data.glimpse_webforms_execution) {
                                 var executionData = payload.data.glimpse_webforms_execution.data,
                                     timelineData = details.timings.data;
-
+                                
                                 for (var i = 0; i < executionData.length; i++) {
                                     var executionItem = executionData[i];
                                     timelineData.push({ title: executionItem.event, startTime: 'NOT SURE', duration: executionItem.duration, startPoint: executionItem.fromFirst, category: 'Webforms' });
                                 }
-
-                                timelineData.sort(function(a, b) { return parseFloat(a.startPoint) - parseFloat(b.startPoint); });
-                            }
+                                
+                                timelineData.sort(function (a, b) { return parseFloat(a.startPoint) - parseFloat(b.startPoint); });
+                            } 
                         },
                         render = function(details, opened, payload) {
                             var html = '';
                             //Only checking MVC/Webforms as we can't show just SQL very well
                             if ((details.mvc && details.mvc.data) || (details.webforms && details.webforms.data)) {
-                                process.init(structure);
+                                process.init(structure); 
                                 processEvents(details, payload);
-                                html = rendering.section(structure, details, opened);
+                                html = rendering.section(structure, details, opened); 
                             }
 
                             return html;
@@ -372,11 +359,11 @@
                         postRender = function() {
                             $('.glimpse-hud .glimpse-control-trivial').click(function() { $('.glimpse-hud .glimpse-control-trivial, .glimpse-hud .glimpse-data-trivial').toggle(); });
                         };
-
+                    
                     return {
-                        render: render,
-                        postRender: postRender
-                    };
+                            render: render,
+                            postRender: postRender
+                        };
                 }(),
                 ajax: function() {
                     var count = 0,
@@ -403,7 +390,7 @@
                             },
                             layout: {
                                 mini: {
-                                    requests: {}
+                                    requests: { }
                                 },
                                 popup: {
                                     requests: { title: 'Total Ajax Requests', size: 0, position: 1, align: 1 }
@@ -423,9 +410,9 @@
                             if (count == 0) {
                                 var section = $('.glimpse-hud-section-ajax');
                                 section.find('.glimpse-hud-section-inner').append('<div class="glimpse-hud-detail glimpse-hud-detail-small glimpse-hud-listing glimpse-data-ajax-summary"></div>');
-                                section.append(rendering.popup(structure, {}));
-
-                                section.find('.glimpse-data-ajax-detail tbody .glimpse-ajax-link').live('click', function() {
+                                section.append(rendering.popup(structure, { }));
+                                
+                                section.find('.glimpse-data-ajax-detail tbody .glimpse-ajax-link').live('click', function () {
                                     pubsub.publish('trigger.shell.open', {});
                                     pubsub.publish('trigger.tab.select.ajax', { key: 'ajax' });
                                     pubsub.publish('trigger.data.context.switch', { requestId: $(this).attr('data-requestId'), type: 'ajax' });
@@ -437,7 +424,7 @@
                             setTimeout(function() {
                                 counter.removeClass('glimpse-hud-value-update');
                             }, 2000);
-
+                             
                             //Update data records
                             var rowClass = (status == 304 ? ' glimpse-hud-quite' : !(status >= 200 && status < 300) ? ' glimpse-hud-error' : '');
 
@@ -445,10 +432,10 @@
                             uri = util.htmlEncode(uri);
 
                             var clickableUri = uri;
-                            if (requestId) {
+                            if(requestId) {
                                 clickableUri = '<a href="javascript:void(0)" class="glimpse-ajax-link" data-requestId="' + requestId + '">' + uri + '</a>';
                             }
-
+                            
                             recordItem('<div class="glimpse-hud-listing-row glimpse-hud-value' + rowClass + '"><div class="glimpse-hud-data glimpse-hud-quite glimpse-data-ajax-method">' + method + '</div><div class="glimpse-hud-data glimpse-hud-listing-overflow glimpse-data-ajax-uri" title="' + uri + '">' + uri + '</div><div class="glimpse-data-ajax-duration"><span class="glimpse-hud-data">' + duration + '</span><span class="glimpse-hud-postfix">ms</span></div></div>', '.glimpse-hud-section-ajax .glimpse-data-ajax-summary', summaryStack, 2);
                             recordItem('<tbody class="' + rowClass + '"><tr><td class="glimpse-hud-listing-overflow" title="' + uri + '" colspan="2">' + clickableUri + '</td><td class="glimpse-hud-listing-value glimpse-data-duration">' + duration + '</td><td class="glimpse-hud-listing-value glimpse-data-size">' + (Math.round((size / 1024) * 10) / 10) + '</td></tr><tr><td class="glimpse-hud-quite glimpse-data-content-method">' + method + '</td><td class="glimpse-hud-quite glimpse-hud-listing-overflow">' + status + ' - ' + statusText + '</td><td class="glimpse-hud-quite glimpse-data-content-type glimpse-hud-listing-overflow" title="' + contentType + '">' + processContentType(contentType) + '</td><td class="glimpse-hud-quite glimpse-data-content-time">' + time.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1") + '</td></tr></tbody>', '.glimpse-hud-section-ajax .glimpse-data-ajax-detail', detailStack, 6);
                         },
@@ -465,60 +452,30 @@
                             stack.push(row);
                         },
                         postRender = function() {
-                            var currentLength = completedAjaxRequests.length;
-                            jQueryGlimpse.each(completedAjaxRequests, function(index, data) {
-                                update(data.method, data.uri, data.duration, data.size, data.status, data.statusText, data.time, data.contentType, data.requestId);
-                            });
-                            for (var i = 0; i < currentLength; i++) {
-                                completedAjaxRequests.pop();
-                            }
+                            var open = XMLHttpRequest.prototype.open; 
+                            XMLHttpRequest.prototype.open = function(method, uri) {
+                                if (util.isLocalUri(uri) && uri.indexOf('Glimpse.axd') == -1) {
+                                    var startTime = new Date().getTime(); 
+                                    this.addEventListener("readystatechange", function() {
+                                            if (this.readyState == 4 && this.getResponseHeader("Glimpse-RequestID"))  { 
+                                                update(method, uri, new Date().getTime() - startTime, this.getResponseHeader("Content-Length"), this.status, this.statusText, new Date(), this.getResponseHeader("Content-Type"), this.getResponseHeader("Glimpse-RequestID"));
+                                            }
+                                        }, false); 
+                                }
+                
+                                open.apply(this, arguments);
+                            };                             
                         };
-
+                      
                     return {
-                        render: render,
-                        postRender: postRender
-                    };
+                            render: render,
+                            postRender: postRender
+                        };
                 }()
             };
+            
+        }();
 
-        }(),
-        hudAjaxWrapper = function() {
-            var open = XMLHttpRequest.prototype.open;
-            XMLHttpRequest.prototype.open = function(method, uri) {
-                if (util.isLocalUri(uri) && uri.indexOf('Glimpse.axd') == -1) {
-                    var startTime = new Date().getTime();
-                    this.addEventListener("readystatechange", function() {
-                        if (this.readyState == 4 && this.getResponseHeader("Glimpse-RequestID")) {
-                            completedAjaxRequests.push(new AjaxRequestData(method, uri, new Date().getTime() - startTime, this.getResponseHeader("Content-Length"), this.status, this.statusText, new Date(), this.getResponseHeader("Content-Type"), this.getResponseHeader("Glimpse-RequestID")));
-                            if (display.host.render && typeof (display.host.render) === "function") {
-                                pubsub.publish("trigger.ajax.success");
-                            } else {
-                                pubsub.subscribe("trigger.hud.ready", function () {
-                                    pubsub.publish("trigger.ajax.success");
-                                });
-                            }
-                        }
-                    }, false);
-                }
-
-                open.apply(this, arguments);
-            };
-        }(),
-        AjaxRequestData = function(method, uri, duration, size, status, statusText, time, contentType, requestId) {
-            this.method = method;
-            this.uri = uri;
-            this.duration = duration;
-            this.size = size;
-            this.status = status;
-            this.statusText = statusText;
-            this.time = time;
-            this.contentType = contentType;
-            this.requestId = requestId;
-
-        },
-        completedAjaxRequests = [];
-
-    pubsub.subscribe("trigger.ajax.success", display.ajax.postRender);
     pubsub.subscribe('action.template.processing', modify); 
     pubsub.subscribe('action.data.initial.changed', function(args) { $(window).load(function() { setTimeout(function() { loaded(args); }, 0); }); }); 
 
