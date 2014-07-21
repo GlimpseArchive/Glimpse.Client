@@ -1,6 +1,6 @@
 var glimpse = require('glimpse'),
     React = require('react'),
-    SessionList = require('./request-session-list-view.js'),
+    SessionList = require('./request-session-list-view.jsx'),
     sessionStore = require('../stores/request-session-store.js');
 
 function getSessionState() {

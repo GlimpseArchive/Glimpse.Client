@@ -5,23 +5,25 @@ module.exports = {
     output: {
         path: __dirname,
         filename: './[name].js',
-        chunkFilename: './[id].chunk.js',
-        pathinfo: true
+        chunkFilename: './[id].chunk.js'
     },
     resolve: {
         modulesDirectories: ['node_modules', 'bower_components'],
 		alias: {
-			'glimpse': path.resolve(__dirname, './build/glimpse.js'),
-            'shell': path.resolve(__dirname, './build/shell'),
-            'request': path.resolve(__dirname, './build/request'),
+			'glimpse': path.resolve(__dirname, './src/glimpse.js'),
+            'shell': path.resolve(__dirname, './src/shell'),
+            'request': path.resolve(__dirname, './src/request'),
             'fake': path.resolve(__dirname, './test/fake/fake-data.js')
 		}
 	},
     module: {
         loaders: [
-            { test: /\.css$/, loader: 'style!css' },
-            { test: /\.js$/, loader: 'source-map-loader' },
-            { test: /react/, loader: 'expose-loader?React' }
+            { test: /react/, loader: 'expose-loader?React' },
+            { test: /\.scss$/, loader: 'style!css!autoprefixer?browsers=last 2 version!sass?includePaths[]=' + (path.resolve(__dirname, './bower_components/bootstrap-sass-official/assets/stylesheets/')) },
+            { test: /\.jsx$/, loader: 'jsx-loader?insertPragma=React.DOM' }
+        ],
+        preLoaders: [
+            { test: /\.js$/, loader: 'jshint-loader', exclude: /node_modules|bower_components/ }
         ]
     },
     plugins: [
@@ -29,5 +31,5 @@ module.exports = {
             new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('bower.json', ['main'])
         )
     ],
-    devtool: '#source-map'
+    //verbose: true
 };

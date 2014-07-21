@@ -1,5 +1,5 @@
 var React = require('react'),
-    EntryItem = require('./request-entry-item-view.js');
+    EntryItem = require('./request-entry-item-view.jsx');
 
 module.exports = React.createClass({
     render: function() {

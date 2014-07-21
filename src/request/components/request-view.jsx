@@ -1,7 +1,7 @@
 var React = require('react'),
-    Session = require('./request-session-view.js'),
-    Filter = require('./request-filter-view.js'),
-    Entry = require('./request-entry-view.js');
+    Session = require('./request-session-view.jsx'),
+    Filter = require('./request-filter-view.jsx'),
+    Entry = require('./request-entry-view.jsx');
 
 module.exports = React.createClass({
   render: function() {

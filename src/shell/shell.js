@@ -1,7 +1,7 @@
-require('./style/shell.css');
+require('./style/shell.scss');
 
 var React = require('react'),
-    Shell = require('./components/shell-view.js'),
+    Shell = require('./components/shell-view.jsx'),
     glimpse = require('glimpse'),
 
     applications = [];

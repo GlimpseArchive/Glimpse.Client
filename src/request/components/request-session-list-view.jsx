@@ -1,5 +1,5 @@
 var React = require('react'),
-    SessionItem = require('./request-session-item-view.js');
+    SessionItem = require('./request-session-item-view.jsx');
 
 module.exports = React.createClass({
     render: function() {

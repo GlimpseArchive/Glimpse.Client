@@ -1,6 +1,6 @@
 var glimpse = require('glimpse'),
     React = require('react'),
-    entryList = require('./request-entry-list-view.js'),
+    entryList = require('./request-entry-list-view.jsx'),
     entryStore = require('../stores/request-entry-store.js');
 
 function allEntryState() {

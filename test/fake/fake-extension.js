@@ -36,7 +36,7 @@ function generateMvc() {
     }
 
     // '/Store/Details/2'
-    for (var i = 0; i < chance.integerRange(10, 15); i++) {
+    for (i = 0; i < chance.integerRange(10, 15); i++) {
         mvc.push({ url: '/Store/Details/' + chance.integerRange(1000, 2000), controller: 'Store', action: 'Details' });
     }
 
@@ -47,7 +47,7 @@ function generateMvc() {
         { url: '/Store/', controller: 'Store', action: 'Index' },
         { url: '/Account/LogOn/', controller: 'Account', action: 'LogOn' }
     ];
-    for (var i = 0; i < chance.integerRange(15, 20); i++) {
+    for (i = 0; i < chance.integerRange(15, 20); i++) {
         mvc.push(standard[chance.integerRange(0, 2)]);
     }
 }
