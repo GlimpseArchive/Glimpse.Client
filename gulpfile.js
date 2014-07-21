@@ -31,7 +31,7 @@ var gulp = require('gulp'),
     },
     defaultSetup = function(config) {
         // Build settings to include source maps and pathinfo
-        //config.devtool = '#inline-source-map';
+        config.devtool = '#inline-source-map';
         config.output.pathinfo = true;
 
         return config;
