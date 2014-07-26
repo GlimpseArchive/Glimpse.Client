@@ -2,3 +2,10 @@
 .temp1 { background-color:purple }
 .temp2 { background-color:blue }
 .temp3 { background-color:green }
+
+.session-offline, .session-online {
+    border-left: 10px solid grey;
+}
+.session-online {
+    border-left-color: green;
+}

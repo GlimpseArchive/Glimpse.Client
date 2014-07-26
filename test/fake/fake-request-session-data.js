@@ -13,8 +13,10 @@ var chance = require('./fake-extension.js'),
     people = chance.pick(peopleMaster, chance.integerRange(3, peopleMaster.length));
 
 function publishSession() {
-    var person = chance.pick(people),
-        item = { id: person.id, title: person.name, url: person.url, count: chance.integerRange(1, 30), last: (chance.integerRange(1, 45) + ' sec ago') };
+    var person = chance.pick(people);
+    person.online = chance.bool({ likelihood : person.online ? 75 : 25 });
+
+    var item = { id: person.id, title: person.name, url: person.url, online: person.online, last: (chance.integerRange(1, 45) + ' sec ago') };
 
     glimpse.emit('data.request.session.update', item);
 
