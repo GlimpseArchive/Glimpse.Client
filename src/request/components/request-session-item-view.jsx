@@ -12,7 +12,6 @@ module.exports = React.createClass({
             requests.push(<div key={request.id}>{request.url}</div>)
         }
 
-
         return (
             <div className="request-session-item-holder" onClick={this._onClick}>
                 <table className={containerClass}>

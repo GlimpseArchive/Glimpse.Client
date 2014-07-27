@@ -39,15 +39,21 @@ function removeSessionRequest(session, request) {
     if (index > -1) {
         session.latestRequests.splice(index, 1);
     }
+
+    notifyDataUpdate(session);
 }
 
-function dataUpdate(rawSession) {
+function handleDataUpdate(rawSession) {
     var session = addSession(rawSession);
 
+    notifyDataUpdate(session);
+}
+
+function notifyDataUpdate(session) {
     glimpse.emit('shell.request.session.changed', session);
 }
 
-glimpse.on('data.request.session.update', dataUpdate);
+glimpse.on('data.request.session.update', handleDataUpdate);
 
 module.exports = {
     getAll: function() {
