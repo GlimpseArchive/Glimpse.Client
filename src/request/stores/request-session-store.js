@@ -26,11 +26,11 @@ function addSessionRequest(rawSession, session) {
     if (rawRequest) {
         var request = {};
         request.id = rawRequest.id;
-        request.url = rawRequest.url
+        request.url = rawRequest.url;
 
-        session.latestRequests.push(request);
+        session.latestRequests.unshift(request);
 
-        setTimeout(function() { console.log(session); removeSessionRequest(session, request); console.log(session); }, 5000);
+        setTimeout(function() { removeSessionRequest(session, request); }, 5000);
     }
 }
 

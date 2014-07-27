@@ -26,7 +26,7 @@ function publishSession() {
     // TODO: Once we switch over to auto online offline this wont be needed
     if (item.online) {
         person.last = (chance.integerRange(1, 45) + ' sec ago');
-        item.request = { id: chance.guid(), url: chance.path };
+        item.request = { id: chance.guid(), url: chance.path() };
     }
     item.last = person.last;
 

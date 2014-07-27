@@ -4,6 +4,15 @@ module.exports = React.createClass({
     render: function() {
         var session = this.props.session,
             containerClass = 'table table-bordered' + (session.online ? ' session-online' : ' session-offline');
+
+        // TODO: temp code only being used to debug atm
+        var requests = [];
+        for (var i = 0; i < session.latestRequests.length; i++) {
+            var request = session.latestRequests[i];
+            requests.push(<div key={request.id}>{request.url}</div>)
+        }
+
+
         return (
             <div className="request-session-item-holder" onClick={this._onClick}>
                 <table className={containerClass}>
@@ -15,6 +24,9 @@ module.exports = React.createClass({
                     </tr>
                     <tr>
                         <td>{session.last}</td>
+                    </tr>
+                    <tr>
+                        <td colSpan="2">{requests}</td>
                     </tr>
                 </table>
             </div>
