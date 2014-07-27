@@ -16,7 +16,19 @@ function publishSession() {
     var person = chance.pick(people);
     person.online = chance.bool({ likelihood : person.online ? 75 : 25 });
 
-    var item = { id: person.id, title: person.name, url: person.url, online: person.online, last: (chance.integerRange(1, 45) + ' sec ago') };
+    var item = {
+        id: person.id,
+        title: person.name,
+        url: person.url,
+        online: person.online,
+        last: ''
+    };
+    // TODO: Once we switch over to auto online offline this wont be needed
+    if (item.online) {
+        person.last = (chance.integerRange(1, 45) + ' sec ago');
+        item.request = { id: chance.guid(), url: chance.path };
+    }
+    item.last = person.last;
 
     glimpse.emit('data.request.session.update', item);
 
