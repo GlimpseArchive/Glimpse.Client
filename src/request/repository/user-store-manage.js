@@ -21,8 +21,12 @@ var glimpse = require('glimpse'),
             userData[currentIndex] = user;
         }
 
-        // no need to do anything but republish
-        glimpse.emit('data.user.entry.found', { allUsers: userData, newUsers: newUsers });
+        var payload = {
+                allUsers: userData,
+                newUsers: newUsers
+            };
+
+        glimpse.emit('data.user.entry.found', payload);
     }
 
     glimpse.on('data.user.entry.found.local', republishFoundEntry);

@@ -9,7 +9,12 @@ var glimpse = require('glimpse'),
         // TODO: This is very naive atm, no sorting or indexing, etc present
         summaryData = summaryData.concat(requests);
 
-        glimpse.emit('data.request.summary.found', { allRequests: summaryData, newRequests: requests });
+        var payload = {
+                allRequests: summaryData, 
+                newRequests: requests
+            };
+
+        glimpse.emit('data.request.summary.found', payload);
     }
 
     // NOTE: the fact that we are listening to both local and remote,
