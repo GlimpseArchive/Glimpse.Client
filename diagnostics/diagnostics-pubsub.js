@@ -11,6 +11,7 @@ new DiagnosticsWireTap({
             space += '    ';
         }
 
-        console.log(space + x.topic, x.data);
+        //console.log(space + x.topic, x.data);
+        console.log(space + x.topic);
     }
 });
