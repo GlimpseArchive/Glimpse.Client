@@ -1,8 +1,9 @@
 var Chance = require('chance'),
     chance = new Chance(),
-    mvc = [],
+    mvcActions = [],
     methods = [ 'GET', 'GET', 'GET', 'GET', 'POST', 'POST', 'POST', 'PUT', 'PUSH', 'DELETE' ],
-    statuses = [ 200, 200, 200, 200, 200, 200, 404, 404, 403, 403, 500, 304 ];
+    statuses = [ 200, 200, 200, 200, 200, 200, 404, 404, 403, 403, 500, 304 ],
+    statusText = { 200: 'OK', 404: 'NOT FOUND', 500: 'SERVER ERROR', 304: 'OK', 403: 'ERROR' };
 
 chance.mixin({
     'integerRange': function(min, max) {
@@ -15,29 +16,37 @@ chance.mixin({
 
         return newTime;
     },
-    'mvc': function() {
-        return chance.pick(mvc);
+    'mvcAction': function() {
+        return chance.pick(mvcActions);
     },
-    'path': function() {
-        return chance.pick(mvc).url;
+    'httpPath': function() {
+        return chance.pick(mvcActions).url;
     },
-    'method': function() {
+    'httpMethod': function() {
         return chance.pick(methods);
     },
-    'status': function() {
-        return chance.pick(statuses);
+    'httpStatus': function() {
+        var code = chance.pick(statuses);
+        return {
+            code: code,
+            text: statusText[code]
+        };
+    },
+    'httpContentType': function() {
+        // TODO: Switch over to weighted random with bias towards html
+        return 'text/html';
     }
 });
 
 function generateMvc() {
     // '/Store/Browse?Genre={Rock}'
     for (var i = 0; i < chance.integerRange(5, 10); i++) {
-        mvc.push({ url: '/Store/Browse?Genre=' + chance.word(), controller: 'Store', action: 'Browse' });
+        mvcActions.push({ url: '/Store/Browse?Genre=' + chance.word(), controller: 'Store', action: 'Browse' });
     }
 
     // '/Store/Details/2'
     for (i = 0; i < chance.integerRange(10, 15); i++) {
-        mvc.push({ url: '/Store/Details/' + chance.integerRange(1000, 2000), controller: 'Store', action: 'Details' });
+        mvcActions.push({ url: '/Store/Details/' + chance.integerRange(1000, 2000), controller: 'Store', action: 'Details' });
     }
 
     // Generate
@@ -48,7 +57,7 @@ function generateMvc() {
         { url: '/Account/LogOn/', controller: 'Account', action: 'LogOn' }
     ];
     for (i = 0; i < chance.integerRange(15, 20); i++) {
-        mvc.push(standard[chance.integerRange(0, 2)]);
+        mvcActions.push(standard[chance.integerRange(0, 2)]);
     }
 }
 generateMvc();

@@ -1,10 +1,14 @@
 'use strict';
 
-require('fake'); // TODO: Don't want to always include this one
+var requestRepository = require('./request/repository/request-repository.js'),
+    sessionRepository = require('./request/repository/user-repository.js');
 
-var shell = require('shell/shell.js'),
-    request = require('request/request.js');
+// TODO: Don't want to always include these
+require('diagnostics');
+require('fake');
+
+var shell = require('shell/shell.js');
+
+require('request/request.js');
 
 shell.initialize();
-
-console.log(request);

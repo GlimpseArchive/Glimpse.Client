@@ -9,17 +9,17 @@ module.exports = React.createClass({
                     <tr>
                         <td rowSpan="2">{entry.duration}ms</td>
                         <td colSpan="7">
-                            {entry.url} &nbsp; {entry.method} &nbsp; {entry.status}
+                            {entry.uri} &nbsp; {entry.method} &nbsp; {entry.statusCode} ({entry.statusText}) - {entry.contentType}
                         </td>
                     </tr>
                     <tr>
-                        <td>{entry.networkTime}ms</td>
-                        <td>{entry.serverTime}ms</td>
-                        <td>{entry.clientTime}ms</td>
-                        <td>{entry.controller}.{entry.action}(...)</td>
-                        <td>{entry.actionTime}ms</td>
-                        <td>{entry.viewTime}ms</td>
-                        <td>{entry.queryTime}ms / {entry.queryCount}</td>
+                        <td>{entry.summary.networkTime}ms</td>
+                        <td>{entry.summary.serverTime}ms</td>
+                        <td>{entry.summary.clientTime}ms</td>
+                        <td>{entry.summary.controller}.{entry.action}(...)</td>
+                        <td>{entry.summary.actionTime}ms</td>
+                        <td>{entry.summary.viewTime}ms</td>
+                        <td>{entry.summary.queryTime}ms / {entry.summary.queryCount}</td>
                     </tr>
                 </table>
             </div>

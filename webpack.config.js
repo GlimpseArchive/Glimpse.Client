@@ -13,7 +13,9 @@ module.exports = {
 			'glimpse': path.resolve(__dirname, './src/glimpse.js'),
             'shell': path.resolve(__dirname, './src/shell'),
             'request': path.resolve(__dirname, './src/request'),
-            'fake': path.resolve(__dirname, './test/fake/fake-data.js')
+            'fake': path.resolve(__dirname, './fake/fake.js'),
+            'diagnostics': path.resolve(__dirname, './diagnostics/diagnostics.js'),
+            'postal': 'postal.js'
 		}
 	},
     module: {
@@ -23,7 +25,7 @@ module.exports = {
             { test: /\.jsx$/, loader: 'jsx-loader?insertPragma=React.DOM' }
         ],
         preLoaders: [
-            { test: /\.js$/, loader: 'jshint-loader', exclude: /node_modules|bower_components/ }
+            //{ test: /\.js$/, loader: 'jshint-loader', exclude: /node_modules|bower_components/ }
         ]
     },
     plugins: [

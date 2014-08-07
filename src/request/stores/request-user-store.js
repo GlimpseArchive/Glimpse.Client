@@ -1,4 +1,40 @@
 var glimpse = require('glimpse'),
+    _users = [];
+
+(function() {
+    function dataFound(payload) {
+        _users = payload.allUsers;
+
+        glimpse.emit('shell.request.user.entry.changed', _users);
+    }
+
+    // External data coming in
+    glimpse.on('data.user.entry.found', dataFound);
+})();
+
+/*
+// TODO: Need to see if this is needed
+module.exports = {
+    getAll: function() {
+        return _users;
+    }
+};
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+var glimpse = require('glimpse'),
     _sessions = {};
 
 function addSession(rawSession) {
@@ -60,3 +96,4 @@ module.exports = {
         return _sessions;
     }
 };
+*/

@@ -1,20 +1,22 @@
+require('../stores/request-entry-store.js');
+
 var glimpse = require('glimpse'),
     React = require('react'),
-    entryList = require('./request-entry-list-view.jsx'),
-    entryStore = require('../stores/request-entry-store.js');
+    entryList = require('./request-entry-list-view.jsx');
 
-function allEntryState() {
+function getState(allEntries) {
     return {
-        allEntries: entryStore.getAllFor(1111111) // TODO: Need to update here
+        allEntries: allEntries || []
     };
 }
 
 module.exports = React.createClass({
     getInitialState: function() {
-        return allEntryState();
+        return getState();
     },
+    // TODO: Get rid of this boiler plate code via a mixin
     componentDidMount: function() {
-        this._entryChangedOn = glimpse.on('shell.request.entry.changed', this._entryChanged);
+        this._entryChangedOn = glimpse.on('shell.request.summary.changed', this._entryChanged);
     },
     componentWillUnmount: function() {
         glimpse.off(this._entryChangedOn);
@@ -27,7 +29,7 @@ module.exports = React.createClass({
             </div>
         );
     },
-    _entryChanged: function() {
-        this.setState(allEntryState());
+    _entryChanged: function(allEntries) {
+        this.setState(getState(allEntries));
     }
 });
