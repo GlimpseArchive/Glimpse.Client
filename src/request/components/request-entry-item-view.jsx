@@ -16,7 +16,7 @@ module.exports = React.createClass({
                         <td>{entry.summary.networkTime}ms</td>
                         <td>{entry.summary.serverTime}ms</td>
                         <td>{entry.summary.clientTime}ms</td>
-                        <td>{entry.summary.controller}.{entry.action}(...)</td>
+                        <td>{entry.summary.controller}.{entry.summary.action}(...)</td>
                         <td>{entry.summary.actionTime}ms</td>
                         <td>{entry.summary.viewTime}ms</td>
                         <td>{entry.summary.queryTime}ms / {entry.summary.queryCount}</td>
