@@ -13,7 +13,7 @@ module.exports = React.createClass({
     },
     render: function() {
         return (
-            <div className="application-holder hjhjh">
+            <div className="application-holder">
                 {this.props.applications}
             </div>
         );
