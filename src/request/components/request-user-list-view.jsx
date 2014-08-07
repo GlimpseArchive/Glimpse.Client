@@ -1,18 +1,20 @@
 var React = require('react'),
+    ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
     UserItem = require('./request-user-item-view.jsx');
 
 module.exports = React.createClass({
     render: function() {
         var users = this.props.allUsers.map(function(user, i) {
                 return <UserItem key={user.id} user={user} />;
-            });
-        if (users.length == 0) {
-            users = <em>No found users.</em>;
-        }
+            }),
+            message = (users.length === 0) ? <em>No found users.</em> : '';
 
         return (
             <div className="request-user-list-holder">
-                {users}
+                <ReactCSSTransitionGroup component={React.DOM.div} transitionName="request-user-item-holder" transitionLeave={false}>
+                    {users}
+                </ReactCSSTransitionGroup>
+                {message}
             </div>
         );
     }
