@@ -1,9 +1,48 @@
 var glimpse = require('glimpse'),
-    _users = [];
+    _users = {};
 
 (function() {
+    function addRequest(user, rawRequest) {
+        if (rawRequest) {
+            var request = {
+                    id: rawRequest.id,
+                    uri: rawRequest.uri
+                };
+
+            user.latestRequests.unshift(request);
+
+            setTimeout(function() { removeRequest(user, request); }, 5000);
+        }
+    }
+
+    function removeRequest(user, request) {
+        var index = user.latestRequests.indexOf(request);
+        if (index > -1) {
+            user.latestRequests.splice(index, 1);
+        }
+
+        glimpse.emit('shell.request.user.entry.changed', _users);
+    }
+
     function dataFound(payload) {
-        _users = payload.allUsers;
+        // TODO: This needs to be cleaned up bit messy atm but will do
+        var rawRequests = payload.newRequests;
+        for (var i = 0; i < rawRequests.length; i++) {
+            var rawRequest = rawRequests[i],
+                rawUser = rawRequest.user,
+                user = _users[rawUser.id];
+
+            if (user === undefined) {
+                user = {
+                        details: rawUser,
+                        latestRequests: []
+                    };
+
+                _users[rawUser.id] = user;
+            }
+
+            addRequest(user, rawRequest);
+        }
 
         glimpse.emit('shell.request.user.entry.changed', _users);
     }
@@ -35,65 +74,65 @@ module.exports = {
 
 /*
 var glimpse = require('glimpse'),
-    _sessions = {};
+    _users = {};
 
 function addSession(rawSession) {
-    var session = _sessions[rawSession.id];
-    if (!session) {
-        session = {};
-        session.id = rawSession.id;
-        session.latestRequests = [];
+    var user = _users[rawSession.id];
+    if (!user) {
+        user = {};
+        user.id = rawSession.id;
+        user.latestRequests = [];
 
-        _sessions[session.id] = session;
+        _users[user.id] = user;
     }
 
-    session.title = rawSession.title;
-    session.url = rawSession.url;
-    session.online = rawSession.online;
-    session.last = rawSession.last;
+    user.title = rawSession.title;
+    user.url = rawSession.url;
+    user.online = rawSession.online;
+    user.last = rawSession.last;
 
-    addSessionRequest(rawSession, session);
+    addSessionRequest(rawSession, user);
 
-    return session;
+    return user;
 }
 
-function addSessionRequest(rawSession, session) {
+function addSessionRequest(rawSession, user) {
     var rawRequest = rawSession.request;
     if (rawRequest) {
         var request = {};
         request.id = rawRequest.id;
         request.url = rawRequest.url;
 
-        session.latestRequests.unshift(request);
+        user.latestRequests.unshift(request);
 
-        setTimeout(function() { removeSessionRequest(session, request); }, 5000);
+        setTimeout(function() { removeSessionRequest(user, request); }, 5000);
     }
 }
 
-function removeSessionRequest(session, request) {
-    var index = session.latestRequests.indexOf(request);
+function removeSessionRequest(user, request) {
+    var index = user.latestRequests.indexOf(request);
     if (index > -1) {
-        session.latestRequests.splice(index, 1);
+        user.latestRequests.splice(index, 1);
     }
 
-    notifyDataUpdate(session);
+    notifyDataUpdate(user);
 }
 
 function handleDataUpdate(rawSession) {
-    var session = addSession(rawSession);
+    var user = addSession(rawSession);
 
-    notifyDataUpdate(session);
+    notifyDataUpdate(user);
 }
 
-function notifyDataUpdate(session) {
-    glimpse.emit('shell.request.session.changed', session);
+function notifyDataUpdate(user) {
+    glimpse.emit('shell.request.user.changed', user);
 }
 
-glimpse.on('data.request.session.update', handleDataUpdate);
+glimpse.on('data.request.user.update', handleDataUpdate);
 
 module.exports = {
     getAll: function() {
-        return _sessions;
+        return _users;
     }
 };
 */

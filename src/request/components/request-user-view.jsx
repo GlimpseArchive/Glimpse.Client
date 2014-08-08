@@ -6,7 +6,7 @@ var glimpse = require('glimpse'),
 
 function getState(allUsers) {
     return {
-        allUsers: allUsers || []
+        allUsers: allUsers || {}
     };
 }
 

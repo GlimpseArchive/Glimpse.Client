@@ -23,7 +23,8 @@ var glimpse = require('glimpse'),
 
         var payload = {
                 allUsers: userData,
-                newUsers: newUsers
+                newUsers: newUsers,
+                newRequests: requests
             };
 
         glimpse.emit('data.user.entry.found', payload);

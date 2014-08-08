@@ -2,16 +2,22 @@ var React = require('react');
 
 module.exports = React.createClass({
     render: function() {
-        var user = this.props.user;
+        var user = this.props.user,
+            requests = user.latestRequests.map(function(request, i) {
+                return <div key={request.id}>{request.uri}</div>;
+            });
 
         return (
             <div className="request-user-item-holder" onClick={this._onClick}>
                 <table className="table table-bordered">
                     <tr>
                         <td width="50">
-                            <img src={user.avatarUrl} width="40" />
+                            <img src={user.details.avatarUrl} width="40" />
                         </td>
-                        <td>{user.name}</td>
+                        <td>{user.details.name}</td>
+                    </tr>
+                    <tr>
+                        <td colSpan="2">{requests}</td>
                     </tr>
                 </table>
             </div>
@@ -28,17 +34,13 @@ module.exports = React.createClass({
 // TODO: temp code only being used to debug atm
 /*
 
-<tr>
-    <td>{user.last}</td>
-</tr>
+
 
 className={containerClass}
 
     containerClass = 'table table-bordered' + (user.online ? ' user-online' : ' user-offline')
 
-var requests = user.latestRequests.map(function(request, i) {
-    return <div key={request.id}>{request.url}</div>;
-});
+
 
 <tr>
     <td colSpan="2">{requests}</td>

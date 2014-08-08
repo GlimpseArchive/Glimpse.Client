@@ -4,10 +4,14 @@ var React = require('react'),
 
 module.exports = React.createClass({
     render: function() {
-        var users = this.props.allUsers.map(function(user, i) {
-                return <UserItem key={user.id} user={user} />;
-            }),
-            message = (users.length === 0) ? <em>No found users.</em> : '';
+        var users = [];
+        for (var key in this.props.allUsers) {
+           var user = this.props.allUsers[key];
+
+           users.push(<UserItem key={user.id} user={user} />);
+        }
+
+        var message = (users.length === 0) ? <em>No found users.</em> : '';
 
         return (
             <div className="request-user-list-holder">
