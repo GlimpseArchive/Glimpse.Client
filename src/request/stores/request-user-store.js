@@ -2,27 +2,51 @@ var glimpse = require('glimpse'),
     _users = {};
 
 (function() {
-    function addRequest(user, rawRequest) {
-        if (rawRequest) {
-            var request = {
-                    id: rawRequest.id,
-                    uri: rawRequest.uri
-                };
+    // TODO: Need to update to make sure it can work with out of order/old
+    //       requests coming in.
+    // TODO: Timeouts should probably come from config
+    // TODO: Should probably be abstracted out into its own module
+    var manageRequest = (function() {
+            function removeRequest(user, request) {
+                var index = user.latestRequests.indexOf(request);
+                if (index > -1) {
+                    user.latestRequests.splice(index, 1);
+                }
 
-            user.latestRequests.unshift(request);
+                glimpse.emit('shell.request.user.entry.changed', _users);
+            }
 
-            setTimeout(function() { removeRequest(user, request); }, 5000);
-        }
-    }
+            return function(user, rawRequest) {
+                if (rawRequest) {
+                    var request = {
+                            id: rawRequest.id,
+                            uri: rawRequest.uri
+                        };
 
-    function removeRequest(user, request) {
-        var index = user.latestRequests.indexOf(request);
-        if (index > -1) {
-            user.latestRequests.splice(index, 1);
-        }
+                    user.latestRequests.unshift(request);
 
-        glimpse.emit('shell.request.user.entry.changed', _users);
-    }
+                    setTimeout(function() { removeRequest(user, request); }, 5000);
+                }
+            };
+        })(),
+        manageOnline = (function() {
+            function setOffline(user) {
+                user.online = false;
+
+                glimpse.emit('shell.request.user.entry.changed', _users);
+            }
+
+            return function(user, rawRequest) {
+                user.lastActive = rawRequest.dateTime;
+                user.online = true;
+
+                if (user.onlineCallback) {
+                    clearTimeout(user.onlineCallback);
+                }
+
+                user.onlineCallback = setTimeout(function() { setOffline(user); }, 12000);
+            };
+        })();
 
     function dataFound(payload) {
         // TODO: This needs to be cleaned up bit messy atm but will do
@@ -41,7 +65,8 @@ var glimpse = require('glimpse'),
                 _users[rawUser.id] = user;
             }
 
-            addRequest(user, rawRequest);
+            manageRequest(user, rawRequest);
+            manageOnline(user, rawRequest);
         }
 
         glimpse.emit('shell.request.user.entry.changed', _users);
@@ -53,83 +78,6 @@ var glimpse = require('glimpse'),
 
 /*
 // TODO: Need to see if this is needed
-module.exports = {
-    getAll: function() {
-        return _users;
-    }
-};
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-var glimpse = require('glimpse'),
-    _users = {};
-
-function addSession(rawSession) {
-    var user = _users[rawSession.id];
-    if (!user) {
-        user = {};
-        user.id = rawSession.id;
-        user.latestRequests = [];
-
-        _users[user.id] = user;
-    }
-
-    user.title = rawSession.title;
-    user.url = rawSession.url;
-    user.online = rawSession.online;
-    user.last = rawSession.last;
-
-    addSessionRequest(rawSession, user);
-
-    return user;
-}
-
-function addSessionRequest(rawSession, user) {
-    var rawRequest = rawSession.request;
-    if (rawRequest) {
-        var request = {};
-        request.id = rawRequest.id;
-        request.url = rawRequest.url;
-
-        user.latestRequests.unshift(request);
-
-        setTimeout(function() { removeSessionRequest(user, request); }, 5000);
-    }
-}
-
-function removeSessionRequest(user, request) {
-    var index = user.latestRequests.indexOf(request);
-    if (index > -1) {
-        user.latestRequests.splice(index, 1);
-    }
-
-    notifyDataUpdate(user);
-}
-
-function handleDataUpdate(rawSession) {
-    var user = addSession(rawSession);
-
-    notifyDataUpdate(user);
-}
-
-function notifyDataUpdate(user) {
-    glimpse.emit('shell.request.user.changed', user);
-}
-
-glimpse.on('data.request.user.update', handleDataUpdate);
-
 module.exports = {
     getAll: function() {
         return _users;
