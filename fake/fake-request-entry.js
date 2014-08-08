@@ -1,5 +1,6 @@
 var chance = require('./fake-extension.js'),
-    fakeSession = require('./fake-request-user.js');
+    fakeSession = require('./fake-request-user.js'),
+    moment = require('moment');
 
 function pick() {
     var mvcAction = chance.mvcAction(),
@@ -32,7 +33,7 @@ function pick() {
         request = {
             id: chance.guid(),
             uri: mvcAction.url,
-            dateTime: new Date().toString(),
+            dateTime: moment().toISOString(),
             duration: clientTime + serverTime + networkTime,
             method: chance.httpMethod(),
             contentType: chance.httpContentType(),

@@ -1,16 +1,16 @@
 var glimpse = require('glimpse'),
     chance = require('./fake-extension.js'),
+    moment = require('moment'),
     fakeRequest = require('./fake-request-entry.js'),
     maxEvents = chance.integerRange(25, 35),
     numLocal = maxEvents * 0.25,
-    numRemote = maxEvents * 0.3,
-    numStream = maxEvents - numLocal - numRemote;
+    numRemote = maxEvents * 0.3;
 
 function subtractSeconds(seconds) {
     var date = new Date(),
         value = seconds * 1000;
 
-    return new Date(date.setTime(date.getTime() - value)).toString();
+    return moment(date.setTime(date.getTime() - value)).toISOString();  // new Date(date.setTime(date.getTime() - value)).toString();
 }
 
 function generateBatch(num, event, dateTimeOffet) {
