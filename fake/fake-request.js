@@ -17,7 +17,7 @@ function generateBatch(num, event, dateTimeOffet) {
     var results = [];
 
     for (var i = 0; i < num; i++) {
-        dateTimeOffet += chance.integerRange(30, 300);
+        dateTimeOffet -= chance.integerRange(30, 300);
 
         var request = fakeRequest.pickRequest();
         request.dateTime = subtractSeconds(dateTimeOffet);

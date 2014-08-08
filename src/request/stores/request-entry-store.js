@@ -4,7 +4,7 @@ var glimpse = require('glimpse'),
 (function() {
     function dataFound(payload) {
         // TODO: Really bad hack to get things going atm
-        _requests = payload.allRequests.concat([]).reverse();
+        _requests = payload.allRequests;
 
         glimpse.emit('shell.request.summary.changed', _requests);
     }

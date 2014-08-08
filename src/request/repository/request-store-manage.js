@@ -7,10 +7,12 @@ var glimpse = require('glimpse'),
 (function() {
     function republishFoundSummary(requests) {
         // TODO: This is very naive atm, no sorting or indexing, etc present
-        summaryData = summaryData.concat(requests);
+        for (var i = requests.length - 1; i >= 0; i--) {
+            summaryData.unshift(requests[i]);
+        }
 
         var payload = {
-                allRequests: summaryData, 
+                allRequests: summaryData,
                 newRequests: requests
             };
 
