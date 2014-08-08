@@ -51,7 +51,7 @@ var glimpse = require('glimpse'),
     function dataFound(payload) {
         // TODO: This needs to be cleaned up bit messy atm but will do
         var rawRequests = payload.newRequests;
-        for (var i = 0; i < rawRequests.length; i++) {
+        for (var i = rawRequests.length - 1; i >= 0; i--) {
             var rawRequest = rawRequests[i],
                 rawUser = rawRequest.user,
                 user = _users[rawUser.id];
