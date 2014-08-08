@@ -16,7 +16,8 @@ module.exports = {
             'fake': path.resolve(__dirname, './fake/fake.js'),
             'diagnostics': path.resolve(__dirname, './diagnostics/diagnostics.js'),
             'postal': 'postal.js',
-            'react': path.resolve(__dirname, './bower_components/react/react-with-addons.js')
+            'react': path.resolve(__dirname, './bower_components/react/react-with-addons.js'),
+            'moment': path.resolve(__dirname, './bower_components/moment/min/moment.min.js')
 		}
 	},
     module: {
