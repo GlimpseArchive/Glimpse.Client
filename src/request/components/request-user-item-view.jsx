@@ -1,4 +1,5 @@
-var React = require('react');
+var React = require('react'),
+    Timeago = require('../../lib/components/timeago.jsx')
 
 module.exports = React.createClass({
     render: function() {
