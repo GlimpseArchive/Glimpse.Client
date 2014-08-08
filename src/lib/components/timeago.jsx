@@ -5,7 +5,7 @@ var React = require('react'),
 module.exports = React.createClass({
     mixins: [ SetIntervalMixin ],
     render: function() {
-        return <span>{moment(this.props.time).fromNow()}</span>;
+        return <span title={moment(this.props.time).format('MMM Do YYYY, h:mm:ss a')}>{moment(this.props.time).fromNow()}</span>;
     },
     componentDidMount: function() {
         var interval = this.props.time || 60000;
