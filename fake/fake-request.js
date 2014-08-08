@@ -10,14 +10,15 @@ function subtractSeconds(seconds) {
     var date = new Date(),
         value = seconds * 1000;
 
-    return moment(date.setTime(date.getTime() - value)).toISOString();  // new Date(date.setTime(date.getTime() - value)).toString();
+    return moment(date.setTime(date.getTime() + value)).toISOString();  // new Date(date.setTime(date.getTime() - value)).toString();
 }
 
 function generateBatch(num, event, dateTimeOffet) {
     var results = [];
-
+console.log(event);
     for (var i = 0; i < num; i++) {
         dateTimeOffet -= chance.integerRange(30, 300);
+    console.log(dateTimeOffet);
 
         var request = fakeRequest.pickRequest();
         request.dateTime = subtractSeconds(dateTimeOffet);
@@ -30,12 +31,12 @@ function generateBatch(num, event, dateTimeOffet) {
 
 function generateLocal() {
     // simulate requests happening more than a day ago
-    generateBatch(numLocal, 'local', 25 * 60 * 60);
+    generateBatch(numLocal, 'local', 25 * 60 * 60 * -1);
 }
 
 function generateRemote() {
     // simulate requests happeing more than 10 seconds ago
-    generateBatch(numRemote, 'remote', 10);
+    generateBatch(numRemote, 'remote', 10 * -1);
 }
 
 function generateStream(position) {
