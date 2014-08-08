@@ -12,10 +12,13 @@ module.exports = React.createClass({
             <div className="request-user-item-holder" onClick={this._onClick}>
                 <table className={containerClass}>
                     <tr>
-                        <td width="50">
+                        <td width="50" rowSpan="2">
                             <img src={user.details.avatarUrl} width="40" />
                         </td>
                         <td>{user.details.name}</td>
+                    </tr>
+                    <tr>
+                        <td colSpan="2"><Timeago time={user.lastActive} /></td>
                     </tr>
                     <tr>
                         <td colSpan="2">{requests}</td>
