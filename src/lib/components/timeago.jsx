@@ -9,7 +9,7 @@ module.exports = React.createClass({
     },
     componentDidMount: function() {
         var interval = this.props.time || 60000;
-        
+
         this.setInterval(this.forceUpdate.bind(this), interval);
     }
 });
