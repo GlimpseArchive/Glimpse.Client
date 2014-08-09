@@ -10,6 +10,10 @@
     border-left-color: green;
 }
 
+.user-shell-selected {
+    background-color: #f0f7fd;
+}
+
 .request-entry-item-holder-enter, .request-user-item-holder-enter {
     background-color: #F8F5EC;
     transition: background-color .5s ease-in;

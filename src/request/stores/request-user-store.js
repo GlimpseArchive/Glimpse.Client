@@ -1,5 +1,34 @@
 var glimpse = require('glimpse'),
-    _users = {};
+    _users = {},
+    _userSelected = null;
+
+function usersChanged() {
+    glimpse.emit('shell.request.user.entry.changed', _users);
+}
+
+(function() {
+    function userSwitch(payload) {
+        var userId = payload.userId,
+            oldUserId = _userSelected,
+            user = _users[userId];
+
+        if (oldUserId) {
+            var oldUser = _users[oldUserId];
+            if (oldUser) {
+                oldUser.selected = false;
+            }
+        }
+        if (user) {
+            user.selected = true;
+        }
+
+        _userSelected = userId;
+
+        usersChanged();
+    }
+
+    glimpse.on('shell.request.user.selected', userSwitch);
+})();
 
 (function() {
     // TODO: Need to update to make sure it can work with out of order/old
@@ -13,7 +42,7 @@ var glimpse = require('glimpse'),
                     user.latestRequests.splice(index, 1);
                 }
 
-                glimpse.emit('shell.request.user.entry.changed', _users);
+                usersChanged();
             }
 
             return function(user, rawRequest) {
@@ -33,7 +62,7 @@ var glimpse = require('glimpse'),
             function setOffline(user) {
                 user.online = false;
 
-                glimpse.emit('shell.request.user.entry.changed', _users);
+                usersChanged();
             }
 
             return function(user, rawRequest) {
@@ -48,6 +77,16 @@ var glimpse = require('glimpse'),
             };
         })();
 
+    function createUser(rawUser) {
+        return {
+                details: rawUser,
+                latestRequests: [],
+                lastActive: null,
+                online: true,
+                selected: false
+            };
+    }
+
     function dataFound(payload) {
         // TODO: This needs to be cleaned up bit messy atm but will do
         var rawRequests = payload.newRequests;
@@ -57,11 +96,7 @@ var glimpse = require('glimpse'),
                 user = _users[rawUser.id];
 
             if (user === undefined) {
-                user = {
-                        details: rawUser,
-                        latestRequests: []
-                    };
-
+                user = createUser(rawUser);
                 _users[rawUser.id] = user;
             }
 
@@ -69,7 +104,7 @@ var glimpse = require('glimpse'),
             manageOnline(user, rawRequest);
         }
 
-        glimpse.emit('shell.request.user.entry.changed', _users);
+        usersChanged();
     }
 
     // External data coming in

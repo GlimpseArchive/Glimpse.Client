@@ -8,7 +8,8 @@ module.exports = React.createClass({
         var user = this.props.user,
             containerClass = cx({
                 'table table-bordered user-status': true,
-                'user-status-online': user.online
+                'user-status-online': user.online,
+                'user-shell-selected': user.selected
             }),
             requests = user.latestRequests.map(function(request, i) {
                 return <div key={request.id}>{request.uri}</div>;
