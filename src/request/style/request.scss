@@ -3,10 +3,10 @@
 .temp2 { background-color:blue }
 .temp3 { background-color:green }
 
-.user-offline, .user-online {
+.user-status {
     border-left: 10px solid grey;
 }
-.user-online {
+.user-status.user-status-online {
     border-left-color: green;
 }
 

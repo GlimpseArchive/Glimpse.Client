@@ -1,10 +1,14 @@
 var React = require('react'),
-    Timeago = require('../../lib/components/timeago.jsx');
+    Timeago = require('../../lib/components/timeago.jsx'),
+    cx = React.addons.classSet;
 
 module.exports = React.createClass({
     render: function() {
         var user = this.props.user,
-            containerClass = 'table table-bordered' + (user.online ? ' user-online' : ' user-offline'),
+            containerClass = cx({
+                'table table-bordered user-status': true,
+                'user-status-online': user.online
+            }),
             requests = user.latestRequests.map(function(request, i) {
                 return <div key={request.id}>{request.uri}</div>;
             });
@@ -29,7 +33,8 @@ module.exports = React.createClass({
         );
     },
     _onClick: function() {
-        console.log(' - ', this.props.user.id);
+
+        console.log(' - ', this.props.user.details.id);
     }
 });
 
