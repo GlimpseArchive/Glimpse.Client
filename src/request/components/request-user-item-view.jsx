@@ -1,4 +1,5 @@
-var React = require('react'),
+var glimpse = require('glimpse'),
+    React = require('react'),
     Timeago = require('../../lib/components/timeago.jsx'),
     cx = React.addons.classSet;
 
@@ -33,8 +34,7 @@ module.exports = React.createClass({
         );
     },
     _onClick: function() {
-
-        console.log(' - ', this.props.user.details.id);
+        glimpse.emit('shell.request.user.selected', { userId: this.props.user.details.id });
     }
 });
 
