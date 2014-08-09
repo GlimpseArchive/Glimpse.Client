@@ -15,10 +15,9 @@ function subtractSeconds(seconds) {
 
 function generateBatch(num, event, dateTimeOffet) {
     var results = [];
-console.log(event);
+
     for (var i = 0; i < num; i++) {
         dateTimeOffet -= chance.integerRange(30, 300);
-    console.log(dateTimeOffet);
 
         var request = fakeRequest.pickRequest();
         request.dateTime = subtractSeconds(dateTimeOffet);
