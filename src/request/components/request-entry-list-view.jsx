@@ -11,7 +11,7 @@ module.exports = React.createClass({
 
         return (
             <div className="request-entry-list-holder">
-                <ReactCSSTransitionGroup component={React.DOM.div} transitionName="request-entry-item-holder" transitionLeave={false}>
+                <ReactCSSTransitionGroup component={React.DOM.div} transitionName="request-entry-item-holder">
                     {entries}
                 </ReactCSSTransitionGroup>
                 {message}
