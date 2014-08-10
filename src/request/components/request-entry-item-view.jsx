@@ -8,13 +8,14 @@ module.exports = React.createClass({
             <div className="request-entry-item-holder">
                 <table className="table table-bordered">
                     <tr>
-                        <td rowSpan="2">{entry.duration}ms</td>
+                        <td>{entry.duration}ms</td>
                         <td colSpan="6">
                             {entry.uri} &nbsp; {entry.method} &nbsp; {entry.statusCode} ({entry.statusText}) - {entry.contentType}
                         </td>
                         <td><Timeago time={entry.dateTime} /></td>
                     </tr>
                     <tr>
+                        <td>{entry.user.name}</td>
                         <td>{entry.summary.networkTime}ms</td>
                         <td>{entry.summary.serverTime}ms</td>
                         <td>{entry.summary.clientTime}ms</td>
