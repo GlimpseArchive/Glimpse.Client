@@ -1,12 +1,12 @@
-require('../stores/request-user-store.js');
-
 var glimpse = require('glimpse'),
     React = require('react'),
-    UserList = require('./request-user-list-view.jsx');
+    UserList = require('./request-user-list-view.jsx'),
+    userStore = require('../stores/request-user-store.js');
 
 function getState(allUsers) {
     return {
-        allUsers: allUsers || {}
+        allUsers: allUsers || {},
+        selectedUserId: userStore.getSelectedUserId()
     };
 }
 
@@ -22,14 +22,20 @@ module.exports = React.createClass({
         glimpse.off(this._userChangedOn);
     },
     render: function() {
+        var clear = this.state.selectedUserId ? <input type="button" value="Clear Selection" onClick={this._onClearSelection} /> : null;
+
         return (
             <div className="request-user-holder">
                 <h2>Users</h2>
+                {clear}
                 <UserList allUsers={this.state.allUsers} />
             </div>
         );
     },
     _userChanged: function(allUsers) {
         this.setState(getState(allUsers));
+    },
+    _onClearSelection: function() {
+        glimpse.emit('shell.request.user.clear.selected', {});
     }
 });

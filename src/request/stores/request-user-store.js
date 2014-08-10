@@ -111,11 +111,8 @@ function usersChanged() {
     glimpse.on('data.user.entry.found', dataFound);
 })();
 
-/*
-// TODO: Need to see if this is needed
 module.exports = {
-    getAll: function() {
-        return _users;
+    getSelectedUserId: function() {
+        return _userSelected;
     }
 };
-*/
