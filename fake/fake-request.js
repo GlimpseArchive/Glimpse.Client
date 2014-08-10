@@ -59,12 +59,12 @@ function generate() {
     // simulate messages from remote
     setTimeout(function() {
         generateRemote();
-    }, chance.integerRange(1000, 1500));
+    }, chance.integerRange(2000, 2500));
 
     // simulate messages from stream
     setTimeout(function() {
         generateStream(0);
-    }, chance.integerRange(1000, 5000));
+    }, chance.integerRange(4000, 6000));
 }
 
 generate();
