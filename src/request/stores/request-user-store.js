@@ -3,8 +3,22 @@ var glimpse = require('glimpse'),
     _userSelected = null;
 
 function usersChanged() {
-    glimpse.emit('shell.request.user.entry.changed', _users);
+    glimpse.emit('shell.request.user.entry.changed', {
+            allUsers: _users,
+            selectedUserId: _userSelected
+        });
 }
+
+(function() {
+    function userClear() {
+        _users[_userSelected].selected = false;
+        _userSelected = null;
+
+        usersChanged();
+    }
+
+    glimpse.on('shell.request.user.clear.selected', userClear);
+})();
 
 (function() {
     function userSwitch(payload) {
@@ -110,9 +124,3 @@ function usersChanged() {
     // External data coming in
     glimpse.on('data.user.entry.found', dataFound);
 })();
-
-module.exports = {
-    getSelectedUserId: function() {
-        return _userSelected;
-    }
-};

@@ -1,12 +1,13 @@
+require('../stores/request-user-store.js');
+
 var glimpse = require('glimpse'),
     React = require('react'),
-    UserList = require('./request-user-list-view.jsx'),
-    userStore = require('../stores/request-user-store.js');
+    UserList = require('./request-user-list-view.jsx');
 
-function getState(allUsers) {
+function getState(payload) {
     return {
-        allUsers: allUsers || {},
-        selectedUserId: userStore.getSelectedUserId()
+        allUsers: (payload && payload.allUsers) ? payload.allUsers : {},
+        selectedUserId: (payload && payload.selectedUserId) ? payload.selectedUserId : null
     };
 }
 
