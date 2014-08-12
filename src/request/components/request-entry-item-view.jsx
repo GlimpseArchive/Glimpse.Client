@@ -8,7 +8,7 @@ module.exports = React.createClass({
             <div className="request-entry-item-holder">
                 <table className="table table-bordered">
                     <tr>
-                        <td>{entry.duration}ms</td>
+                        <td width="90">{entry.duration}ms</td>
                         <td colSpan="6">
                             {entry.uri} &nbsp; {entry.method} &nbsp; {entry.statusCode} ({entry.statusText}) - {entry.contentType}
                         </td>
