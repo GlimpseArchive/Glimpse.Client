@@ -53,6 +53,16 @@ var filterRequests = (function() {
     })();
 
 (function() {
+    function userClear() {
+        _filters.userId = null;
+
+        filterRequests(_requests, null, true);
+    }
+
+    glimpse.on('shell.request.user.clear.selected', userClear);
+})();
+
+(function() {
     function userSwitch(payload) {
         _filters.userId = payload.userId;
 
