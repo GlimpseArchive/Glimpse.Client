@@ -1,6 +1,6 @@
 var React = require('react'),
     ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
-    UserItem = require('./request-user-item-view.jsx');
+    UserItem = require('./request-user-list-item-view.jsx');
 
 module.exports = React.createClass({
     render: function() {

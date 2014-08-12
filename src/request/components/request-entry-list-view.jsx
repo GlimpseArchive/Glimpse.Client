@@ -1,6 +1,6 @@
 var React = require('react'),
     ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
-    EntryItem = require('./request-entry-item-view.jsx');
+    EntryItem = require('./request-entry-list-item-view.jsx');
 
 module.exports = React.createClass({
     render: function() {
