@@ -34,10 +34,17 @@ module.exports = React.createClass({
                     <input type="text" id="request-fitler-statusCode" valueLink={this.linkState('statusCode')} />
                 </div><br />
                 <input type="button" value="Filter" onClick={this._onFilter} />
+                <input type="button" value="Clear" onClick={this._onClear} />
             </div>
         );
     },
     _onFilter: function() {
-        glimpse.emit('shell.request.filter.updated', this.state);    
+        glimpse.emit('shell.request.filter.updated', this.state);
+    },
+    _onClear: function() {
+        var resetState = this.getInitialState();
+        this.setState(resetState);
+
+        glimpse.emit('shell.request.filter.updated', resetState);
     }
 });
