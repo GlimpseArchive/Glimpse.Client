@@ -11,10 +11,10 @@ module.exports = React.createClass({
                 <div className="col-md-2 request-user-holder-outer">
                     <User />
                 </div>
-                <div className="col-md-7 request-entry-holder-outer">
+                <div className="col-md-8 request-entry-holder-outer">
                     <Entry />
                 </div>
-                <div className="col-md-3 request-filter-holder-outer">
+                <div className="col-md-2 request-filter-holder-outer">
                     <Filter />
                 </div>
             </div>
