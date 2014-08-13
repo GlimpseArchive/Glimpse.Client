@@ -1,4 +1,5 @@
 var glimpse = require('glimpse'),
+    requestRepository = require('../repository/request-repository.js'),
     _requests = [],
     _filteredRequests = [],
     _filters = {};
@@ -134,12 +135,12 @@ var filterRequests = (function() {
     glimpse.on('data.request.summary.found', dataFound);
 })();
 
-/*
-// TODO: Need to see if this is needed
-module.exports = {
-    getAllFor: function(sessionId) {
-        console.log(sessionId);
-        return _requests;
+(function() {
+    function triggerRequest() {
+        if (!FAKE_SERVER) {
+            requestRepository.triggerGetLastestSummaries();
+        }
     }
-};
-*/
+
+    glimpse.on('shell.request.summary.requested', triggerRequest);
+})();
