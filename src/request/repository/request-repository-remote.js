@@ -3,7 +3,7 @@ var glimpse = require('glimpse');
 // TODO: get data from server and publish notifications
 
 module.exports = {
-    triggerGetLastestSummary: function() {
+    triggerGetLastestSummaries: function() {
         // TODO: Need to complete
         //       Ajax call to REST endpoint
 

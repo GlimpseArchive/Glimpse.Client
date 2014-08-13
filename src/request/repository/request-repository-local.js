@@ -22,7 +22,7 @@ var glimpse = require('glimpse');
 })();
 
 module.exports = {
-    triggerGetLastestSummary: function() {
+    triggerGetLastestSummaries: function() {
         // TODO: Need to complete
         //       Pull from local storage
 
