@@ -16,7 +16,7 @@ var glimpse = require('glimpse');
 })();
 
 module.exports = {
-    triggerGetLastestEntry: function() {
+    triggerGetLastestUsers: function() {
         // TODO: Need to complete
         //       Pull from local storage and republish
 
