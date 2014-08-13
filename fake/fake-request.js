@@ -1,86 +1,143 @@
 var glimpse = require('glimpse'),
-    chance = require('./fake-extension.js'),
-    moment = require('moment'),
-    fakeRequest = require('./fake-request-entry.js'),
-    maxEvents = chance.integerRange(25, 35),
-    numLocal = maxEvents * 0.25,
-    numRemote = maxEvents * 0.3;
+    chance = require('./fake-extension.js'), // TODO: Can I just import chance and have this wired up differently
+    cache = {
+        summary: {},
+        details: {}
+    };
 
-function subtractSeconds(seconds) {
-    var date = new Date(),
-        value = seconds * 1000;
+var triggerGetLastestSummaries = (function() {
+    var moment = require('moment'),
+        fakeSummary = require('./fake-request-summary.js'),
+        maxEvents = chance.integerRange(25, 35),
+        numLocal = maxEvents * 0.25,
+        numRemote = maxEvents * 0.3;
 
-    return moment(date.setTime(date.getTime() + value)).toISOString();  // new Date(date.setTime(date.getTime() - value)).toString();
-}
+    function subtractSeconds(seconds) {
+        var date = new Date(),
+            value = seconds * 1000;
 
-function generateBatch(num, event, dateTimeOffet) {
-    var results = [];
-
-    for (var i = 0; i < num; i++) {
-        dateTimeOffet -= chance.integerRange(30, 300);
-
-        var request = fakeRequest.pickRequest();
-        request.dateTime = subtractSeconds(dateTimeOffet);
-
-        results.push(request);
+        return moment(date.setTime(date.getTime() + value)).toISOString();
     }
 
-    glimpse.emit('data.request.summary.found.' + event, results);
-}
+    function storeRequests(requests) {
+        for (var i = 0; i < requests.length; i++) {
+            var request = requests[i];
 
-function generateLocal() {
-    // simulate requests happening more than a day ago
-    generateBatch(numLocal, 'local', 25 * 60 * 60 * -1);
-}
-
-function generateRemote() {
-    // simulate requests happeing more than 10 seconds ago
-    generateBatch(numRemote, 'remote', 10 * -1);
-}
-
-function generateStream(position) {
-    // TODO: Update so that array occasionally puts out 2 vs the norm of 1 result
-
-    glimpse.emit('data.request.summary.found.stream', [ fakeRequest.pickRequest() ]);
-
-    setTimeout(function() {
-        if (position < maxEvents) {
-            generateStream(++position);
+            cache.summary[request.id] = request;
         }
-    }, chance.integerRange(500, 15000));
-}
+    }
 
-function generate() {
-    // simulate messages from local store
-    setTimeout(function() {
-        generateLocal();
-    }, chance.integerRange(50, 100));
+    function requestsFound(event, requests) {
+        storeRequests(requests);
 
-    // simulate messages from remote
-    setTimeout(function() {
-        generateRemote();
-    }, chance.integerRange(2000, 2500));
+        glimpse.emit('data.request.summary.found.' + event, requests);
+    }
 
-    // simulate messages from stream
-    setTimeout(function() {
-        generateStream(0);
-    }, chance.integerRange(4000, 6000));
-}
+    var generate = {
+        _batch: function(num, event, dateTimeOffet) {
+            var results = [];
 
-generate();
+            for (var i = 0; i < num; i++) {
+                dateTimeOffet -= chance.integerRange(30, 300);
 
-/*
-    // TODO: Respond after 50 - 100ms
-    glimpse.emit('data.request.summary.found.local', dataArray);
+                var dateTime = subtractSeconds(dateTimeOffet),
+                    request = fakeSummary.generate(dateTime);
 
-    // TODO: Respond after 1000 - 1500ms
-    glimpse.emit('data.request.summary.found.remote', dataArray);
+                results.push(request);
+            }
 
-    // TODO: Respond in 1000 - 5000ms intervals 500ms in
-    glimpse.emit('data.request.summary.found.stream', dataArray);
+            requestsFound(event, results);
+        },
+        local: function() {
+            // simulate requests happening more than a day ago
+            generate._batch(numLocal, 'local', 25 * 60 * 60 * -1);
+        },
+        remote: function() {
+            // simulate requests happeing more than 10 seconds ago
+            generate._batch(numRemote, 'remote', 10 * -1);
+        },
+        stream: function(position) {
+            // simulate requests happeing more every interval
 
+            // TODO: Update so that array occasionally puts out 2 vs the norm of 1 result
+            requestsFound('stream', [ fakeSummary.generate() ]);
 
+            setTimeout(function() {
+                if (position < maxEvents) {
+                    generate.stream(++position);
+                }
+            }, chance.integerRange(500, 15000));
+        }
+    };
 
-    // TODO: Implement later
-    glimpse.emit('data.request.summary.update', dataItem);
-*/
+    return function() {
+        // simulate messages from local store
+        setTimeout(function() {
+            generate.local();
+        }, chance.integerRange(50, 100));
+
+        // simulate messages from remote
+        setTimeout(function() {
+            generate.remote();
+        }, chance.integerRange(2000, 2500));
+
+        // simulate messages from stream
+        setTimeout(function() {
+            generate.stream(0);
+        }, chance.integerRange(4000, 6000));
+    };
+})();
+
+var triggerGetDetailFor = (function() {
+    var fakeDetail = require('./fake-request-detail.js');
+
+    function requestsFound(event, request) {
+        glimpse.emit('data.request.detail.found.' + event, request);
+    }
+
+    var generate = {
+        local: function(id) {
+            if (cache.details[id]) {
+                requestsFound('local', cache.details[id]);
+            }
+        },
+        remote: function(id) {
+            var request = cache.details[id];
+            if (!request) {
+                request = fakeDetail.generate(cache.summary[id]);
+
+                cache.details[id] = request;
+            }
+
+            requestsFound('remote', request);
+        }
+    };
+
+    return function(id) {
+        // simulate messages from local store
+        setTimeout(function() {
+            generate.local(id);
+        }, chance.integerRange(10, 50));
+
+        // simulate messages from remote
+        setTimeout(function() {
+            generate.remote();
+        }, chance.integerRange(2000, 3000));
+    };
+})();
+
+(function() {
+    function requestReady() {
+        triggerGetLastestSummaries();
+    }
+
+    glimpse.on('shell.request.ready', requestReady);
+})();
+
+(function() {
+    function detailRequested(payload) {
+        triggerGetDetailFor(payload.id);
+    }
+
+    glimpse.on('shell.request.detail.requested', detailRequested);
+})();
