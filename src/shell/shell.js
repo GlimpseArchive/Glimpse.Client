@@ -14,5 +14,7 @@ module.exports = {
     initialize: function() {
         React.renderComponent(Shell({ applications: applications }),
             document.getElementById('application-holder'));
+
+        glimpse.emit('shell.ready', {});
     }
 };
