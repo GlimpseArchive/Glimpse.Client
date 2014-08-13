@@ -14,12 +14,8 @@ module.exports = React.createClass({
     getInitialState: function() {
         return getState();
     },
-    // TODO: Get rid of this boiler plate code via a mixin
     componentDidMount: function() {
-        this._summaryChangedOn = glimpse.on('shell.request.summary.changed', this._summaryChanged);
-    },
-    componentWillUnmount: function() {
-        glimpse.off(this._summaryChangedOn);
+        this.addListener('shell.request.summary.changed', this._summaryChanged);
     },
     render: function() {
         return (

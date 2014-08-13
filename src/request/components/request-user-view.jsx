@@ -2,7 +2,8 @@ require('../stores/request-user-store.js');
 
 var glimpse = require('glimpse'),
     React = require('react'),
-    UserList = require('./request-user-list-view.jsx');
+    UserList = require('./request-user-list-view.jsx'),
+    EmitterMixin = require('../../lib/components/emitter-mixin.jsx');
 
 function getState(payload) {
     return {
@@ -12,15 +13,12 @@ function getState(payload) {
 }
 
 module.exports = React.createClass({
+    mixins: [ EmitterMixin ],
     getInitialState: function() {
         return getState();
     },
-    // TODO: Get rid of this boiler plate code via a mixin
     componentDidMount: function() {
-        this._userChangedOn = glimpse.on('shell.request.user.detail.changed', this._userChanged);
-    },
-    componentWillUnmount: function() {
-        glimpse.off(this._userChangedOn);
+        this.addListener('shell.request.user.detail.changed', this._userChanged);
     },
     render: function() {
         var clear = this.state.selectedUserId ? <input type="button" value="Clear Selection" onClick={this._onClearSelection} /> : null;
