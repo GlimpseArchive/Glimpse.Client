@@ -1,11 +1,12 @@
-var React = require('react'),
+var glimpse = require('glimpse'),
+    React = require('react'),
     Timeago = require('../../lib/components/timeago.jsx');
 
 module.exports = React.createClass({
     render: function() {
         var entry = this.props.entry;
         return (
-            <div className="request-entry-item-holder">
+            <div className="request-entry-item-holder" onClick={this.onSelect}>
                 <table className="table table-bordered">
                     <tr>
                         <td width="90">{entry.duration}ms</td>
@@ -27,5 +28,8 @@ module.exports = React.createClass({
                 </table>
             </div>
         );
+    },
+    onSelect: function() {
+        glimpse.emit('shell.request.detail.requested', { id: this.props.entry.id });
     }
 });
