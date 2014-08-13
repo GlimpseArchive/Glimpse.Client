@@ -19,7 +19,7 @@ module.exports = {
             glimpse.emit('data.request.summary.patch.found.stream', []);
         }, 0);
     },
-    subscribeToDetailPatchesFor: function(requestId) {
+    subscribeToDetailsPatchesFor: function(requestId) {
         // TODO: Need to complete
         //       Subscribe via socket
 

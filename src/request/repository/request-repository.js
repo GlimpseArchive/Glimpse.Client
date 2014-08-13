@@ -10,9 +10,9 @@ module.exports = {
         resourceRepository.triggerGetLastestSummaries();
         localRepository.triggerGetLastestSummaries();
     },
-    triggerGetDetailFor: function(requestId) {
-        resourceRepository.triggerGetDetailFor(requestId);
-        localRepository.triggerGetDetailFor(requestId);
+    triggerGetDetailsFor: function(requestId) {
+        resourceRepository.triggerGetDetailsFor(requestId);
+        localRepository.triggerGetDetailsFor(requestId);
     },
     // TODO: Need to look and see if this is the best place for these
     subscribeToLatestSummaries: function() {
@@ -21,7 +21,7 @@ module.exports = {
     subscribeToLatestSummariesPatches: function() {
         streamRepository.subscribeToLatestSummariesPatches();
     },
-    subscribeToDetailPatchesFor: function(requestId) {
-        streamRepository.subscribeToDetailPatchesFor(requestId);
+    subscribeToDetailsPatchesFor: function(requestId) {
+        streamRepository.subscribeToDetailsPatchesFor(requestId);
     }
 };

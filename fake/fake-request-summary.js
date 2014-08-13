@@ -19,7 +19,7 @@ var generate = (function() {
                 return fakeSession.pickUser();
             }
 
-            function pickSummary() {
+            function pickAbstract() {
                 return {
                     networkTime: networkTime,
                     serverTime: serverTime,
@@ -43,7 +43,7 @@ var generate = (function() {
                 statusCode: httpStatus.code,
                 statusText: httpStatus.text,
                 user: pickUser(),
-                summary: pickSummary()
+                abstract: pickAbstract()
             };
 
         return request;

@@ -3,7 +3,7 @@ var glimpse = require('glimpse');
 // store Found Summary
 (function() {
     function processFoundSummary(requests) {
-        glimpse.emit('data.user.entry.found.internal', requests);
+        glimpse.emit('data.user.detail.found.internal', requests);
     }
 
     glimpse.on('data.request.summary.found.remote', processFoundSummary);
@@ -19,7 +19,7 @@ var glimpse = require('glimpse');
         // TODO: Need to complete
         //       Transform request object to user object
 
-        glimpse.emit('data.user.entry.update', []);
+        glimpse.emit('data.user.detail.update', []);
     }
 
     glimpse.on('data.request.summary.update', processUpdateSummary);

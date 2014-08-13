@@ -12,7 +12,7 @@ var glimpse = require('glimpse');
         //       Push into local storage
     }
 
-    glimpse.on('data.user.entry.found.internal', storeFoundEntry);
+    glimpse.on('data.user.detail.found.internal', storeFoundEntry);
 })();
 
 module.exports = {
@@ -20,6 +20,6 @@ module.exports = {
         // TODO: Need to complete
         //       Pull from local storage and republish
 
-        glimpse.emit('data.user.entry.found.local', []);
+        glimpse.emit('data.user.detail.found.local', []);
     }
 };

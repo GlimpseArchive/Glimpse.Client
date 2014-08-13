@@ -1,17 +1,17 @@
 var React = require('react'),
     ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
-    EntryItem = require('./request-entry-list-item-view.jsx');
+    SummaryItem = require('./request-summary-list-item-view.jsx');
 
 module.exports = React.createClass({
     render: function() {
-        var entries = this.props.allEntries.map(function(entry, i) {
-                return <EntryItem key={entry.id} entry={entry} />;
+        var entries = this.props.allSummaries.map(function(summary, i) {
+                return <SummaryItem key={summary.id} summary={summary} />;
             }),
             message = (entries.length === 0) ? <em>No found entries.</em> : '';
 
         return (
-            <div className="request-entry-list-holder">
-                <ReactCSSTransitionGroup component={React.DOM.div} transitionName="request-entry-item-holder">
+            <div className="request-summary-list-holder">
+                <ReactCSSTransitionGroup component={React.DOM.div} transitionName="request-summary-item-holder">
                     {entries}
                 </ReactCSSTransitionGroup>
                 {message}

@@ -21,7 +21,7 @@ function requestsChanged(targetRequests) {
 (function() {
     function triggerRequest(payload) {
         if (!FAKE_SERVER) {
-            requestRepository.triggerGetDetailFor(payload.id);
+            requestRepository.triggerGetDetailsFor(payload.id);
         }
     }
 

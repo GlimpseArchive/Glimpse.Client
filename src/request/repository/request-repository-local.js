@@ -28,7 +28,7 @@ module.exports = {
 
         glimpse.emit('data.request.summary.found.local', []);
     },
-    triggerGetDetailFor: function(requestId) {
+    triggerGetDetailsFor: function(requestId) {
         // TODO: Need to complete
         //       Pull from local storage
 

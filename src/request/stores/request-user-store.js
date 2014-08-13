@@ -3,7 +3,7 @@ var glimpse = require('glimpse'),
     _userSelected = null;
 
 function usersChanged() {
-    glimpse.emit('shell.request.user.entry.changed', {
+    glimpse.emit('shell.request.user.detail.changed', {
             allUsers: _users,
             selectedUserId: _userSelected
         });
@@ -122,5 +122,5 @@ function usersChanged() {
     }
 
     // External data coming in
-    glimpse.on('data.user.entry.found', dataFound);
+    glimpse.on('data.user.detail.found', dataFound);
 })();

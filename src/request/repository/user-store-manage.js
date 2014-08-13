@@ -27,11 +27,11 @@ var glimpse = require('glimpse'),
                 newRequests: requests
             };
 
-        glimpse.emit('data.user.entry.found', payload);
+        glimpse.emit('data.user.detail.found', payload);
     }
 
-    glimpse.on('data.user.entry.found.local', republishFoundEntry);
-    glimpse.on('data.user.entry.found.internal', republishFoundEntry);
+    glimpse.on('data.user.detail.found.local', republishFoundEntry);
+    glimpse.on('data.user.detail.found.internal', republishFoundEntry);
 })();
 
 // TODO: NOT SURE THIS IS THE BEST PLACE FOR THIS
@@ -42,7 +42,7 @@ var glimpse = require('glimpse'),
         // TODO: Need to complete
         //       Pull from store, publish result
 
-        glimpse.emit('data.user.entry.update', []);
+        glimpse.emit('data.user.detail.update', []);
     }
 
     glimpse.on('data.request.summary.update', mergeUpdateSummary);

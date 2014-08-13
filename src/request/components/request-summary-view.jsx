@@ -1,8 +1,8 @@
-require('../stores/request-detail-store.js');
+require('../stores/request-summary-store.js');
 
 var glimpse = require('glimpse'),
     React = require('react'),
-    entryList = require('./request-detail-list-view.jsx');
+    SummaryList = require('./request-summary-list-view.jsx');
 
 function getState(allSummaries) {
     return {
@@ -16,20 +16,20 @@ module.exports = React.createClass({
     },
     // TODO: Get rid of this boiler plate code via a mixin
     componentDidMount: function() {
-        this._entryChangedOn = glimpse.on('shell.request.summary.changed', this._entryChanged);
+        this._summaryChangedOn = glimpse.on('shell.request.summary.changed', this._summaryChanged);
     },
     componentWillUnmount: function() {
-        glimpse.off(this._entryChangedOn);
+        glimpse.off(this._summaryChangedOn);
     },
     render: function() {
         return (
-            <div className="request-detail-holder">
+            <div className="request-summary-holder">
                 <h2>Request</h2>
-                <entryList allSummaries={this.state.allSummaries} />
+                <SummaryList allSummaries={this.state.allSummaries} />
             </div>
         );
     },
-    _entryChanged: function(allSummaries) {
+    _summaryChanged: function(allSummaries) {
         this.setState(getState(allSummaries));
     }
 });

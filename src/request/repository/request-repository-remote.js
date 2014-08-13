@@ -12,7 +12,7 @@ module.exports = {
             glimpse.emit('data.request.summary.found.remote', []);
         }, 0);
     },
-    triggerGetDetailFor: function(requestId) {
+    triggerGetDetailsFor: function(requestId) {
         // TODO: Need to complete
         //       Ajax call to REST endpoint
 

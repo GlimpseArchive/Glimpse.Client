@@ -17,7 +17,7 @@ module.exports = React.createClass({
     },
     // TODO: Get rid of this boiler plate code via a mixin
     componentDidMount: function() {
-        this._userChangedOn = glimpse.on('shell.request.user.entry.changed', this._userChanged);
+        this._userChangedOn = glimpse.on('shell.request.user.detail.changed', this._userChanged);
     },
     componentWillUnmount: function() {
         glimpse.off(this._userChangedOn);

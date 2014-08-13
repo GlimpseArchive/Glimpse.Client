@@ -14,23 +14,23 @@
     background-color: #f0f7fd;
 }
 
-.request-entry-item-holder-enter, .request-user-item-holder-enter {
+.request-summary-item-holder-enter, .request-user-item-holder-enter {
     background-color: #F8F5EC;
     transition: background-color .5s ease-in;
 }
 
-.request-entry-item-holder-enter.request-entry-item-holder-enter-active,
+.request-summary-item-holder-enter.request-summary-item-holder-enter-active,
 .request-user-item-holder-enter.request-user-item-holder-enter-active {
     background-color: transparent;
 }
 
 
-.request-entry-item-holder-leave, .request-user-item-holder-leave {
+.request-summary-item-holder-leave, .request-user-item-holder-leave {
     opacity: 1;
     transition: opacity 0.05s ease-in;
 }
 
-.request-entry-item-holder-leave.request-entry-item-holder-leave-active,
+.request-summary-item-holder-leave.request-summary-item-holder-leave-active,
 .request-user-item-holder-leave.request-user-item-holder-leave-active {
     opacity: 0.01;
 }

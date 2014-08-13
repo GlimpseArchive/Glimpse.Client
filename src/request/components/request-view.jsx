@@ -1,7 +1,7 @@
 var React = require('react'),
     User = require('./request-user-view.jsx'),
     Filter = require('./request-filter-view.jsx'),
-    Entry = require('./request-entry-view.jsx');
+    Summary = require('./request-summary-view.jsx');
 
 module.exports = React.createClass({
   render: function() {
@@ -11,8 +11,8 @@ module.exports = React.createClass({
                 <div className="col-md-2 request-user-holder-outer">
                     <User />
                 </div>
-                <div className="col-md-8 request-entry-holder-outer">
-                    <Entry />
+                <div className="col-md-8 request-detail-holder-outer">
+                    <Summary />
                 </div>
                 <div className="col-md-2 request-filter-holder-outer">
                     <Filter />

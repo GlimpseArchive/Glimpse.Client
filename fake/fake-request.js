@@ -88,7 +88,7 @@ var triggerGetLastestSummaries = (function() {
     };
 })();
 
-var triggerGetDetailFor = (function() {
+var triggerGetDetailsFor = (function() {
     var fakeDetail = require('./fake-request-detail.js');
 
     function requestsFound(event, request) {
@@ -136,7 +136,7 @@ var triggerGetDetailFor = (function() {
 
 (function() {
     function detailRequested(payload) {
-        triggerGetDetailFor(payload.id);
+        triggerGetDetailsFor(payload.id);
     }
 
     glimpse.on('shell.request.detail.requested', detailRequested);
