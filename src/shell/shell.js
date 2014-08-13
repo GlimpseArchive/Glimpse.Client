@@ -1,9 +1,8 @@
 require('./style/shell.scss');
 
-var React = require('react'),
+var glimpse = require('glimpse'),
+    React = require('react'),
     Shell = require('./components/shell-view.jsx'),
-    glimpse = require('glimpse'),
-
     applications = [];
 
 module.exports = {
