@@ -6,9 +6,6 @@ var glimpse = require('glimpse'),
     streamRepository = require('./request-repository-stream');
 
 module.exports = {
-    triggerGetLatestSummaryForSession: function(sessionId) {
-        // TODO: Not sure how this is going to work yet
-        //       i.e. triggering a request for given sessions request
     triggerGetLastestSummaries: function() {
         resourceRepository.triggerGetLastestSummaries();
         localRepository.triggerGetLastestSummaries();
