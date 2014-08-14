@@ -2,7 +2,8 @@ require('../stores/request-summary-store.js');
 
 var glimpse = require('glimpse'),
     React = require('react'),
-    SummaryList = require('./request-summary-list-view.jsx');
+    SummaryList = require('./request-summary-list-view.jsx'),
+    EmitterMixin = require('../../lib/components/emitter-mixin.jsx');
 
 function getState(allSummaries) {
     return {
@@ -11,6 +12,7 @@ function getState(allSummaries) {
 }
 
 module.exports = React.createClass({
+    mixins: [ EmitterMixin ],
     getInitialState: function() {
         return getState();
     },
