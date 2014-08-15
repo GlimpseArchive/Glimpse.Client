@@ -36,6 +36,6 @@ module.exports = React.createClass({
         );
     },
     onSelect: function() {
-        glimpse.emit('shell.request.detail.requested', { id: this.props.summary.id });
+        glimpse.emit('shell.request.summary.selected', { requestId: this.props.summary.id });
     }
 });

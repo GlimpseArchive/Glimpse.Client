@@ -25,5 +25,5 @@ function requestsChanged(targetRequests) {
         }
     }
 
-    glimpse.on('shell.request.detail.requested', dataFound);
+    glimpse.on('data.request.detail.requested', dataFound);
 })();

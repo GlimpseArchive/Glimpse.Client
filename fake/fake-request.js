@@ -139,5 +139,5 @@ var triggerGetDetailsFor = (function() {
         triggerGetDetailsFor(payload.id);
     }
 
-    glimpse.on('shell.request.detail.requested', detailRequested);
+    glimpse.on('data.request.detail.requested', detailRequested);
 })();
