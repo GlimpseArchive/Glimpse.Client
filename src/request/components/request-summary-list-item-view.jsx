@@ -1,13 +1,19 @@
 var glimpse = require('glimpse'),
     React = require('react'),
-    Timeago = require('../../lib/components/timeago.jsx');
+    Timeago = require('../../lib/components/timeago.jsx'),
+    cx = React.addons.classSet;
 
 module.exports = React.createClass({
     render: function() {
-        var summary = this.props.summary;
+        var summary = this.props.summary,
+            containerClass = cx({
+                'table table-bordered': true,
+                'request-summary-shell-selected': summary.selected
+            });
+
         return (
             <div className="request-summary-item-holder" onClick={this.onSelect}>
-                <table className="table table-bordered">
+                <table className={containerClass}>
                     <tr>
                         <td width="90">{summary.duration}ms</td>
                         <td colSpan="6">
