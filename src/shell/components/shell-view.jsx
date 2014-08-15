@@ -1,15 +1,11 @@
 var React = require('react'),
-    glimpse = require('glimpse');
+    glimpse = require('glimpse'),
+    EmitterMixin = require('../../lib/components/emitter-mixin.jsx');
 
 module.exports = React.createClass({
-    _applicationAdded: function() {
-        this.forceUpdate();
-    },
+    mixins: [ EmitterMixin ],
     componentDidMount: function() {
-        this._applicationAddedOn = glimpse.on('shell.application.added', this._applicationAdded);
-    },
-    componentWillUnmount: function() {
-        glimpse.off(this._applicationAddedOn);
+        this.addListener('shell.application.added', this._applicationAdded);
     },
     render: function() {
         return (
@@ -17,5 +13,8 @@ module.exports = React.createClass({
                 {this.props.applications}
             </div>
         );
+    },
+    _applicationAdded: function() {
+        this.forceUpdate();
     }
 });
