@@ -130,14 +130,14 @@ var filterRequests = (function() {
             if (oldRequestId) {
                 var oldRequest = requests[oldRequestId];
                 if (oldRequest) {
-                    oldRequest.selected = false;
+                    oldRequest._selected = false;
                 }
             }
         },
         select = function(requestId, requests) {
             var request = requests[requestId];
             if (request) {
-                request.selected = true;
+                request._selected = true;
             }
         };
 

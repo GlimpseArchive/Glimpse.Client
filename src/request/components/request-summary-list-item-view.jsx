@@ -8,7 +8,7 @@ module.exports = React.createClass({
         var summary = this.props.summary,
             containerClass = cx({
                 'table table-bordered': true,
-                'request-summary-shell-selected': summary.selected
+                'request-summary-shell-selected': summary._selected
             });
 
         return (
