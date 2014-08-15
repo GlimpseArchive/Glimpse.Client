@@ -34,7 +34,7 @@ var glimpse = require('glimpse'),
 (function() {
     function republishFoundDetail(request) {
         // TODO: This is very naive atm, no sorting or indexing, etc present
-        detailData = detailData.push(request);
+        detailData.push(request);
 
         glimpse.emit('data.request.detail.found', { allRequests: detailData, newRequest: request });
     }
