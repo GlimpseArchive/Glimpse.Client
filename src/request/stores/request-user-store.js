@@ -2,7 +2,7 @@ var glimpse = require('glimpse'),
     _users = {},
     _userSelected = null;
 
-function usersChanged() {
+function notifyUsersChanged() {
     glimpse.emit('shell.request.user.detail.changed', {
             allUsers: _users,
             selectedUserId: _userSelected
@@ -10,18 +10,18 @@ function usersChanged() {
 }
 
 (function() {
-    function userClear() {
+    function clearUser() {
         _users[_userSelected].selected = false;
         _userSelected = null;
 
-        usersChanged();
+        notifyUsersChanged();
     }
 
-    glimpse.on('shell.request.user.clear.selected', userClear);
+    glimpse.on('shell.request.user.clear.selected', clearUser);
 })();
 
 (function() {
-    function userSwitch(payload) {
+    function selectUser(payload) {
         var userId = payload.userId,
             oldUserId = _userSelected,
             user = _users[userId];
@@ -38,10 +38,10 @@ function usersChanged() {
 
         _userSelected = userId;
 
-        usersChanged();
+        notifyUsersChanged();
     }
 
-    glimpse.on('shell.request.user.selected', userSwitch);
+    glimpse.on('shell.request.user.selected', selectUser);
 })();
 
 (function() {
@@ -56,7 +56,7 @@ function usersChanged() {
                     user.latestRequests.splice(index, 1);
                 }
 
-                usersChanged();
+                notifyUsersChanged();
             }
 
             return function(user, rawRequest) {
@@ -76,7 +76,7 @@ function usersChanged() {
             function setOffline(user) {
                 user.online = false;
 
-                usersChanged();
+                notifyUsersChanged();
             }
 
             return function(user, rawRequest) {
@@ -101,7 +101,7 @@ function usersChanged() {
             };
     }
 
-    function dataFound(payload) {
+    function foundUser(payload) {
         // TODO: This needs to be cleaned up bit messy atm but will do
         var rawRequests = payload.newRequests;
         for (var i = rawRequests.length - 1; i >= 0; i--) {
@@ -118,9 +118,9 @@ function usersChanged() {
             manageOnline(user, rawRequest);
         }
 
-        usersChanged();
+        notifyUsersChanged();
     }
 
     // External data coming in
-    glimpse.on('data.user.detail.found', dataFound);
+    glimpse.on('data.user.detail.found', foundUser);
 })();
