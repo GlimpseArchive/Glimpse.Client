@@ -4,12 +4,13 @@ var glimpse = require('glimpse'),
     _requestIndex = {},
     _filteredRequests = [],
     _filters = {},
-    _requestSelected = null;
+    _requestSelectedId = null;
 
 function notifyRequestsChanged(targetRequests) {
     glimpse.emit('shell.request.summary.changed', targetRequests);
 }
 
+// TODO: Shift into different module
 // TODO: This needs to be refactored to dynamically lookup records, etc
 // TODO: Even at the moment this is going to need to be refactored
 var filterRequests = (function() {
@@ -147,13 +148,13 @@ var filterRequests = (function() {
 
     function selectRequest(payload) {
         var requestId = payload.requestId,
-            oldRequestId = _requestSelected,
+            oldRequestId = _requestSelectedId,
             requests = _requestIndex;
 
         clear(oldRequestId, requests);
         select(requestId, requests);
 
-        _requestSelected = requestId;
+        _requestSelectedId = requestId;
 
         filterRequests(_requests, [], false);
 
@@ -163,6 +164,7 @@ var filterRequests = (function() {
     glimpse.on('shell.request.summary.selected', selectRequest);
 })();
 
+// Found Data
 (function() {
     function foundData(payload) {
         // TODO: Really bad hack to get things going atm
@@ -182,6 +184,7 @@ var filterRequests = (function() {
     glimpse.on('data.request.summary.found', foundData);
 })();
 
+// Trigger Requests
 // TODO: Look at changing the name of this to bring it into line with the above
 (function() {
     function triggerRequest() {
