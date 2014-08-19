@@ -11,7 +11,7 @@ function requestsChanged(targetRequests) {
         // TODO: Really bad hack to get things going atm
         _requests[payload.newRequest.id] = payload.newRequest;
 
-        filterRequests(_requests, payload.newRequests, false);
+        glimpse.emit('shell.request.detail.changed', payload.newRequest);
     }
 
     // External data coming in
@@ -25,5 +25,5 @@ function requestsChanged(targetRequests) {
         }
     }
 
-    glimpse.on('data.request.detail.requested', dataFound);
+    glimpse.on('data.request.detail.requested', triggerRequest);
 })();
