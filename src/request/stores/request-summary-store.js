@@ -93,6 +93,7 @@ var filterRequests = (function() {
     };
 })();
 
+// Update Filter
 (function() {
     function updateFilter(payload) {
         for (var key in payload) {
@@ -105,6 +106,7 @@ var filterRequests = (function() {
     glimpse.on('shell.request.filter.updated', updateFilter);
 })();
 
+// Clear User
 (function() {
     function clearUser() {
         _filters.userId = null;
@@ -115,6 +117,7 @@ var filterRequests = (function() {
     glimpse.on('shell.request.user.clear.selected', clearUser);
 })();
 
+// Select User
 (function() {
     function selectUser(payload) {
         _filters.userId = payload.userId;
@@ -125,6 +128,7 @@ var filterRequests = (function() {
     glimpse.on('shell.request.user.selected', selectUser);
 })();
 
+// Select Request
 (function() {
     var clear = function(oldRequestId, requests) {
             if (oldRequestId) {
