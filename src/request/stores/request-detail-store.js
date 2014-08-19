@@ -1,11 +1,13 @@
 var glimpse = require('glimpse'),
     requestRepository = require('../repository/request-repository.js'),
+    // TODO: Not sure I need to store the requests
     _requests = {};
 
 function requestsChanged(targetRequests) {
     glimpse.emit('shell.request.summary.changed', targetRequests);
 }
 
+// Found Data
 (function() {
     function dataFound(payload) {
         // TODO: Really bad hack to get things going atm
@@ -18,6 +20,7 @@ function requestsChanged(targetRequests) {
     glimpse.on('data.request.detail.found', dataFound);
 })();
 
+// Trigger Requests
 (function() {
     function triggerRequest(payload) {
         if (!FAKE_SERVER) {
