@@ -35,6 +35,8 @@ var triggerGetLastestSummaries = (function() {
 
     var generate = {
         _batch: function(num, event, dateTimeOffet) {
+            console.log('FAKE - ' + event + ' - ' + parseInt(num));
+
             var results = [];
 
             for (var i = 0; i < num; i++) {
@@ -58,6 +60,7 @@ var triggerGetLastestSummaries = (function() {
         },
         stream: function(position) {
             // simulate requests happeing more every interval
+            console.log('FAKE - stream - ' + position + ' of ' + maxEvents);
 
             // TODO: Update so that array occasionally puts out 2 vs the norm of 1 result
             requestsFound('stream', [ fakeSummary.generate() ]);
