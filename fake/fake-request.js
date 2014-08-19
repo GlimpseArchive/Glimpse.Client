@@ -124,7 +124,7 @@ var triggerGetDetailsFor = (function() {
 
         // simulate messages from remote
         setTimeout(function() {
-            generate.remote();
+            generate.remote(id);
         }, chance.integerRange(2000, 3000));
     };
 })();
@@ -139,7 +139,7 @@ var triggerGetDetailsFor = (function() {
 
 (function() {
     function detailRequested(payload) {
-        triggerGetDetailsFor(payload.id);
+        triggerGetDetailsFor(payload.requestId);
     }
 
     glimpse.on('data.request.detail.requested', detailRequested);
