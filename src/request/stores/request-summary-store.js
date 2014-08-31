@@ -166,7 +166,7 @@ var filterRequests = (function() {
 
 // Found Request
 (function() {
-    function foundData(payload) {
+    function foundRequest(payload) {
         // TODO: Really bad hack to get things going atm
 
         // Store data locally
@@ -181,7 +181,7 @@ var filterRequests = (function() {
     }
 
     // External data coming in
-    glimpse.on('data.request.summary.found', foundData);
+    glimpse.on('data.request.summary.found', foundRequest);
 })();
 
 // Trigger Requests
