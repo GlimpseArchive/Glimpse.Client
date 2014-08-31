@@ -9,6 +9,7 @@ function notifyUsersChanged() {
         });
 }
 
+// Clear User
 (function() {
     function clearUser() {
         _users[_userSelected].selected = false;
@@ -20,7 +21,7 @@ function notifyUsersChanged() {
     glimpse.on('shell.request.user.clear.selected', clearUser);
 })();
 
-
+// Select User
 (function() {
     var clear = function(oldUserId, users) {
             if (oldUserId) {
@@ -53,6 +54,7 @@ function notifyUsersChanged() {
     glimpse.on('shell.request.user.selected', selectUser);
 })();
 
+// Found User
 (function() {
     // TODO: Need to update to make sure it can work with out of order/old
     //       requests coming in.

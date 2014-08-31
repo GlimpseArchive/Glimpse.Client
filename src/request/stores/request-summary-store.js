@@ -164,7 +164,7 @@ var filterRequests = (function() {
     glimpse.on('shell.request.summary.selected', selectRequest);
 })();
 
-// Found Data
+// Found Request
 (function() {
     function foundData(payload) {
         // TODO: Really bad hack to get things going atm
