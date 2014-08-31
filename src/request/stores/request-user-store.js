@@ -20,21 +20,30 @@ function notifyUsersChanged() {
     glimpse.on('shell.request.user.clear.selected', clearUser);
 })();
 
+
 (function() {
+    var clear = function(oldUserId, users) {
+            if (oldUserId) {
+                var oldUser = users[oldUserId];
+                if (oldUser) {
+                    oldUser._selected = false;
+                }
+            }
+        },
+        select = function(userId, users) {
+            var user = users[userId];
+            if (user) {
+                user._selected = true;
+            }
+        };
+
     function selectUser(payload) {
         var userId = payload.userId,
             oldUserId = _userSelected,
-            user = _users[userId];
+            users = _users;
 
-        if (oldUserId) {
-            var oldUser = _users[oldUserId];
-            if (oldUser) {
-                oldUser.selected = false;
-            }
-        }
-        if (user) {
-            user.selected = true;
-        }
+        clear(oldUserId, users);
+        select(userId, users);
 
         _userSelected = userId;
 
