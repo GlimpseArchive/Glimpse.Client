@@ -129,6 +129,18 @@ var filterRequests = (function() {
     glimpse.on('shell.request.user.selected', selectUser);
 })();
 
+// Clear Request
+(function() {
+    function clearRequest() {
+        _requestIndex[_requestSelectedId]._selected = false;
+        _requestSelectedId = null;
+
+        filterRequests(_requests, [], false);
+    }
+
+    glimpse.on('shell.request.detail.closed', clearRequest);
+})();
+
 // Select Request
 (function() {
     var clear = function(oldRequestId, requests) {

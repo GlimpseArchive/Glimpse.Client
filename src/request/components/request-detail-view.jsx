@@ -27,6 +27,7 @@ module.exports = React.createClass({
                 <div className="col-md-10 col-md-offset-2 request-detail-holder-outer">
                     <div className="request-detail-holder">
                         <h2>Detail - {request.id}</h2>
+                        <input type="button" value="Close" onClick={this.onClose} />
                     </div>
                 </div>
             );
@@ -34,6 +35,10 @@ module.exports = React.createClass({
 
         // TODO: Need to work on doing this better
         return <div></div>;
+    },
+    onClose: function() {
+        // TODO: Should pass through the id of the request that is being closed
+        glimpse.emit('shell.request.detail.closed', {});
     },
     _requestDetailChanged: function(state) {
         this.setState(getState({ request: state }));

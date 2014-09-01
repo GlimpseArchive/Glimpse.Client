@@ -7,6 +7,15 @@ function requestsChanged(targetRequests) {
     glimpse.emit('shell.request.summary.changed', targetRequests);
 }
 
+// Clear Request
+(function() {
+    function clearRequest() {
+        glimpse.emit('shell.request.detail.changed', null);
+    }
+
+    glimpse.on('shell.request.detail.closed', clearRequest);
+})();
+
 // Found Data
 (function() {
     function dataFound(payload) {
