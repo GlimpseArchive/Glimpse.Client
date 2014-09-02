@@ -2,6 +2,7 @@ require('../stores/request-detail-store.js');
 
 var glimpse = require('glimpse'),
     React = require('react'),
+    SummaryDisplay = require('./request-summary-display-view.jsx'),
     cx = React.addons.classSet,
     EmitterMixin = require('../../lib/components/emitter-mixin.jsx');
 
@@ -26,8 +27,8 @@ module.exports = React.createClass({
             return (
                 <div className="col-md-10 col-md-offset-2 request-detail-holder-outer">
                     <div className="request-detail-holder">
-                        <h2>Detail - {request.id}</h2>
-                        <input type="button" value="Close" onClick={this.onClose} />
+                        <h2>Detail <input type="button" value="Close" onClick={this.onClose} /></h2>
+                        <SummaryDisplay summary={request} />
                     </div>
                 </div>
             );
