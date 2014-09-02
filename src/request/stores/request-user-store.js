@@ -27,14 +27,14 @@ function notifyUsersChanged() {
             if (oldUserId) {
                 var oldUser = users[oldUserId];
                 if (oldUser) {
-                    oldUser._selected = false;
+                    oldUser.selected = false;
                 }
             }
         },
         select = function(userId, users) {
             var user = users[userId];
             if (user) {
-                user._selected = true;
+                user.selected = true;
             }
         };
 
