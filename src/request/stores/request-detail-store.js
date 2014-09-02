@@ -1,7 +1,8 @@
 var glimpse = require('glimpse'),
     requestRepository = require('../repository/request-repository.js'),
     // TODO: Not sure I need to store the requests
-    _requests = {};
+    _requests = {},
+    _requestSelectedId = null;
 
 function requestsChanged(targetRequests) {
     glimpse.emit('shell.request.summary.changed', targetRequests);
@@ -10,6 +11,8 @@ function requestsChanged(targetRequests) {
 // Clear Request
 (function() {
     function clearRequest() {
+        _requestSelectedId = null;
+
         glimpse.emit('shell.request.detail.changed', null);
     }
 
@@ -22,7 +25,9 @@ function requestsChanged(targetRequests) {
         // TODO: Really bad hack to get things going atm
         _requests[payload.newRequest.id] = payload.newRequest;
 
-        glimpse.emit('shell.request.detail.changed', payload.newRequest);
+        if (payload.newRequest.id === _requestSelectedId) {
+            glimpse.emit('shell.request.detail.changed', payload.newRequest);
+        }
     }
 
     // External data coming in
@@ -32,8 +37,10 @@ function requestsChanged(targetRequests) {
 // Trigger Requests
 (function() {
     function triggerRequest(payload) {
+        _requestSelectedId = payload.requestId;
+
         if (!FAKE_SERVER) {
-            requestRepository.triggerGetDetailsFor(payload.id);
+            requestRepository.triggerGetDetailsFor(payload.requestId);
         }
     }
 
