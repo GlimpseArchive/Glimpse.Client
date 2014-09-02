@@ -19,6 +19,7 @@
   },
   "scripts": {
     "init": "npm install && bower install && gulp build",
+    "build": "gulp build",
     "start": "gulp dev",
     "test": "gulp test"
   },
