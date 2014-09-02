@@ -21,10 +21,11 @@ entirely on top of node.js, using many libraries you may already be familiar
 ### Prerequisites
 
 The Glimpse Client heavily relies on `Node` and `npm` for its
-build process. Hence,
+build process (`bower` is also used for some library dependencies). Hence,
 
 * You have `node` [installed](nodejs.org) at v0.10.0+ (it might work at lower versions, we just haven't tested).
-* You are familiar with `npm` and know whether or not you need to use `sudo` when installing packages globally.
+* You are familiar with `npm` and know whether or not you need to use `sudo` when installing packages globally. Note, typically `npm` will be installed when you install `node`.
+* As with `npm`, `bower` should be globally [installed](http://bower.io/) and available.
 
 ### Cloning Repository
 
@@ -42,14 +43,27 @@ and running depending on what you are doing.
 
 #### Quick Build
 
-Enter the Glimpse.Client directory and run the build script:
+Enter the Glimpse.Client directory and the first time run the
+you run the build script (or are missing the `npm` and/or `bower`
+dependencies), execute the below:
 
 ```sh
-npm run build
+npm run init
 ```
 
 This will ensure that any dependencies are already downloaded and then place
 the built files into the `build` and `dist` folders.
+
+From this point forward you should be able to execute the below:
+
+```sh
+npm run build
+```
+or
+
+```sh
+gulp build
+```
 
 ### Development Build
 
@@ -72,6 +86,8 @@ with the effected files.
 populated).
 
 **Compile the Client and start Dev environement**
+
+*!!! Currently watch server isn't working correctly, so don't use !!!*
 
 If you are actively developing the client, the `dev` task will provide you with
 everything you need:
