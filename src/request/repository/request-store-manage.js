@@ -33,7 +33,6 @@ var glimpse = require('glimpse'),
 // republish Found Details
 (function() {
     function republishFoundDetail(request) {
-        // TODO: This is very naive atm, no sorting or indexing, etc present
         detailData.push(request);
 
         glimpse.emit('data.request.detail.found', { allRequests: detailData, newRequest: request });
