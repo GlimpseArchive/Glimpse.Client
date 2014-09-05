@@ -4,8 +4,8 @@ var glimpse = require('glimpse'),
     _requests = {},
     _requestSelectedId = null;
 
-function requestsChanged(targetRequests) {
-    glimpse.emit('shell.request.summary.changed', targetRequests);
+function requestChanged(targetRequests) {
+    glimpse.emit('shell.request.detail.changed', targetRequests);
 }
 
 // Clear Request
@@ -13,7 +13,7 @@ function requestsChanged(targetRequests) {
     function clearRequest() {
         _requestSelectedId = null;
 
-        glimpse.emit('shell.request.detail.changed', null);
+        requestChanged(null);
     }
 
     glimpse.on('shell.request.detail.closed', clearRequest);
@@ -26,7 +26,7 @@ function requestsChanged(targetRequests) {
         _requests[payload.newRequest.id] = payload.newRequest;
 
         if (payload.newRequest.id === _requestSelectedId) {
-            glimpse.emit('shell.request.detail.changed', payload.newRequest);
+            requestChanged(payload.newRequest);
         }
     }
 
