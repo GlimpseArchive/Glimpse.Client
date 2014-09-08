@@ -30,7 +30,7 @@ var gulp = require('gulp'),
             .pipe(gulp.dest(settings.output));
     },
     defaultSetup = function(config) {
-        // Build settings to include source maps and pathinfo
+        // default settings to include source maps and pathinfo
         config.devtool = '#inline-source-map';
         config.output.pathinfo = true;
 
@@ -47,7 +47,7 @@ var gulp = require('gulp'),
     prodSetup = function(config) {
         var webpack = require('webpack');
 
-        // Dev settings to turn on watch
+        // Prod settings to optimize things
         config.plugins = config.plugins.concat(
             new webpack.optimize.UglifyJsPlugin(),
             new webpack.optimize.OccurenceOrderPlugin()
@@ -60,9 +60,8 @@ gulp.task('build', [ 'build-html' ], function() {
     return webpackAction(defaultSetup);
 });
 gulp.task('build-watch', [ 'build-html' ], function() {
-    console.log('WARNING!!!!! This task does not currently work correctly');
-    return webpackAction(watchSetup)
-        .pipe(livereload({ auto: false }));
+    return webpackAction(watchSetup);
+        //.pipe(livereload({ auto: false }));
 });
 gulp.task('build-prod', [ 'build-html' ], function() {
     return webpackAction(prodSetup);
