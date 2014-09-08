@@ -17,7 +17,8 @@ module.exports = {
             'diagnostics': path.resolve(__dirname, './diagnostics/diagnostics.js'),
             'postal': 'postal.js',
             'react': path.resolve(__dirname, './bower_components/react/react-with-addons.js'),
-            'moment': path.resolve(__dirname, './bower_components/moment/min/moment.min.js')
+            'moment': path.resolve(__dirname, './bower_components/moment/min/moment.min.js'),
+            'lib': path.resolve(__dirname, './src/lib/'),
 		}
 	},
     module: {

@@ -1,6 +1,6 @@
 var React = require('react'),
     glimpse = require('glimpse'),
-    EmitterMixin = require('../../lib/components/emitter-mixin.jsx');
+    EmitterMixin = require('lib/components/emitter-mixin.jsx');
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],

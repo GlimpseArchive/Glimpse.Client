@@ -1,5 +1,5 @@
 var React = require('react'),
-    Timeago = require('../../lib/components/timeago.jsx');
+    Timeago = require('lib/components/timeago.jsx');
 
 module.exports = React.createClass({
     render: function() {

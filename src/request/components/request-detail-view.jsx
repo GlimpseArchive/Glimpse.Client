@@ -4,8 +4,8 @@ var glimpse = require('glimpse'),
     React = require('react'),
     SummaryDisplay = require('./request-summary-display-view.jsx'),
     cx = React.addons.classSet,
-    EmitterMixin = require('../../lib/components/emitter-mixin.jsx'),
-    Loading = require('../../lib/components/loading.jsx');
+    EmitterMixin = require('lib/components/emitter-mixin.jsx'),
+    Loading = require('lib/components/loading.jsx');
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],

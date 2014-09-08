@@ -1,6 +1,6 @@
 var glimpse = require('glimpse'),
     React = require('react'),
-    Timeago = require('../../lib/components/timeago.jsx'),
+    Timeago = require('lib/components/timeago.jsx'),
     cx = React.addons.classSet;
 
 module.exports = React.createClass({

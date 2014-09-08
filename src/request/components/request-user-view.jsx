@@ -3,7 +3,7 @@ require('../stores/request-user-store.js');
 var glimpse = require('glimpse'),
     React = require('react'),
     UserList = require('./request-user-list-view.jsx'),
-    EmitterMixin = require('../../lib/components/emitter-mixin.jsx');
+    EmitterMixin = require('lib/components/emitter-mixin.jsx');
 
 function getState(payload) {
     return {
