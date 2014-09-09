@@ -1,10 +1,12 @@
 var glimpse = require('glimpse');
+var store = require('store');
 
+var _storeSummaryKey = 'glimpse.data.summary',
+    _storeDetailKey = 'glimpse.data.request';
 // store Found Summary
 (function() {
     function storeFoundSummary(data) {
-        // TODO: Need to complete
-        //       Push into local storage
+      store.set(_storeSummaryKey, data);
     }
 
     glimpse.on('data.request.summary.found.remote', storeFoundSummary);
@@ -14,8 +16,8 @@ var glimpse = require('glimpse');
 // store Found Detail
 (function() {
     function storeFoundDetail(data) {
-        // TODO: Need to complete
-        //       Push into local storage
+      var key = _storeDetailKey + '.' + data.id;
+      store.set(key, data);
     }
 
     glimpse.on('data.request.detail.found.remote', storeFoundDetail);
@@ -23,15 +25,13 @@ var glimpse = require('glimpse');
 
 module.exports = {
     triggerGetLastestSummaries: function() {
-        // TODO: Need to complete
-        //       Pull from local storage
-
-        glimpse.emit('data.request.summary.found.local', []);
+        var data = store.get(_storeSummaryKey);
+        if(data && data.length > 0)
+          glimpse.emit('data.request.summary.found.local', data);
     },
     triggerGetDetailsFor: function(requestId) {
-        // TODO: Need to complete
-        //       Pull from local storage
-
-        glimpse.emit('data.request.detail.found.local', []);
+        var data = store.get(_storeDetailKey + '.' + requestId);
+        if(data && data.length > 0)
+          glimpse.emit('data.request.detail.found.local', data);
     }
 };
