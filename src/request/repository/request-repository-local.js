@@ -43,7 +43,7 @@ module.exports = {
       //Pull from local storage
       //address error handling
         var data = store.get(_storeDetailKey + requestId);
-        if(data && data.length > 0)
+        if(data)
           glimpse.emit('data.request.detail.found.local', data);
     }
 };

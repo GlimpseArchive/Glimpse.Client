@@ -1,5 +1,7 @@
 var glimpse = require('glimpse'),
     chance = require('./fake-extension.js'), // TODO: Can I just import chance and have this wired up differently
+    localStorage = require('../src/request/repository/request-repository-local.js'),
+    store = require('store.js'),
     cache = {
         summary: {},
         details: {}
@@ -80,14 +82,14 @@ var triggerGetLastestSummaries = (function() {
         }, chance.integerRange(50, 100));
 
         // simulate messages from remote
-        setTimeout(function() {
+        /*setTimeout(function() {
             generate.remote();
         }, chance.integerRange(2000, 2500));
 
         // simulate messages from stream
         setTimeout(function() {
             generate.stream(0);
-        }, chance.integerRange(4000, 6000));
+        }, chance.integerRange(4000, 6000));*/
     };
 })();
 
@@ -118,9 +120,10 @@ var triggerGetDetailsFor = (function() {
 
     return function(id) {
         // simulate messages from local store
-        setTimeout(function() {
-            generate.local(id);
-        }, chance.integerRange(10, 50));
+        //setTimeout(function() {
+        //    generate.local(id);
+        //}, chance.integerRange(10, 50));
+        localStorage.triggerGetDetailsFor(id);
 
         // simulate messages from remote
         setTimeout(function() {
