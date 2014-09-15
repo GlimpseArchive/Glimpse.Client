@@ -1,5 +1,5 @@
 var postal = require('postal.js');
-var DiagnosticsWireTap = require('postal.diagnostics')(postal);
+var DiagnosticsWireTap = require('postal.diagnostics');
 
 new DiagnosticsWireTap({
     serialize: function(x) {
