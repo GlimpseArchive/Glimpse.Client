@@ -75,10 +75,9 @@ the following, depending on your requirements:
 gulp build
 ```
 
-At this point, you should now have a `build` and a `dist` directory populated
+At this point, you should now have a dist` directory populated
 with the effected files.
 
- - `build` - all the individual modules that make up glimpse
  - `dist` - packaged files ready for use
 
 *Note*: If you want to break down this task you can do so by running either
@@ -86,20 +85,6 @@ with the effected files.
 populated).
 
 **Compile the Client and start Dev environement**
-
-*!!! Currently watch server isn't working correctly, so don't use !!!*
-
-Use this instead of `gulp dev` for the time being:
-    # Run the server in one command window:
-
-    gulp server
-
-    # And then in another command window, execute rebuilds as needed:
-
-    gulp build
-
-    # The app should be available at http://localhost:8080.
-*!!! Currently watch server isn't working correctly, so don't use !!!*
 
 If you are actively developing the client, the `dev` task will provide you with
 everything you need:
