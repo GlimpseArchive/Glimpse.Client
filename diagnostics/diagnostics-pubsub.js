@@ -12,6 +12,6 @@ new DiagnosticsWireTap({
         }
 
         //console.log(space + x.topic, x.data);
-        console.log(space + x.topic);
+        console.log('[pubsub] ' + space + x.topic);
     }
 });
