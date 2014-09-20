@@ -26,7 +26,7 @@
   "homepage": "https://github.com/Glimpse/Glimpse.Client",
   "devDependencies": {
     "autoprefixer-loader": "^1.0.0",
-    "browser-sync": "^1.4.0",
+    "browser-sync": "^1.3.0",
     "chance": "^0.6.1",
     "css-loader": "^0.8.0",
     "expose-loader": "^0.5.3",
