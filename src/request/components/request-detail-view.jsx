@@ -1,6 +1,7 @@
 require('../stores/request-detail-store.js');
 
 var glimpse = require('glimpse'),
+    requestTabController = require('../request-tab.js'),
     React = require('react'),
     SummaryDisplay = require('./request-summary-display-view.jsx'),
     cx = React.addons.classSet,
@@ -22,6 +23,7 @@ module.exports = React.createClass({
                     <div className="request-detail-holder">
                         <h2>Detail <input type="button" value="Close" onClick={this.onClose} /></h2>
                         {detailView}
+
                     </div>
                 </div>
             );
