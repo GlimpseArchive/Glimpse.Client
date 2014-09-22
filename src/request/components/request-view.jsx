@@ -1,3 +1,5 @@
+require('./request-view.scss');
+
 var React = require('react'),
     User = require('./request-user-view.jsx'),
     Filter = require('./request-filter-view.jsx'),

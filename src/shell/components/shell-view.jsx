@@ -1,3 +1,5 @@
+require('./shell-view.scss');
+
 var React = require('react'),
     glimpse = require('glimpse'),
     EmitterMixin = require('lib/components/emitter-mixin.jsx');

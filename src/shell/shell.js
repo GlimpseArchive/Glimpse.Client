@@ -1,5 +1,3 @@
-require('./style/shell.scss');
-
 var glimpse = require('glimpse'),
     React = require('react'),
     Shell = require('./components/shell-view.jsx'),

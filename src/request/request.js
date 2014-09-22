@@ -1,5 +1,3 @@
-require('./style/request.scss');
-
 var glimpse = require('glimpse'),
     shellController = require('shell/shell.js'),
     Request = require('./components/request-view.jsx');
