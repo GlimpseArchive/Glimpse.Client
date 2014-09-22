@@ -3,9 +3,10 @@ require('../stores/request-detail-store.js');
 var glimpse = require('glimpse'),
     requestTabController = require('../request-tab.js'),
     React = require('react'),
-    Summary = require('./request-detail-summary-view.jsx'),
     cx = React.addons.classSet,
     EmitterMixin = require('lib/components/emitter-mixin.jsx'),
+    Summary = require('./request-detail-summary-view.jsx'),
+    Content = require('./request-detail-content-view.jsx'),
     Loading = require('lib/components/loading.jsx');
 
 module.exports = React.createClass({
@@ -16,7 +17,17 @@ module.exports = React.createClass({
     render: function() {
         var model = this.state;
         if (model && model.selectedId) {
-            var detailView = model.request ? <Summary summary={model.request} /> : <Loading />;
+            var detailView = '';
+            if (model.request)
+                detailView = (
+                        <div>
+                            <Summary summary={model.request} />
+                            <Content summary={model.request} />
+                        </div>
+                    );
+            else {
+                detailView = <Loading />;
+            }
 
             return (
                 <div className="col-md-10 col-md-offset-2 request-detail-holder-outer">
