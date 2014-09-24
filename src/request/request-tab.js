@@ -2,8 +2,9 @@ var glimpse = require('glimpse'),
     tabs = {};
 
 module.exports = {
-    getTabs: function() {
-        return tabs;
+    resolveTab: function(key, data) {
+        // TODO: strategy needs to be improved
+        return tabs[key].component;
     },
     registerTab: function(tab) {
         // TODO: validate key being in place

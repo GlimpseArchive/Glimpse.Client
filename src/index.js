@@ -9,6 +9,7 @@ if (FAKE_SERVER) {
 
 var shell = require('shell/shell.js');
 
+// TODO: Need to come up with a better self registration process
 require('request/request.js');
 
 shell.initialize();

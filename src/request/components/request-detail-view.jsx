@@ -1,9 +1,7 @@
 require('../stores/request-detail-store.js');
 
 var glimpse = require('glimpse'),
-    requestTabController = require('../request-tab.js'),
     React = require('react'),
-    cx = React.addons.classSet,
     EmitterMixin = require('lib/components/emitter-mixin.jsx'),
     Summary = require('./request-detail-summary-view.jsx'),
     Content = require('./request-detail-content-view.jsx'),
@@ -22,7 +20,7 @@ module.exports = React.createClass({
                 detailView = (
                         <div>
                             <Summary summary={model.request} />
-                            <Content summary={model.request} />
+                            <Content details={model.request} />
                         </div>
                     );
             else {
