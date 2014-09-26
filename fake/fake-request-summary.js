@@ -34,6 +34,7 @@ var generate = (function() {
             }
 
         var request =  {
+                _mvc: mvcAction,
                 id: chance.guid(),
                 uri: mvcAction.url,
                 dateTime: dateTime || moment().toISOString(),

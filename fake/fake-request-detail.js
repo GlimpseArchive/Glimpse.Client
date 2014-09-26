@@ -2,6 +2,93 @@ var chance = require('./fake-extension.js'),
     _ = require('lodash');
 
 var generate = (function() {
+
+    var tab = {
+        execution: (function() {
+            var route = function(route) {
+                    return {
+                        type: 'route',
+                        duration: chance.durationRange(0, 1),
+                        //time: '1411576658503',
+                        name: route.name,
+                        mask: route.mask,
+                        resolution: route.resolution
+                    };
+                },
+                filter = function(controller, targetMethod, filterType, category, origin) {
+                    return {
+                            type: 'filter',
+                            duration: chance.durationRange(0, 1),
+                            //time: '1411576658503',
+                            targetClass: controller + 'Controller',
+                            targetMethod: targetMethod,
+                            filterType: filterType,
+                            category: category,
+                            filterOrigin: origin || 'system'
+                        };
+                },
+                action = function(controller, actionTime, binding, activities) {
+                    return {
+                            type: 'action',
+                            duration: actionTime.toFixed(2),
+                            //time: '1411576658503',
+                            targetClass: controller + 'Controller',
+                            targetMethod: 'Index',
+                            physicalFile: 'Controller/' + controller + 'Controller.cs',
+                            binding: binding,
+                            activities: activities
+                        };
+                },
+                process = function(result, mvc, actionTime) {
+                    var childTimings = 0;
+                    result.push(route(mvc.route));
+                    result.push(filter(mvc.controller, 'OnAuthorization', 'Authorization', 'Authorization'));
+                    result.push(filter(mvc.controller, 'OnActionExecuting', 'Action', 'Executing'));
+                    result.push(action(mvc.controller, actionTime, mvc.binding, mvc.activities));
+                    result.push(filter(mvc.controller, 'OnActionExecuted', 'Action', 'Executed'));
+                    result.push(filter(mvc.controller, 'OnActionExecuting', 'Result', 'Executing'));
+
+                    if (mvc.child) {
+                        var partActionTime = actionTime / (mvc.child.length * 100 * 2.5),
+                            upperParts = mvc.child.length * 100,
+                            lowerLimits = upperParts * 0.5;
+
+                        for (var i = 0; i < mvc.child.length; i++) {
+                            var newActionTime = partActionTime * chance.integerRange(lowerLimits, upperParts);
+
+                            childTimings += newActionTime;
+
+                            process(result, mvc.child[i], newActionTime);
+                        }
+                    }
+
+                    // TODO: Shouldn't be done here but anyway
+                    if (mvc.activities) {
+                        var partActivityTime = (actionTime - childTimings) / (mvc.activities.length * 100 * 1.5),
+                            upperParts = mvc.activities.length * 100,
+                            lowerLimits = upperParts * 0.5;
+
+                        for (var i = 0; i < mvc.activities.length; i++) {
+                            var newActivityTime = partActivityTime * chance.integerRange(lowerLimits, upperParts);
+
+                            mvc.activities[i].duration = newActivityTime.toFixed(2);
+                        }
+                    }
+
+                    result.push(filter(mvc.controller, 'OnActionExecuted', 'Result', 'Executed'));
+                };
+
+            return function(request) {
+                    var result = [];
+
+                    process(result, request._mvc, request.abstract.actionTime);
+
+                    return result;
+                };
+        })()
+    };
+
+
     return function(summary) {
         var request = _.clone(summary, true);
 
@@ -9,59 +96,7 @@ var generate = (function() {
         request.data = {
             core_execution: {
                 title: 'Execution',
-                payload: [
-                    { type: 'route', duration: '0.01', time: '1411576658503', name: 'Default', mask: '{controller}/{action}/{id}',
-                        resolution: [
-                            { key: 'controller', value: 'home', default: 'home' },
-                            { key: 'action', value: 'index', default: 'index' },
-                            { key: 'id', value: null, default: null }
-                        ]
-                    },
-                    { type: 'filter', duration: '0.01', time: '1411576658503', targetClass: 'HomeController', targetMethod: 'OnAuthorization', filterType:'Authorization', filterOrigin: 'system', category: 'Authorization' },
-                    { type: 'filter', duration: '0.01', time: '1411576658503', targetClass: 'HomeController', targetMethod: 'OnActionExecuting', filterType:'Action', filterOrigin: 'system', category: 'Executing' },
-                    { type: 'action', duration: '12.24', time: '1411576658503', targetClass: 'HomeController', targetMethod: 'Index', physicalFile: 'Controller/HomeController.cs',
-                        binding: [
-                            { type: 'int', name: 'albumId', value: 8 },
-                            { type: 'UserInfo', name: 'userInfo', value: [
-                                    { type: 'string', name: 'name', value: 'Harry' },
-                                    { type: 'int', name: 'age', value: 25 },
-                                    { type: 'int', name: 'dob', value: 1983 }
-                                ]
-                            }
-                        ],
-                        activities: [
-                            { tpye: 'data', duration: '2.34', time: '1411576658505', access: 'SQL', operation: 'Select', target: 'Carts', affected: '2'  },
-                            { tpye: 'data', duration: '1.78', time: '1411576658508', access: 'SQL', operation: 'Select', target: 'Albums', affected: '1'  }
-                        ]
-                    },
-                    { type: 'filter', duration: '0.01', time: '1411576658515', targetClass: 'HomeController', targetMethod: 'OnActionExecuted', filterType:'Action', filterOrigin: 'system', category: 'Executed' },
-                    { type: 'filter', duration: '0.01', time: '1411576658516', targetClass: 'HomeController', targetMethod: 'OnResultExecuting', filterType:'Result', filterOrigin: 'system', category: 'Executing' },
-                    { type: 'result', duration: '223.63', time: '1411576658516', targetClass: 'ViewResult', targetMethod: 'ExecuteResult', physicalFile: 'View/Home/Index.cshtml', engine: 'Razor' },
-
-                        { type: 'route', duration: '0.01', time: '1411576658642', name: 'Default', mask: '{controller}/{action}/{id}',
-                            resolution: [
-                                { key: 'controller', value: 'shoppingcart', default: 'home' },
-                                { key: 'action', value: 'cartsummary', default: 'index' },
-                                { key: 'id', value: null, default: null }
-                            ]
-                        },
-                        { type: 'filter', duration: '0.01', time: '1411576658642', targetClass: 'ShoppingCart', targetMethod: 'OnAuthorization', filterType:'Authorization', filterOrigin: 'system', category: 'Authorization' },
-                        { type: 'filter', duration: '0.01', time: '1411576658642', targetClass: 'ShoppingCart', targetMethod: 'OnActionExecuting', filterType:'Action', filterOrigin: 'system', category: 'Executing' },
-                        { type: 'action', duration: '4.12', time: '1411576658642', targetClass: 'ShoppingCart', targetMethod: 'CartSummary', physicalFile: 'Controller/ShoppingCartController.cs',
-                            binding: [
-                                { type: 'int', name: 'userId', value: 213 }
-                            ],
-                            activities: [
-                                { tpye: 'data', duration: '0.21', time: '1411576658644', access: 'Cache', operation: 'Hit', target: 'MenuDataItems', affected: '10'  }
-                            ]
-                        },
-                        { type: 'filter', duration: '0.01', time: '1411576658646', targetClass: 'ShoppingCart', targetMethod: 'OnActionExecuted', filterType:'Action', filterOrigin: 'system', category: 'Executed' },
-                        { type: 'filter', duration: '0.01', time: '1411576658646', targetClass: 'ShoppingCart', targetMethod: 'OnResultExecuting', filterType:'Result', filterOrigin: 'system', category: 'Executing' },
-                        { type: 'result', duration: '10.74', time: '1411576658646', targetClass: 'ViewResult', targetMethod: 'ExecuteResult', physicalFile: 'View/Store/CartSummary.cshtml', engine: 'Razor' },
-                        { type: 'filter', duration: '0.01', time: '1411576658656', targetClass: 'ShoppingCart', targetMethod: 'OnResultExecuted', filterType:'Result', filterOrigin: 'system', category: 'Executed' }
-
-                    { type: 'filter', duration: '0.01', time: '1411576658739', targetClass: 'HomeController', targetMethod: 'OnResultExecuted', filterType:'Result', filterOrigin: 'system', category: 'Executed' }
-                ]    
+                payload: tab.execution(request)
             },
             core_trace: {
                 title: 'Trace',
