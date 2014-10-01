@@ -2,7 +2,6 @@ var chance = require('./fake-extension.js'),
     _ = require('lodash');
 
 var generate = (function() {
-
     var tab = {
         execution: (function() {
             var route = function(route) {
@@ -88,7 +87,6 @@ var generate = (function() {
         })()
     };
 
-
     return function(summary) {
         var request = _.clone(summary, true);
 
@@ -97,6 +95,89 @@ var generate = (function() {
             core_execution: {
                 title: 'Execution',
                 payload: tab.execution(request)
+            },
+            core_generic: {
+                title: 'Generic',
+                payload: [ {
+                        'Actor' : 'Mark Hamill',
+                        'Character' : 'Luke Skywalker',
+                        'Gender' : 'Male',
+                        'Age' : '21'
+                    }, {
+                        'Character' : 'Darth Vader',
+                        'Actor' : 'James Earl Jones',
+                        'Gender' : 'Male',
+                        'Age' : '45'
+                    }, {
+                        'Actor' : 'Harrison Ford',
+                        'Character' : {
+                            'Mark Hamill' : 'Luke Skywalker',
+                            'James Earl Jones' : 'Darth Vader',
+                            'Harrison Ford' : 'Han Solo'
+                        },
+                        'Gender' : 'Male',
+                        'Age' : '25'
+                    }, {
+                        'Actor' : 'Carrie Fisher',
+                        'Character' : 'Princess Leia Organa',
+                        'Gender' : 'Female',
+                        'Age' : '21'
+                    }, {
+                        'Actor' : 'Peter Cushing',
+                        'Character' : [ {
+                                'Actor' : 'Mark Hamill',
+                                'Character' : 'Luke Skywalker',
+                                'Gender' : 'Male',
+                                'Age' : '21'
+                            }, {
+                                'Actor' : 'James Earl Jones',
+                                'Character' : 'Darth Vader',
+                                'Gender' : 'Male',
+                                'Age' : '45'
+                            }, {
+                                'Actor' : 'Harrison Ford',
+                                'Character' : 'Han Solo',
+                                'Gender' : 'Male',
+                                'Age' : '25'
+                            }, {
+                                'Actor' : 'Carrie Fisher',
+                                'Character' : 'Princess Leia Organa',
+                                'Gender' : 'Female',
+                                'Age' : '21'
+                            }, {
+                                'Actor' : 'Peter Cushing',
+                                'Character' : 'Grand Moff Tarkin',
+                                'Gender' : 'Female',
+                                'Age' : '69'
+                            }, {
+                                'Actor' : 'Alec Guinness',
+                                'Character' : 'Ben Obi-Wan Kenobi',
+                                'Gender' : 'Female',
+                                'Age' : '70'
+                            }, {
+                                'Actor' : 'Anthony Daniels',
+                                'Character' : 'C-3PO',
+                                'Gender' : 'Droid',
+                                'Age' : '101'
+                            }, {
+                                'Actor' : 'Kenny Baker',
+                                'Character' : 'R2-D2',
+                                'Gender' : 'Droid',
+                                'Age' : '150'
+                            } ],
+                        'Gender' : 'Female',
+                        'Age' : '69'
+                    }, {
+                        'Actor' : 'Alec Guinness',
+                        'Character' : 'Ben Obi-Wan Kenobi',
+                        'Gender' : 'Female',
+                        'Age' : '70'
+                    }, {
+                        'Actor' : 'Anthony Daniels',
+                        'Character' : 'C-3PO',
+                        'Gender' : 'Droid',
+                        'Age' : '101'
+                    } ]
             },
             core_trace: {
                 title: 'Trace',

@@ -1,10 +1,15 @@
 var glimpse = require('glimpse'),
+    PanelGeneric = require('./components/request-detail-panel-generic.jsx'),
     tabs = {};
 
 module.exports = {
     resolveTab: function(key, data) {
         // TODO: strategy needs to be improved
-        return tabs[key].component;
+        if (tabs[key]) {
+            return tabs[key].component;
+        }
+
+        return PanelGeneric;
     },
     registerTab: function(tab) {
         // TODO: validate key being in place
