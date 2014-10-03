@@ -38,49 +38,77 @@ var generate = (function() {
                             activities: activities
                         };
                 },
-                process = function(result, mvc, actionTime) {
-                    var childTimings = 0;
-                    result.push(route(mvc.route));
-                    result.push(filter(mvc.controller, 'OnAuthorization', 'Authorization', 'Authorization'));
-                    result.push(filter(mvc.controller, 'OnActionExecuting', 'Action', 'Executing'));
-                    result.push(action(mvc.controller, actionTime, mvc.binding, mvc.activities));
-                    result.push(filter(mvc.controller, 'OnActionExecuted', 'Action', 'Executed'));
-                    result.push(filter(mvc.controller, 'OnActionExecuting', 'Result', 'Executing'));
+                trace = function(message, level) {
+                    var template = null;
+                    if (typeof message === 'object') {
+                        template = message;
+                        message = template.mask;
+                        for (var key in template.values) {
+                            message = message.replace('{' + key + '}', template.values[key]);
+                        }
+                    }
 
-                    if (mvc.child) {
-                        var partActionTime = actionTime / (mvc.child.length * 100 * 2.5),
-                            upperParts = mvc.child.length * 100,
+                    var msg = {
+                            type: 'trace',
+                            message: message
+                        };
+
+                    if (template) {
+                        msg.template = template;
+                    }
+                    if (level) {
+                        msg.level = level;
+                    }
+
+                    return msg;
+                },
+                process = function(result, context, request) { //mvc, actionTime
+                    var childTimings = 0;
+
+                    result.push(route(context.detail.route));
+                    result.push(filter(context.detail.controller, 'OnAuthorization', 'Authorization', 'Authorization'));
+                    result.push(trace({ mask: 'User {0} authorized to execute this action', values: { '0': request.user.name } }));
+                    result.push(filter(context.detail.controller, 'OnActionExecuting', 'Action', 'Executing'));
+                    result.push(action(context.detail.controller, context.time, context.detail.binding, context.detail.activities));
+                    result.push(filter(context.detail.controller, 'OnActionExecuted', 'Action', 'Executed'));
+                    result.push(filter(context.detail.controller, 'OnActionExecuting', 'Result', 'Executing'));
+
+                    var child = context.detail.child;
+                    if (child) {
+                        var partActionTime = context.time / (child.length * 100 * 2.5),
+                            upperParts = child.length * 100,
                             lowerLimits = upperParts * 0.5;
 
-                        for (var i = 0; i < mvc.child.length; i++) {
+                        for (var i = 0; i < child.length; i++) {
                             var newActionTime = partActionTime * chance.integerRange(lowerLimits, upperParts);
 
                             childTimings += newActionTime;
 
-                            process(result, mvc.child[i], newActionTime);
+                            process(result, { detail: child[i], time: newActionTime }, request);
                         }
                     }
 
                     // TODO: Shouldn't be done here but anyway
-                    if (mvc.activities) {
-                        var partActivityTime = (actionTime - childTimings) / (mvc.activities.length * 100 * 1.5),
-                            upperParts = mvc.activities.length * 100,
+                    var activities = context.detail.activities;
+                    if (activities) {
+                        var partActivityTime = (context.time - childTimings) / (activities.length * 100 * 1.5),
+                            upperParts = activities.length * 100,
                             lowerLimits = upperParts * 0.5;
 
-                        for (var i = 0; i < mvc.activities.length; i++) {
+                        for (var i = 0; i < activities.length; i++) {
                             var newActivityTime = partActivityTime * chance.integerRange(lowerLimits, upperParts);
 
-                            mvc.activities[i].duration = newActivityTime.toFixed(2);
+                            activities[i].duration = newActivityTime.toFixed(2);
                         }
                     }
 
-                    result.push(filter(mvc.controller, 'OnActionExecuted', 'Result', 'Executed'));
+                    result.push(filter(context.detail.controller, 'OnActionExecuted', 'Result', 'Executed'));
                 };
 
             return function(request) {
                     var result = [];
 
-                    process(result, request._mvc, request.abstract.actionTime);
+                    process(result, { detail: request._mvc, time: request.abstract.actionTime }, { user: request.user });
 
                     return result;
                 };
