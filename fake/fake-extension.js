@@ -64,6 +64,9 @@ function gernateShoppingCart() {
         route: generateRoute.normal('shoppingcart', 'cartsummary', null),
         activities: [
             { type: 'data', access: 'SQL', operation: 'Select', target: 'Carts', affected: 1, commmand: 'SELECT TOP (5) \n[Project1].[AlbumId] AS [AlbumId], \n[Project1].[GenreId] AS [GenreId], \n[Project1].[ArtistId] AS [ArtistId], \n[Project1].[Title] AS [Title], \n[Project1].[Price] AS [Price], \n[Project1].[AlbumArtUrl] AS [AlbumArtUrl]\nFROM ( SELECT \n    [Extent1].[AlbumId] AS [AlbumId], \n    [Extent1].[GenreId] AS [GenreId], \n    [Extent1].[ArtistId] AS [ArtistId], \n    [Extent1].[Title] AS [Title], \n    [Extent1].[Price] AS [Price], \n    [Extent1].[AlbumArtUrl] AS [AlbumArtUrl], \n    (SELECT \n        COUNT(1) AS [A1]\n        FROM [dbo].[OrderDetails] AS [Extent2]\n        WHERE [Extent1].[AlbumId] = [Extent2].[AlbumId]) AS [C1]\n    FROM [dbo].[Albums] AS [Extent1]\n)  AS [Project1]\nORDER BY [Project1].[C1] DESC'  }
+        ],
+        trace: [
+            'Cart has items in that the user has added.'
         ]
     };
 }
@@ -97,6 +100,9 @@ function generateMvc() {
             child: [
                 gernateShoppingCart(),
                 generateGenreMenu()
+            ],
+            trace: [
+                { mask: 'Currently genre {0} selected', values: { '0': genre } }
             ]
         });
     }
@@ -115,6 +121,9 @@ function generateMvc() {
                 child: [
                     gernateShoppingCart(),
                     generateGenreMenu()
+                ],
+                trace: [
+                    { mask: 'Currently item/detail {0} selected', values: { '0': id } }
                 ]
             });
     }
@@ -129,6 +138,9 @@ function generateMvc() {
                 child: [
                     gernateShoppingCart(),
                     generateGenreMenu()
+                ],
+                trace: [
+                    'Initial page loaded.'
                 ] },
         { url: '/ShoppingCart/', controller: 'ShoppingCart', action: 'Index',
                 route: generateRoute.normal('shoppingcart', 'index', null),
@@ -139,6 +151,10 @@ function generateMvc() {
                 child: [
                     gernateShoppingCart(),
                     generateGenreMenu()
+                ],
+                trace: [
+                    'Cart applied tax rates correctly.',
+                    { mask: 'Cart tax rates processed in {0}ms', values: { '0': chance.durationRange(0, 1) } }
                 ] },
         { url: '/Store/', controller: 'Store', action: 'Index',
                 route: generateRoute.normal('store', 'index', null),
@@ -148,12 +164,18 @@ function generateMvc() {
                 child: [
                     gernateShoppingCart(),
                     generateGenreMenu()
+                ],
+                trace: [
+                    'Processing menu options for selection.'
                 ] },
         { url: '/Account/LogOn/', controller: 'Account', action: 'LogOn',
                 route: generateRoute.normal('account', 'logon', null),
                 child: [
                     gernateShoppingCart(),
                     generateGenreMenu()
+                ],
+                trace: [
+                    { mask: 'User from {0} is attempting to login', values: { '0': chance.ip() } }
                 ] }
     ];
     for (i = 0; i < chance.integerRange(15, 20); i++) {
