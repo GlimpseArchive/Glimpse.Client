@@ -1,10 +1,33 @@
-var React = require('react');
+var React = require('react'),
+    PanelGeneric = require('./request-detail-panel-generic.jsx');
 
 module.exports = React.createClass({
     render: function() {
-        var data = this.props.data;
+        return (
+            <table>
+                <thead>
+                    <th>Category</th>
+                    <th>Message</th>
+                    <th>Template</th>
+                    <th>Values</th>
+                </thead>
+                {this.props.data.payload.map(function(item) {
+                    var templateValues = null,
+                        templateMask = null;
+                    if (item.template && item.template.values) {
+                        templateValues = <PanelGeneric payload={item.template.values} />;
+                        templateMask = item.template.mask;
+                    }
 
-        return <div>{this.props.key}... WE ARE Trace!!!</div>;
+                    return (<tr>
+                            <td>{item.category}</td>
+                            <td>{item.message}</td>
+                            <td>{templateMask}</td>
+                            <td>{templateValues}</td>
+                        </tr>);
+                })}
+            </table>
+        );
     }
 });
 

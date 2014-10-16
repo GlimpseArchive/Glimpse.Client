@@ -44,11 +44,11 @@ function processObject(item) {
 
 module.exports = React.createClass({
     render: function() {
-        var payload = this.props.data.payload,
+        var payload = this.props.payload || this.props.data.payload,
             result = null;
 
         if (payload) {
-            result = processArray(payload);
+            result = process(payload);
         }
 
         return result || <div>No records found.</div>;

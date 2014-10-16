@@ -47,3 +47,8 @@
 .request-user-item-holder-leave.request-user-item-holder-leave-active {
     opacity: 0.01;
 }
+
+.tab-pane > table {
+    border-spacing: 10px;
+    border-collapse: separate;
+}

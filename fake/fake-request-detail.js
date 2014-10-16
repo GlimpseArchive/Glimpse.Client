@@ -163,7 +163,7 @@ var generate = (function() {
                         title: 'Execution',
                         payload: store.execution
                     },
-                    core_log: {
+                    core_trace: {
                         title: 'Log',
                         payload: store.log
                     },
