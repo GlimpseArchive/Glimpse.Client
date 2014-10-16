@@ -1,5 +1,5 @@
 var glimpse = require('glimpse'),
-    PanelGeneric = require('./components/request-detail-panel-generic.jsx'),
+    PanelGeneric = require('./components/extensions/request-detail-panel-generic.jsx'),
     tabs = {};
 
 module.exports = {

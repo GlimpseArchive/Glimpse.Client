@@ -19,8 +19,8 @@ var glimpse = require('glimpse'),
 
 
 // TODO: Need to come up with a better self registration process
-require('./components/request-detail-panel-execution.jsx');
-require('./components/request-detail-panel-trace.jsx');
+require('./components/extensions/request-detail-panel-execution.jsx');
+require('./components/extensions/request-detail-panel-trace.jsx');
 
 // TODO: Need to come up with a better self registration process
 (function() {
