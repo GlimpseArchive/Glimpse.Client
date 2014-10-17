@@ -26,3 +26,14 @@ module.exports = React.createClass({
         );
     }
 });
+
+
+// TODO: Need to come up with a better self registration process
+(function() {
+    var shellController = require('shell/shell.js');
+
+    shellController.registerApplication({
+        key: 'core_request',
+        component: module.exports
+    });
+})();

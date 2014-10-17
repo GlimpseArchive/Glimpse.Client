@@ -12,7 +12,9 @@ module.exports = React.createClass({
     render: function() {
         return (
             <div className="application-holder">
-                {this.props.applications}
+                {this.props.applications.map(function(application) {
+                    return <div key={application.key}>{application.component()}</div>;
+                })}
             </div>
         );
     },

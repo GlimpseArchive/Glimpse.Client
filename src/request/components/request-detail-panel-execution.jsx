@@ -29,7 +29,6 @@ var subItem = function(data, title, level) {
 module.exports = React.createClass({
     render: function() {
         var output = this.props.data.payload.map(function(item) {
-
                 var result = subItem(item, 'Row', 0);
 
                 return <div>{result}<br /><br /></div>;
@@ -42,7 +41,7 @@ module.exports = React.createClass({
 
 // TODO: Need to come up with a better self registration process
 (function() {
-    var requestTabController = require('../../request-tab.js');
+    var requestTabController = require('../request-tab.js');
 
     requestTabController.registerTab({
         key: 'core_execution',

@@ -1,5 +1,5 @@
 var glimpse = require('glimpse'),
-    PanelGeneric = require('./components/extensions/request-detail-panel-generic.jsx'),
+    PanelGeneric = require('./components/request-detail-panel-generic.jsx'),
     tabs = {};
 
 module.exports = {
@@ -18,3 +18,8 @@ module.exports = {
         glimpse.emit('shell.request.tab.added', { tab: tab });
     }
 };
+
+
+// TODO: Need to come up with a better self registration process
+require('./components/request-detail-panel-execution.jsx');
+require('./components/request-detail-panel-trace.jsx');

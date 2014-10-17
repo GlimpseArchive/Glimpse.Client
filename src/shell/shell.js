@@ -16,3 +16,7 @@ module.exports = {
         glimpse.emit('shell.ready', {});
     }
 };
+
+
+// TODO: Need to come up with a better self registration process
+require('request/components/request-view.jsx');
