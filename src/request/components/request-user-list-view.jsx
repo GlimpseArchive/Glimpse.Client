@@ -8,7 +8,7 @@ module.exports = React.createClass({
         for (var key in this.props.allUsers) {
            var user = this.props.allUsers[key];
 
-           users.push(<UserItem key={user.id} user={user} />);
+           users.push(<UserItem key={user.details.id} user={user} />);
         }
 
         var message = (users.length === 0) ? <em>No found users.</em> : '';
