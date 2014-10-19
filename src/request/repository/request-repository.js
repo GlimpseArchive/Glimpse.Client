@@ -7,12 +7,16 @@ var glimpse = require('glimpse'),
 
 module.exports = {
     triggerGetLastestSummaries: function() {
-        resourceRepository.triggerGetLastestSummaries();
-        localRepository.triggerGetLastestSummaries();
+        if (!FAKE_SERVER) {
+            resourceRepository.triggerGetLastestSummaries();
+            localRepository.triggerGetLastestSummaries();
+        }
     },
     triggerGetDetailsFor: function(requestId) {
-        resourceRepository.triggerGetDetailsFor(requestId);
-        localRepository.triggerGetDetailsFor(requestId);
+        if (!FAKE_SERVER) {
+            resourceRepository.triggerGetDetailsFor(requestId);
+            localRepository.triggerGetDetailsFor(requestId);
+        }
     },
     // TODO: Need to look and see if this is the best place for these
     subscribeToLatestSummaries: function() {

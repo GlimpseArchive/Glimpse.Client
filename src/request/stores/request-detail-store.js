@@ -51,9 +51,7 @@ function requestChanged(targetRequests) {
 
         requestChanged(_viewModel);
 
-        if (!FAKE_SERVER) {
-            requestRepository.triggerGetDetailsFor(requestId);
-        }
+        requestRepository.triggerGetDetailsFor(requestId);
     }
 
     glimpse.on('data.request.detail.requested', triggerRequest);

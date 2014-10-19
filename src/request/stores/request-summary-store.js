@@ -200,9 +200,7 @@ var filterRequests = (function() {
 // TODO: Look at changing the name of this to bring it into line with the above
 (function() {
     function triggerRequest() {
-        if (!FAKE_SERVER) {
-            requestRepository.triggerGetLastestSummaries();
-        }
+        requestRepository.triggerGetLastestSummaries();
     }
 
     glimpse.on('shell.request.summary.requested', triggerRequest);
