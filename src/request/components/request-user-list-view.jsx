@@ -1,24 +1,23 @@
-var React = require('react'),
+var glimpse = require('glimpse'),
+    React = require('react'),
     ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
     UserItem = require('./request-user-list-item-view.jsx');
 
 module.exports = React.createClass({
     render: function() {
-        var users = [];
-        for (var key in this.props.allUsers) {
-           var user = this.props.allUsers[key];
-
-           users.push(<UserItem key={user.details.id} user={user} />);
-        }
-
-        var message = (users.length === 0) ? <em>No found users.</em> : '';
+        var allUsers = this.props.allUsers;
 
         return (
             <div className="request-user-list-holder">
                 <ReactCSSTransitionGroup component={React.DOM.div} transitionName="request-user-item-holder" transitionLeave={false}>
-                    {users}
+                    {glimpse.util.eachMap(allUsers, function(key, user) {
+                        return <UserItem key={user.details.id} user={user} />;
+                    })}
                 </ReactCSSTransitionGroup>
-                {message}
+                {glimpse.util.isEmpty(allUsers) ?
+                    <em>No found users.</em> :
+                    null
+                }
             </div>
         );
     }

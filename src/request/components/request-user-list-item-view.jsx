@@ -10,9 +10,6 @@ module.exports = React.createClass({
                 'table table-bordered user-status': true,
                 'user-status-online': user.online,
                 'user-shell-selected': user.selected
-            }),
-            requests = user.latestRequests.map(function(request, i) {
-                return <div key={request.id}>{request.uri}</div>;
             });
 
         return (
@@ -28,7 +25,11 @@ module.exports = React.createClass({
                         <td colSpan="2"><Timeago time={user.lastActive} /></td>
                     </tr>
                     <tr>
-                        <td colSpan="2">{requests}</td>
+                        <td colSpan="2">
+                            {user.latestRequests.map(function(request) {
+                                return <div key={request.id}>{request.uri}</div>;
+                            })}
+                        </td>
                     </tr>
                 </table>
             </div>

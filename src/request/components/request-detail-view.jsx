@@ -15,23 +15,17 @@ module.exports = React.createClass({
     render: function() {
         var model = this.state;
         if (model && model.selectedId) {
-            var detailView = '';
-            if (model.request)
-                detailView = (
-                        <div>
-                            <Summary summary={model.request} />
-                            <Content details={model.request} />
-                        </div>
-                    );
-            else {
-                detailView = <Loading />;
-            }
-
             return (
                 <div className="col-md-10 col-md-offset-2 request-detail-holder-outer">
                     <div className="request-detail-holder">
                         <h2>Detail <input type="button" value="Close" onClick={this.onClose} /></h2>
-                        {detailView}
+                        {!model.request ?
+                            <Loading /> :
+                            <div>
+                                <Summary summary={model.request} />
+                                <Content details={model.request} />
+                            </div>
+                        }
                     </div>
                 </div>
             );

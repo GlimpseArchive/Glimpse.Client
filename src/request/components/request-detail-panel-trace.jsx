@@ -12,19 +12,20 @@ module.exports = React.createClass({
                     <th>Values</th>
                 </thead>
                 {this.props.data.payload.map(function(item) {
-                    var templateValues = null,
-                        templateMask = null;
+                    var template = {};
                     if (item.template && item.template.values) {
-                        templateValues = <PanelGeneric payload={item.template.values} />;
-                        templateMask = item.template.mask;
+                        template.values = <PanelGeneric payload={item.template.values} />;
+                        template.mask = item.template.mask;
                     }
 
-                    return (<tr>
+                    return (
+                        <tr>
                             <td>{item.category}</td>
                             <td>{item.message}</td>
-                            <td>{templateMask}</td>
-                            <td>{templateValues}</td>
-                        </tr>);
+                            <td>{template.mask}</td>
+                            <td>{template.talues}</td>
+                        </tr>
+                    );
                 })}
             </table>
         );

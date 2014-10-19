@@ -16,7 +16,6 @@ module.exports = React.createClass({
         return (
             <div className="request-session-holder">
                 <h2>Filter</h2>
-
                 <div>
                     <label htmlFor="request-fitler-uri">Uri</label><br />
                     <input type="text" id="request-fitler-uri" valueLink={this.linkState('uri')} />
