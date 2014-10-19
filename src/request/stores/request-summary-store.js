@@ -79,11 +79,11 @@ var filterRequests = (function() {
             var targetRequests = newRequests;
 
             if (filterHasChanged) {
-                targetRequest = allRequests;
+                targetRequests = allRequests;
                 _filteredRequests = [];
             }
 
-            var matchFound = applyFilters(targetRequest, _filteredRequests, _filters);
+            var matchFound = applyFilters(targetRequests, _filteredRequests, _filters);
             if (!newRequests || matchFound || filterHasChanged) {
                 notifyRequestsChanged(_filteredRequests);
             }
