@@ -1,3 +1,4 @@
+var _ = require('lodash');
 
 module.exports = {
     isArray: function(data) {
@@ -8,6 +9,18 @@ module.exports = {
     },
     isObject: function(data) {
         return data !== null && (typeof data === 'object');
+    },
+    isEmpty: function(data) {
+        return _.isEmpty(data);
+    },
+    eachMap: function(data, callback) {
+        var result = [];
+
+        for (var key in data) {
+            result.push(callback(key, data[key]));
+        }
+
+        return result;
     },
     smartCasing: function (data) {
         var result = '',
