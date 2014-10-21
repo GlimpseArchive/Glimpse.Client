@@ -1,9 +1,8 @@
 var glimpse = require('glimpse');
 var store = require('store.js');
 
-var _storeSummaryKey = 'glimpse.data.summary',
-    _storeDetailKey = 'glimpse.data.request',
-    _mapRequestsSummary = 'glimpse.data.summary.maps';
+var _storeSummaryKey = 'glimpse.data.summary.local',
+    _storeDetailKey = 'glimpse.data.request.local';
 // store Found Summary
 (function() {
     //TODO: Need to complete
@@ -11,15 +10,18 @@ var _storeSummaryKey = 'glimpse.data.summary',
     //address error handling, flushing out old data
     function storeFoundSummary(data) {
         var storeSummary = store.get(_storeSummaryKey) || [];
-        var mapping = store.get(_mapRequestsSummary) || {};
         for (var i = 0; i < data.length; i++) {
             var request = data[i];
-            storeSummary.push(request);
-            mapping[storeSummary.length - 1] = request.id;
-            mapping[request.id] = storeSummary.length - 1;
+            storeSummary.unshift(request);
         }
+        flush(storeSummary);
         store.set(_storeSummaryKey, storeSummary);
-        store.set(_mapRequestsSummary, mapping);
+    }
+
+    function flush(storeArray){
+      while(storeArray.length > 100){
+        storeArray.pop();
+      }
     }
 
     glimpse.on('data.request.summary.found.remote', storeFoundSummary);
