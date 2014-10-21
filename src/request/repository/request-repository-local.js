@@ -8,8 +8,9 @@ var _storeSummaryKey = 'glimpse.data.summary.local',
     //TODO: Need to complete
     //Push into local storage
     //address error handling, flushing out old data
+    var storeSummary = store.get(_storeSummaryKey) || [];
+    var storeDetail = store.get(_storeDetailKey) || {};
     function storeFoundSummary(data) {
-        var storeSummary = store.get(_storeSummaryKey) || [];
         for (var i = 0; i < data.length; i++) {
             var request = data[i];
             storeSummary.unshift(request);
@@ -20,21 +21,24 @@ var _storeSummaryKey = 'glimpse.data.summary.local',
 
     function flush(storeArray){
       while(storeArray.length > 100){
-        storeArray.pop();
+        var summary = storeArray.pop();
+        if(storeDetail[summary.id])
+          storeDetail[summary.id] = undefined;
       }
+      //update detail store
+      store.set(_storeDetailKey, storeDetail);
     }
 
     glimpse.on('data.request.summary.found.remote', storeFoundSummary);
     glimpse.on('data.request.summary.found.stream', storeFoundSummary);
 })();
 
-// store Found Detail
 (function() {
-    //TODO: Need to complete
-    //Push into local storage
-    //address error handling, flushing out old data
+
     function storeFoundDetail(data) {
-      //needs to be redone like above to enable flushing
+      var storeDetail = store.get(_storeDetailKey) || {};
+      storeDetail[data.id] = data;
+      store.set(_storeDetailKey, storeDetail);
     }
 
     glimpse.on('data.request.detail.found.remote', storeFoundDetail);
@@ -42,19 +46,19 @@ var _storeSummaryKey = 'glimpse.data.summary.local',
 
 module.exports = {
     triggerGetLastestSummaries: function() {
-      //TODO: Need to complete
-      //Pull from local storage
-      //address error handling
         var data = store.get(_storeSummaryKey);
         if(data){
           glimpse.emit('data.request.summary.found.local', data);
         }
     },
     triggerGetDetailsFor: function(requestId) {
-      //TODO: Need to complete
-      //Pull from local storage
-      //address error handling
-      //needs to be redone like above, and then use mappings
+        var data = store.get(_storeDetailKey);
+        if(data){
+          var requestDetail = data[requestId];
+          if(requestDetail){
+            glimpse.emit('data.request.detail.found.local', requestDetail);
+          }
+        }
     }
 
 };
