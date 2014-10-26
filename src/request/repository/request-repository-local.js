@@ -35,7 +35,7 @@ var _storeSummaryKey = 'glimpse.data.summary.local',
       storeDetail[data.id] = data;
       storeDetailIndex.unshift(data.id);
 
-      if(storeDetailsIndex.length > 10){
+      if(storeDetailIndex.length > 10){
         var id = storeDetailsIndex.pop();
         delete storeDetail[id];
       }
