@@ -2,12 +2,10 @@ var glimpse = require('glimpse');
 var store = require('store.js');
 
 var _storeSummaryKey = 'glimpse.data.summary.local',
-    _storeDetailKey = 'glimpse.data.request.local';
-// store Found Summary
+    _storeDetailKey = 'glimpse.data.request.local',
+    _storeDetailIndex = 'glimpse.data.request.local.index';
+
 (function() {
-    //TODO: Need to complete
-    //Push into local storage
-    //address error handling, flushing out old data
     var storeSummary = store.get(_storeSummaryKey) || [];
     var storeDetail = store.get(_storeDetailKey) || {};
     function storeFoundSummary(data) {
@@ -22,11 +20,7 @@ var _storeSummaryKey = 'glimpse.data.summary.local',
     function flush(storeArray){
       while(storeArray.length > 100){
         var summary = storeArray.pop();
-        if(storeDetail[summary.id])
-          storeDetail[summary.id] = undefined;
       }
-      //update detail store
-      store.set(_storeDetailKey, storeDetail);
     }
 
     glimpse.on('data.request.summary.found.remote', storeFoundSummary);
@@ -37,8 +31,17 @@ var _storeSummaryKey = 'glimpse.data.summary.local',
 
     function storeFoundDetail(data) {
       var storeDetail = store.get(_storeDetailKey) || {};
+      var storeDetailIndex = store.get(_storeDetailIndex) || [];
       storeDetail[data.id] = data;
+      storeDetailIndex.unshift(data.id);
+
+      if(storeDetailsIndex.length > 10){
+        var id = storeDetailsIndex.pop();
+        delete storeDetail[id];
+      }
+
       store.set(_storeDetailKey, storeDetail);
+      store.set(_storeDetailIndex, storeDetailIndex)
     }
 
     glimpse.on('data.request.detail.found.remote', storeFoundDetail);
