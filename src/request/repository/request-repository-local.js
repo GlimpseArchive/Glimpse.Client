@@ -2,8 +2,8 @@ var glimpse = require('glimpse');
 var store = require('store.js');
 
 var _storeSummaryKey = 'glimpse.data.summary.local',
-_storeDetailKey = 'glimpse.data.request.local',
-_storeDetailIndex = 'glimpse.data.request.local.index';
+   _storeDetailKey = 'glimpse.data.request.local',
+   _storeDetailIndex = 'glimpse.data.request.local.index';
 
 (function() {
    var storeSummary;
