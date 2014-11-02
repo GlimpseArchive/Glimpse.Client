@@ -1,49 +1,71 @@
 var glimpse = require('glimpse');
 var store = require('store.js');
 
-var _storeSummaryKey = 'glimpse.data.summary',
-    _storeDetailKey = 'glimpse.data.request';
-// store Found Summary
-(function() {
-    //TODO: Need to complete
-    //Push into local storage
-    //address error handling, flushing out old data
-    function storeFoundSummary(data) {
-      store.set(_storeSummaryKey, data);
-    }
+var _storeSummaryKey = 'glimpse.data.summary.local',
+   _storeDetailKey = 'glimpse.data.request.local',
+   _storeDetailIndex = 'glimpse.data.request.local.index';
 
-    glimpse.on('data.request.summary.found.remote', storeFoundSummary);
-    glimpse.on('data.request.summary.found.stream', storeFoundSummary);
+(function() {
+   var storeSummary;
+
+   function storeFoundSummary(data) {
+      storeSummary = store.get(_storeSummaryKey) || [];
+      for (var i = 0; i < data.length; i++) {
+         var request = data[i];
+         storeSummary.unshift(request);
+      }
+      flush();
+      store.set(_storeSummaryKey, storeSummary);
+   }
+
+   function flush(){
+      while(storeSummary.length > 100){
+         storeSummary.pop();
+      }
+   }
+
+   glimpse.on('data.request.summary.found.remote', storeFoundSummary);
+   glimpse.on('data.request.summary.found.stream', storeFoundSummary);
 })();
 
-// store Found Detail
 (function() {
-    //TODO: Need to complete
-    //Push into local storage
-    //address error handling, flushing out old data
-    function storeFoundDetail(data) {
-      var key = _storeDetailKey + '.' + data.id;
-      store.set(key, data);
-    }
+   var storeDetail, storeDetailIndex;
 
-    glimpse.on('data.request.detail.found.remote', storeFoundDetail);
+   function storeFoundDetail(data) {
+      storeDetail = store.get(_storeDetailKey) || {};
+      storeDetailIndex = store.get(_storeDetailIndex) || [];
+      storeDetail[data.id] = data;
+      storeDetailIndex.unshift(data.id);
+      flush();
+      store.set(_storeDetailKey, storeDetail);
+      store.set(_storeDetailIndex, storeDetailIndex)
+   }
+
+   function flush(){
+      while(storeDetailIndex.length > 10){
+         var id = storeDetailsIndex.pop();
+         delete storeDetail[id];
+      }
+   }
+
+   glimpse.on('data.request.detail.found.remote', storeFoundDetail);
 })();
 
 module.exports = {
-    triggerGetLastestSummaries: function() {
-      //TODO: Need to complete
-      //Pull from local storage
-      //address error handling
-        var data = store.get(_storeSummaryKey);
-        if(data && data.length > 0)
-          glimpse.emit('data.request.summary.found.local', data);
-    },
-    triggerGetDetailsFor: function(requestId) {
-      //TODO: Need to complete
-      //Pull from local storage
-      //address error handling
-        var data = store.get(_storeDetailKey + '.' + requestId);
-        if(data && data.length > 0)
-          glimpse.emit('data.request.detail.found.local', data);
-    }
+   triggerGetLastestSummaries: function() {
+      var data = store.get(_storeSummaryKey);
+      if(data){
+         glimpse.emit('data.request.summary.found.local', data);
+      }
+   },
+   triggerGetDetailsFor: function(requestId) {
+      var data = store.get(_storeDetailKey);
+      if(data){
+         var requestDetail = data[requestId];
+         if(requestDetail){
+            glimpse.emit('data.request.detail.found.local', requestDetail);
+         }
+      }
+   }
+
 };
