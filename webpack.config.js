@@ -1,5 +1,5 @@
 var webpack = require('webpack'),
-    path = require('path');
+    path = require('path'),
     // TODO: At some point factor this better
     progressPlugin = (function() {
         var chars = 0, lastState, lastStateTime;
