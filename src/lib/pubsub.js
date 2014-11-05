@@ -1,4 +1,4 @@
-var postal = require('postal.js');
+var postal = require('postal');
 
 module.exports = {
     on: function() {

@@ -1,5 +1,5 @@
 var glimpse = require('glimpse');
-var store = require('store.js');
+var store = require('store');
 
 var _storeSummaryKey = 'glimpse.data.summary.local',
    _storeDetailKey = 'glimpse.data.request.local',

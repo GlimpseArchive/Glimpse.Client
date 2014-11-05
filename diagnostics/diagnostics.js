@@ -1,1 +1,1 @@
-require('./diagnostics-pubsub.js');
+require('./diagnostics-pubsub');

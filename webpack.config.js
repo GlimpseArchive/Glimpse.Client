@@ -37,27 +37,25 @@ module.exports = {
         chunkFilename: './[id].chunk.js'
     },
     resolve: {
-        modulesDirectories: ['node_modules', 'bower_components'],
+        modulesDirectories: ['node_modules'],
         alias: {
             'glimpse': path.resolve(__dirname, './src/glimpse.js'),
             'shell': path.resolve(__dirname, './src/shell'),
             'request': path.resolve(__dirname, './src/request'),
             'fake': path.resolve(__dirname, './fake/fake.js'),
             'diagnostics': path.resolve(__dirname, './diagnostics/diagnostics.js'),
-            'postal': 'postal.js',
-            'react': path.resolve(__dirname, './bower_components/react/react-with-addons.js'),
-            'moment': path.resolve(__dirname, './bower_components/moment/min/moment.min.js'),
+            'react': require.resolve('react/addons'),
             'lib': path.resolve(__dirname, './src/lib/'),
          }
      },
     module: {
         loaders: [
             { test: /react/, loader: 'expose-loader?React' },
-            { test: /\.scss$/, loader: 'style!css!autoprefixer?browsers=last 2 version!sass?includePaths[]=' + (path.resolve(__dirname, './bower_components/bootstrap-sass-official/assets/stylesheets/')) },
+            { test: /\.scss$/, loader: 'style!css!autoprefixer?browsers=last 2 version!sass?includePaths[]=' + (path.resolve(__dirname, './node_modules/bootstrap-sass/assets/stylesheets/')) },
             { test: /\.jsx$/, loader: 'jsx-loader?insertPragma=React.DOM' }
         ],
         preLoaders: [
-            //{ test: /\.js$/, loader: 'jshint-loader', exclude: /node_modules|bower_components/ }
+            //{ test: /\.js$/, loader: 'jshint-loader', exclude: /node_modules/ }
         ]
     },
     plugins: [
