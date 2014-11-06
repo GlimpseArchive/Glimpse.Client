@@ -1,15 +1,17 @@
-var glimpse = require('glimpse'),
-    React = require('react'),
-    cx = React.addons.classSet,
-    Timeago = require('lib/components/timeago.jsx');
+'use strict';
+
+var glimpse = require('glimpse');
+var React = require('react');
+var cx = React.addons.classSet;
+var Timeago = require('lib/components/timeago.jsx');
 
 module.exports = React.createClass({
     render: function() {
-        var summary = this.props.summary,
-            containerClass = cx({
-                'request-summary-item-holder': true,
-                'request-summary-shell-selected': summary._selected
-            });
+        var summary = this.props.summary;
+        var containerClass = cx({
+            'request-summary-item-holder': true,
+            'request-summary-shell-selected': summary._selected
+        });
 
         return (
             <div className={containerClass} onClick={this.onSelect}>

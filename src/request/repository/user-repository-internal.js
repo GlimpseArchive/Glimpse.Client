@@ -1,3 +1,5 @@
+'use strict';
+
 var glimpse = require('glimpse');
 
 // store Found Summary

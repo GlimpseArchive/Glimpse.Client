@@ -1,16 +1,18 @@
-var glimpse = require('glimpse'),
-    React = require('react'),
-    LinkedStateMixin = React.addons.LinkedStateMixin;
+'use strict';
+
+var glimpse = require('glimpse');
+var React = require('react');
+var LinkedStateMixin = React.addons.LinkedStateMixin;
 
 module.exports = React.createClass({
     mixins: [ LinkedStateMixin ],
     getInitialState: function() {
         return {
-                uri: '',
-                method: '',
-                contentType: '',
-                statusCode: ''
-            };
+            uri: '',
+            method: '',
+            contentType: '',
+            statusCode: ''
+        };
     },
     render: function() {
         return (

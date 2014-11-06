@@ -1,10 +1,13 @@
-var glimpse = require('glimpse'),
-    requestRepository = require('../repository/request-repository.js'),
-    _requests = [],
-    _requestIndex = {},
-    _filteredRequests = [],
-    _filters = {},
-    _requestSelectedId = null;
+'use strict';
+
+var glimpse = require('glimpse');
+var requestRepository = require('../repository/request-repository.js');
+
+var _requests = [];
+var _requestIndex = {};
+var _filteredRequests = [];
+var _filters = {};
+var _requestSelectedId = null;
 
 function notifyRequestsChanged(targetRequests) {
     glimpse.emit('shell.request.summary.changed', targetRequests);
@@ -15,25 +18,25 @@ function notifyRequestsChanged(targetRequests) {
 // TODO: Even at the moment this is going to need to be refactored
 var filterRequests = (function() {
     var filterSchema = {
-            userId: {
-                type: 'exact',
-                get: function(request) { return request.user.id; }
-            },
-            uri: { type: 'exact' }, // TODO: Switch over to `regex` at some point
-            method: { type: 'array' },
-            contentType: { type: 'array' },
-            statusCode: { type: 'array' }
+        userId: {
+            type: 'exact',
+            get: function(request) { return request.user.id; }
         },
-        filterSchemaActions = {
-            exact: function(recordValue, filterValue) {
-                return recordValue === filterValue;
-            },
-            array: function(recordValue, filterValue) {
-                var filterValues = filterValue.split(',').map(function(item) { return item.trim(); });
+        uri: { type: 'exact' }, // TODO: Switch over to `regex` at some point
+        method: { type: 'array' },
+        contentType: { type: 'array' },
+        statusCode: { type: 'array' }
+    };
+    var filterSchemaActions = {
+        exact: function(recordValue, filterValue) {
+            return recordValue === filterValue;
+        },
+        array: function(recordValue, filterValue) {
+            var filterValues = filterValue.split(',').map(function(item) { return item.trim(); });
 
-                return filterValues.indexOf(recordValue + '') > -1;
-            }
-        };
+            return filterValues.indexOf(recordValue + '') > -1;
+        }
+    };
 
     function hasFilters(filters) {
         for (var key in filters) {
@@ -143,20 +146,20 @@ var filterRequests = (function() {
 
 // Select Request
 (function() {
-    var clear = function(oldRequestId, requests) {
-            if (oldRequestId) {
-                var oldRequest = requests[oldRequestId];
-                if (oldRequest) {
-                    oldRequest._selected = false;
-                }
+    function clear(oldRequestId, requests) {
+        if (oldRequestId) {
+            var oldRequest = requests[oldRequestId];
+            if (oldRequest) {
+                oldRequest._selected = false;
             }
-        },
-        select = function(requestId, requests) {
-            var request = requests[requestId];
-            if (request) {
-                request._selected = true;
-            }
-        };
+        }
+    }
+    function select(requestId, requests) {
+        var request = requests[requestId];
+        if (request) {
+            request._selected = true;
+        }
+    }
 
     function selectRequest(payload) {
         var requestId = payload.requestId,

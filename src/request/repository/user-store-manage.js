@@ -1,7 +1,9 @@
-var glimpse = require('glimpse'),
-    // TODO: Not sure if the data will ultimately live here or not
-    userData = [],
-    userDataIndex = {};
+'use strict';
+
+var glimpse = require('glimpse');
+// TODO: Not sure if the data will ultimately live here or not
+var userData = [];
+var userDataIndex = {};
 
 // republish Found Entry
 (function() {
@@ -10,8 +12,8 @@ var glimpse = require('glimpse'),
         // TODO: This is very naive atm, no sorting or indexing, etc present
         var newUsers = [];
         for (var i = 0; i < requests.length; i++) {
-            var user = requests[i].user,
-                currentIndex = userDataIndex[user.id];
+            var user = requests[i].user;
+            var currentIndex = userDataIndex[user.id];
             if (currentIndex === undefined) {
                 currentIndex = userData.length;
                 userDataIndex[user.id] = currentIndex;
@@ -22,10 +24,10 @@ var glimpse = require('glimpse'),
         }
 
         var payload = {
-                allUsers: userData,
-                newUsers: newUsers,
-                newRequests: requests
-            };
+            allUsers: userData,
+            newUsers: newUsers,
+            newRequests: requests
+        };
 
         glimpse.emit('data.user.detail.found', payload);
     }

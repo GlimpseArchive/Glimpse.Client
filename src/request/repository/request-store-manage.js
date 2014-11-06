@@ -1,7 +1,9 @@
-var glimpse = require('glimpse'),
+'use strict';
+
+var glimpse = require('glimpse');
     // TODO: Not sure if the data will ultimately live here or not
-    summaryData = [],
-    detailData = [];
+var summaryData = [];
+var detailData = [];
 
 // republish Found Summary
 (function() {
@@ -12,9 +14,9 @@ var glimpse = require('glimpse'),
         }
 
         var payload = {
-                allRequests: summaryData,
-                newRequests: requests
-            };
+            allRequests: summaryData,
+            newRequests: requests
+        };
 
         glimpse.emit('data.request.summary.found', payload);
     }

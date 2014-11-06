@@ -1,3 +1,5 @@
+'use strict';
+
 var glimpse = require('glimpse');
 
 // TODO: get data from server and publish notifications

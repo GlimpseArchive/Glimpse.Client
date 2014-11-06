@@ -1,8 +1,10 @@
+'use strict';
+
 require('./shell-view.scss');
 
-var React = require('react'),
-    glimpse = require('glimpse'),
-    EmitterMixin = require('lib/components/emitter-mixin.jsx');
+var React = require('react');
+var glimpse = require('glimpse');
+var EmitterMixin = require('lib/components/emitter-mixin.jsx');
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],

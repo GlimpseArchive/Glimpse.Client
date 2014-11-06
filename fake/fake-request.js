@@ -1,20 +1,22 @@
-var glimpse = require('glimpse'),
-    chance = require('./fake-extension.js'), // TODO: Can I just import chance and have this wired up differently
-    cache = {
-        summary: {},
-        details: {}
-    };
+'use strict';
+
+var glimpse = require('glimpse');
+var chance = require('./fake-extension.js'); // TODO: Can I just import chance and have this wired up differently
+var cache = {
+    summary: {},
+    details: {}
+};
 
 var triggerGetLastestSummaries = (function() {
-    var moment = require('moment'),
-        fakeSummary = require('./fake-request-summary.js'),
-        maxEvents = chance.integerRange(25, 35),
-        numLocal = maxEvents * 0.25,
-        numRemote = maxEvents * 0.3;
+    var moment = require('moment');
+    var fakeSummary = require('./fake-request-summary.js');
+    var maxEvents = chance.integerRange(25, 35);
+    var numLocal = maxEvents * 0.25;
+    var numRemote = maxEvents * 0.3;
 
     function subtractSeconds(seconds) {
-        var date = new Date(),
-            value = seconds * 1000;
+        var date = new Date();
+        var value = seconds * 1000;
 
         return moment(date.setTime(date.getTime() + value)).toISOString();
     }
@@ -42,8 +44,8 @@ var triggerGetLastestSummaries = (function() {
             for (var i = 0; i < num; i++) {
                 dateTimeOffet -= chance.integerRange(30, 300);
 
-                var dateTime = subtractSeconds(dateTimeOffet),
-                    request = fakeSummary.generate(dateTime);
+                var dateTime = subtractSeconds(dateTimeOffet);
+                var request = fakeSummary.generate(dateTime);
 
                 results.push(request);
             }

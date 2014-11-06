@@ -1,9 +1,11 @@
+'use strict';
+
 var glimpse = require('glimpse');
 var store = require('store');
 
-var _storeSummaryKey = 'glimpse.data.summary.local',
-   _storeDetailKey = 'glimpse.data.request.local',
-   _storeDetailIndex = 'glimpse.data.request.local.index';
+var _storeSummaryKey = 'glimpse.data.summary.local';
+var _storeDetailKey = 'glimpse.data.request.local';
+var _storeDetailIndex = 'glimpse.data.request.local.index';
 
 (function() {
    var storeSummary;

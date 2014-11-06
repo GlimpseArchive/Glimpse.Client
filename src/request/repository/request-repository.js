@@ -1,9 +1,11 @@
+'use strict';
+
 require('./request-store-manage');
 
-var glimpse = require('glimpse'),
-    resourceRepository = require('./request-repository-remote'),
-    localRepository = require('./request-repository-local'),
-    streamRepository = require('./request-repository-stream');
+var glimpse = require('glimpse');
+var resourceRepository = require('./request-repository-remote');
+var localRepository = require('./request-repository-local');
+var streamRepository = require('./request-repository-stream');
 
 module.exports = {
     triggerGetLastestSummaries: function() {

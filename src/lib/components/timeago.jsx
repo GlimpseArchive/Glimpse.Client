@@ -1,6 +1,8 @@
-var React = require('react'),
-    SetIntervalMixin = require('./set-interval-mixin.jsx'),
-    moment = require('moment');
+'use strict';
+
+var React = require('react');
+var SetIntervalMixin = require('./set-interval-mixin.jsx');
+var moment = require('moment');
 
 module.exports = React.createClass({
     mixins: [ SetIntervalMixin ],

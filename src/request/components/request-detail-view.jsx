@@ -1,11 +1,13 @@
+'use strict';
+
 require('../stores/request-detail-store.js');
 
-var glimpse = require('glimpse'),
-    React = require('react'),
-    EmitterMixin = require('lib/components/emitter-mixin.jsx'),
-    Summary = require('./request-detail-summary-view.jsx'),
-    Content = require('./request-detail-content-view.jsx'),
-    Loading = require('lib/components/loading.jsx');
+var glimpse = require('glimpse');
+var React = require('react');
+var EmitterMixin = require('lib/components/emitter-mixin.jsx');
+var Summary = require('./request-detail-summary-view.jsx');
+var Content = require('./request-detail-content-view.jsx');
+var Loading = require('lib/components/loading.jsx');
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],

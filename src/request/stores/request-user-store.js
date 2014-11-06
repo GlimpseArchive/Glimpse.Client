@@ -1,6 +1,8 @@
-var glimpse = require('glimpse'),
-    _users = {},
-    _userSelected = null;
+'use strict';
+
+var glimpse = require('glimpse');
+var _users = {};
+var _userSelected = null;
 
 function notifyUsersChanged() {
     glimpse.emit('shell.request.user.detail.changed', {

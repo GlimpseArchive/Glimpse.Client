@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 
 var subItem = function(data, title, level) {
@@ -29,10 +31,10 @@ var subItem = function(data, title, level) {
 module.exports = React.createClass({
     render: function() {
         var output = this.props.data.payload.map(function(item) {
-                var result = subItem(item, 'Row', 0);
+            var result = subItem(item, 'Row', 0);
 
-                return <div>{result}<br /><br /></div>;
-            });
+            return <div>{result}<br /><br /></div>;
+        });
 
         return <div>{output}</div>;
     }

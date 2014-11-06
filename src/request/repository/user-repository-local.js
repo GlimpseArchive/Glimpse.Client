@@ -1,3 +1,5 @@
+'use strict';
+
 var glimpse = require('glimpse');
 
 // TODO: Do we even need this... going to try and just read from the request stream

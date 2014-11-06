@@ -1,3 +1,5 @@
+'use strict';
+
 var _ = require('lodash');
 
 module.exports = {
@@ -23,18 +25,18 @@ module.exports = {
         return result;
     },
     smartCasing: function (data) {
-        var result = '',
-            previous = '',
-            blacklist = [ ' ', '-', '/', '_' ],
-            isNumeric = this.isNumeric;
+        var result = '';
+        var previous = '';
+        var blacklist = [ ' ', '-', '/', '_' ];
+        var isNumeric = this.isNumeric;
 
         if (data == null) {
             return data;
         }
 
         for (var i = 0; i < data.length; i++) {
-            var current = data[i],
-                next = data[i + 1];
+            var current = data[i];
+            var next = data[i + 1];
 
             if (blacklist.indexOf(current) > -1) {
                 return data;

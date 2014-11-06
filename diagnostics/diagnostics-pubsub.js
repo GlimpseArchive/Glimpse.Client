@@ -1,3 +1,5 @@
+'use strict';
+
 var postal = require('postal');
 var DiagnosticsWireTap = require('postal.diagnostics');
 

@@ -1,33 +1,36 @@
-var webpack = require('webpack'),
-    path = require('path'),
-    // TODO: At some point factor this better
-    progressPlugin = (function() {
-        var chars = 0, lastState, lastStateTime;
+'use strict';
 
-        return new webpack.ProgressPlugin(function(percentage, msg) {
-            var state = msg;
-            if (percentage < 1) {
-                percentage = Math.floor(percentage * 100);
-                msg = percentage + '% ' + msg;
-                if (percentage < 100) {
-                    msg = ' ' + msg;
-                }
-                if (percentage < 10) {
-                    msg = ' ' + msg;
-                }
+var webpack = require('webpack');
+var path = require('path');
+
+// TODO: At some point factor this better
+var progressPlugin = (function() {
+    var chars = 0, lastState, lastStateTime;
+
+    return new webpack.ProgressPlugin(function(percentage, msg) {
+        var state = msg;
+        if (percentage < 1) {
+            percentage = Math.floor(percentage * 100);
+            msg = percentage + '% ' + msg;
+            if (percentage < 100) {
+                msg = ' ' + msg;
             }
-            if (percentage > 0) {
-                for (; chars > msg.length; chars--) {
-                    process.stderr.write('\b \b');
-                }
-                chars = msg.length;
-                for (var i = 0; i < chars; i++) {
-                    process.stderr.write('\b');
-                }
-                process.stderr.write(msg);
+            if (percentage < 10) {
+                msg = ' ' + msg;
             }
-        });
-    })();
+        }
+        if (percentage > 0) {
+            for (; chars > msg.length; chars--) {
+                process.stderr.write('\b \b');
+            }
+            chars = msg.length;
+            for (var i = 0; i < chars; i++) {
+                process.stderr.write('\b');
+            }
+            process.stderr.write(msg);
+        }
+    });
+})();
 
 module.exports = {
     entry: 'NOT SET HERE',
@@ -59,9 +62,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.ResolverPlugin(
-            new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('bower.json', ['main'])
-        ),
         new webpack.DefinePlugin({
             DIAGNOSTICS: true,
             FAKE_SERVER: true

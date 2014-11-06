@@ -1,5 +1,7 @@
-var React = require('react'),
-    PanelGeneric = require('./request-detail-panel-generic.jsx');
+'use strict';
+
+var React = require('react');
+var PanelGeneric = require('./request-detail-panel-generic.jsx');
 
 module.exports = React.createClass({
     render: function() {

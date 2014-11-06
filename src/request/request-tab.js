@@ -1,6 +1,8 @@
-var glimpse = require('glimpse'),
-    PanelGeneric = require('./components/request-detail-panel-generic.jsx'),
-    tabs = {};
+'use strict';
+
+var glimpse = require('glimpse');
+var PanelGeneric = require('./components/request-detail-panel-generic.jsx');
+var tabs = {};
 
 module.exports = {
     resolveTab: function(key, data) {

@@ -1,11 +1,14 @@
-var glimpse = require('glimpse'),
-    requestRepository = require('../repository/request-repository.js'),
-    // TODO: Not sure I need to store the requests
-    _requests = {},
-    _viewModel = {
-        selectedId: null,
-        request: null
-    };
+'use strict';
+
+var glimpse = require('glimpse');
+var requestRepository = require('../repository/request-repository.js');
+
+// TODO: Not sure I need to store the requests
+var _requests = {};
+var _viewModel = {
+    selectedId: null,
+    request: null
+};
 
 function requestChanged(targetRequests) {
     glimpse.emit('shell.request.detail.changed', targetRequests);

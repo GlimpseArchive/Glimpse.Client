@@ -1,10 +1,10 @@
 require('./request-view.scss');
 
-var React = require('react'),
-    User = require('./request-user-view.jsx'),
-    Filter = require('./request-filter-view.jsx'),
-    Summary = require('./request-summary-view.jsx'),
-    Detail = require('./request-detail-view.jsx');
+var React = require('react');
+var User = require('./request-user-view.jsx');
+var Filter = require('./request-filter-view.jsx');
+var Summary = require('./request-summary-view.jsx');
+var Detail = require('./request-detail-view.jsx');
 
 module.exports = React.createClass({
     render: function() {
