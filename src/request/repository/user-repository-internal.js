@@ -3,7 +3,7 @@
 var glimpse = require('glimpse');
 
 // store Found Summary
-(function() {
+(function () {
     function processFoundSummary(requests) {
         glimpse.emit('data.user.detail.found.internal', requests);
     }
@@ -15,7 +15,7 @@ var glimpse = require('glimpse');
 })();
 
 // merge Patch Summary
-(function() {
+(function () {
     function processUpdateSummary(requests) {
 
         // TODO: Need to complete

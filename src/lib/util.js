@@ -3,19 +3,19 @@
 var _ = require('lodash');
 
 module.exports = {
-    isArray: function(data) {
+    isArray: function (data) {
         return (data instanceof Array);
     },
-    isNumeric: function(data) {
+    isNumeric: function (data) {
         return isNaN(parseInt(data, 10));
     },
-    isObject: function(data) {
+    isObject: function (data) {
         return data !== null && (typeof data === 'object');
     },
-    isEmpty: function(data) {
+    isEmpty: function (data) {
         return _.isEmpty(data);
     },
-    eachMap: function(data, callback) {
+    eachMap: function (data, callback) {
         var result = [];
 
         for (var key in data) {
@@ -49,8 +49,7 @@ module.exports = {
                     (previous.toUpperCase() !== previous ||
                         (next && next.toUpperCase() !== next))))) {
                 result = i === 0 ? current.toUpperCase() : (result + ' ' + current.toUpperCase());
-            }
-            else {
+            } else {
                 result += current;
             }
 

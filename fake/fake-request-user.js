@@ -18,7 +18,7 @@ var usersAll = [
 var usersCurrent = chance.pick(usersAll, chance.integerRange(3, usersAll.length));
 
 module.exports = {
-    pickUser: function() {
+    pickUser: function () {
         var user = chance.pick(usersCurrent);
 
         return extend(true, {}, user);

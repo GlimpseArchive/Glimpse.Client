@@ -6,7 +6,7 @@ var Timeago = require('lib/components/timeago.jsx');
 var cx = React.addons.classSet;
 
 module.exports = React.createClass({
-    render: function() {
+    render: function () {
         var user = this.props.user;
         var containerClass = cx({
             'table table-bordered user-status': true,
@@ -28,7 +28,7 @@ module.exports = React.createClass({
                     </tr>
                     <tr>
                         <td colSpan="2">
-                            {user.latestRequests.map(function(request) {
+                            {user.latestRequests.map(function (request) {
                                 return <div key={request.id}>{request.uri}</div>;
                             })}
                         </td>
@@ -37,7 +37,7 @@ module.exports = React.createClass({
             </div>
         );
     },
-    _onClick: function() {
+    _onClick: function () {
         glimpse.emit('shell.request.user.selected', { userId: this.props.user.details.id });
     }
 });

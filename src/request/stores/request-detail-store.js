@@ -15,7 +15,7 @@ function requestChanged(targetRequests) {
 }
 
 // Clear Request
-(function() {
+(function () {
     function clearRequest() {
         _viewModel.selectedId = null;
         _viewModel.request = null;
@@ -27,7 +27,7 @@ function requestChanged(targetRequests) {
 })();
 
 // Found Data
-(function() {
+(function () {
     function dataFound(payload) {
         var newRequest = payload.newRequest;
 
@@ -45,7 +45,7 @@ function requestChanged(targetRequests) {
 })();
 
 // Trigger Requests
-(function() {
+(function () {
     function triggerRequest(payload) {
         var requestId = payload.requestId;
 

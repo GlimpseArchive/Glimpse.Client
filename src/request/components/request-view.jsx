@@ -7,7 +7,7 @@ var Summary = require('./request-summary-view.jsx');
 var Detail = require('./request-detail-view.jsx');
 
 module.exports = React.createClass({
-    render: function() {
+    render: function () {
         return (
             <div className="container-fluid">
                 <div className="row request-holder-outer">
@@ -29,7 +29,7 @@ module.exports = React.createClass({
 
 
 // TODO: Need to come up with a better self registration process
-(function() {
+(function () {
     var shellController = require('shell/shell.js');
 
     shellController.registerApplication({

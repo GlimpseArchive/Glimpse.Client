@@ -8,44 +8,44 @@ var statuses = [ 200, 200, 200, 200, 200, 200, 404, 404, 403, 403, 500, 304 ];
 var statusText = { 200: 'OK', 404: 'NOT FOUND', 500: 'SERVER ERROR', 304: 'OK', 403: 'ERROR' };
 
 chance.mixin({
-    'integerRange': function(min, max) {
+    'integerRange': function (min, max) {
         return chance.integer({ min: min, max: max });
     },
-    'durationRange': function(min, max) {
+    'durationRange': function (min, max) {
         return chance.floating({ min: min, max: max, fixed: 2 });
     },
-    'dateRange': function(min, max) {
-        var time = new Date().getTime(),
-            difference = chance.integerRange(min, max),
-            newTime = new Date(time + difference);
+    'dateRange': function (min, max) {
+        var time = new Date().getTime();
+        var difference = chance.integerRange(min, max);
+        var newTime = new Date(time + difference);
 
         return newTime;
     },
-    'mvcAction': function() {
+    'mvcAction': function () {
         return chance.pick(mvcActions);
     },
-    'httpPath': function() {
+    'httpPath': function () {
         return chance.pick(mvcActions).url;
     },
-    'httpMethod': function() {
+    'httpMethod': function () {
         return chance.pick(methods);
     },
-    'httpStatus': function() {
+    'httpStatus': function () {
         var code = chance.pick(statuses);
         return {
             code: code,
             text: statusText[code]
         };
     },
-    'httpContentType': function() {
+    'httpContentType': function () {
         // TODO: Switch over to weighted random with bias towards html
         return 'text/html';
     }
 });
 
-var generateRoute = (function() {
+var generateRoute = (function () {
     return {
-        normal: function(controller, action, id) {
+        normal: function (controller, action, id) {
             return {
                 name: 'Default',
                 mask: '{controller}/{action}/{id}',

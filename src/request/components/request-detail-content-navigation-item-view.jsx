@@ -5,7 +5,7 @@ var React = require('react');
 var cx = React.addons.classSet;
 
 module.exports = React.createClass({
-    render: function() {
+    render: function () {
         var data = this.props.data;
         var containerClass = cx({
             'active': this.props.isActive
@@ -13,7 +13,7 @@ module.exports = React.createClass({
 
         return <li className={containerClass} onClick={this._onClick}><a href="#">{data.title}</a></li>;
     },
-    _onClick: function(payload) {
+    _onClick: function (payload) {
         glimpse.emit('shell.request.detail.focus.changed', { tab: this.props.key });
     }
 });

@@ -4,7 +4,7 @@ var React = require('react');
 var Timeago = require('lib/components/timeago.jsx');
 
 module.exports = React.createClass({
-    render: function() {
+    render: function () {
         var summary = this.props.summary;
 
         return (

@@ -7,7 +7,7 @@ var glimpse = require('glimpse');
 var localRepository = require('./user-repository-local');
 
 module.exports = {
-    triggerGetLastestUsers: function() {
+    triggerGetLastestUsers: function () {
         localRepository.triggerGetLastestUsers();
     }
 };

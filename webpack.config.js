@@ -4,10 +4,12 @@ var webpack = require('webpack');
 var path = require('path');
 
 // TODO: At some point factor this better
-var progressPlugin = (function() {
-    var chars = 0, lastState, lastStateTime;
+var progressPlugin = (function () {
+    var chars = 0;
+    var lastState;
+    var lastStateTime;
 
-    return new webpack.ProgressPlugin(function(percentage, msg) {
+    return new webpack.ProgressPlugin(function (percentage, msg) {
         var state = msg;
         if (percentage < 1) {
             percentage = Math.floor(percentage * 100);
@@ -48,7 +50,7 @@ module.exports = {
             'fake': path.resolve(__dirname, './fake/fake.js'),
             'diagnostics': path.resolve(__dirname, './diagnostics/diagnostics.js'),
             'react': require.resolve('react/addons'),
-            'lib': path.resolve(__dirname, './src/lib/'),
+            'lib': path.resolve(__dirname, './src/lib/')
          }
      },
     module: {
@@ -58,7 +60,7 @@ module.exports = {
             { test: /\.jsx$/, loader: 'jsx-loader?insertPragma=React.DOM' }
         ],
         preLoaders: [
-            //{ test: /\.js$/, loader: 'jshint-loader', exclude: /node_modules/ }
+            // { test: /\.js$/, loader: 'jshint-loader', exclude: /node_modules/ }
         ]
     },
     plugins: [
@@ -79,5 +81,5 @@ module.exports = {
         children: true,
         cached: true
     }
-    //verbose: true
+    // verbose: true
 };

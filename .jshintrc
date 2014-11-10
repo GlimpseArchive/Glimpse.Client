@@ -1,12 +1,11 @@
 {
-
   "bitwise": true,
   "camelcase": true,
   "curly": true,
   "eqeqeq": true,
   "freeze": true,
   "immed": true,
-  "indent": 2,
+  "indent": 4,
   "latedef": "nofunc",
   "newcap": true,
   "noarg": true,

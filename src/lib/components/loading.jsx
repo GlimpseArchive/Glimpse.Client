@@ -10,21 +10,21 @@ var messages = [
 ];
 
 module.exports = React.createClass({
-    getInitialState: function() {
+    getInitialState: function () {
         return { next: 0 };
     },
-    render: function() {
+    render: function () {
         var text = messages[this.state.next];
 
         return <span>{text}</span>;
     },
-    componentDidMount: function() {
+    componentDidMount: function () {
         this._update();
     },
-    _update: function() {
+    _update: function () {
         var that = this,
             next = that.state.next;
-        setTimeout(function() {
+        setTimeout(function () {
             if (that.isMounted() && ++next < messages.length) {
                 that.setState({ next: next });
                 that._update();

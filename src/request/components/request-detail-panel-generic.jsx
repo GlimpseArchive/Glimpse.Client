@@ -22,7 +22,7 @@ function processArray(data) {
             header.push(<th key={key}>{key}</th>);
         }
 
-        var body = data.map(function(item) {
+        var body = data.map(function (item) {
             var row = [];
             for (var key in item) {
                 row.push(<td key={key}>{process(item[key])}</td>);
@@ -45,7 +45,7 @@ function processObject(item) {
 }
 
 module.exports = React.createClass({
-    render: function() {
+    render: function () {
         var payload = this.props.payload || this.props.data.payload;
         var result = null;
 

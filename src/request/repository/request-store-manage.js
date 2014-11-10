@@ -6,7 +6,7 @@ var summaryData = [];
 var detailData = [];
 
 // republish Found Summary
-(function() {
+(function () {
     function republishFoundSummary(requests) {
         // TODO: This is very naive atm, no sorting or indexing, etc present
         for (var i = requests.length - 1; i >= 0; i--) {
@@ -33,7 +33,7 @@ var detailData = [];
 })();
 
 // republish Found Details
-(function() {
+(function () {
     function republishFoundDetail(request) {
         detailData.push(request);
 
@@ -52,7 +52,7 @@ var detailData = [];
 
 // TODO: NOT SURE THIS IS THE BEST PLACE FOR THIS
 // merge Patch Summary
-(function() {
+(function () {
     function mergePatchSummary(data) {
 
         // TODO: Need to complete
@@ -65,7 +65,7 @@ var detailData = [];
 })();
 
 // merge Patch Details
-(function() {
+(function () {
     function mergePatchDetail(data) {
 
         // TODO: Need to complete

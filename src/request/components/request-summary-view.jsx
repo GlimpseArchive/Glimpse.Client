@@ -15,13 +15,13 @@ function getState(allSummaries) {
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],
-    getInitialState: function() {
+    getInitialState: function () {
         return getState();
     },
-    componentDidMount: function() {
+    componentDidMount: function () {
         this.addListener('shell.request.summary.changed', this._summaryChanged);
     },
-    render: function() {
+    render: function () {
         return (
             <div className="request-summary-holder">
                 <h2>Request</h2>
@@ -29,7 +29,7 @@ module.exports = React.createClass({
             </div>
         );
     },
-    _summaryChanged: function(allSummaries) {
+    _summaryChanged: function (allSummaries) {
         this.setState(getState(allSummaries));
     }
 });

@@ -6,7 +6,7 @@ var LinkedStateMixin = React.addons.LinkedStateMixin;
 
 module.exports = React.createClass({
     mixins: [ LinkedStateMixin ],
-    getInitialState: function() {
+    getInitialState: function () {
         return {
             uri: '',
             method: '',
@@ -14,7 +14,7 @@ module.exports = React.createClass({
             statusCode: ''
         };
     },
-    render: function() {
+    render: function () {
         return (
             <div className="request-session-holder">
                 <h2>Filter</h2>
@@ -39,10 +39,10 @@ module.exports = React.createClass({
             </div>
         );
     },
-    _onFilter: function() {
+    _onFilter: function () {
         glimpse.emit('shell.request.filter.updated', this.state);
     },
-    _onClear: function() {
+    _onClear: function () {
         var resetState = this.getInitialState();
         this.setState(resetState);
 

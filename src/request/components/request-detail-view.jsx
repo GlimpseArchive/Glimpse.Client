@@ -11,10 +11,10 @@ var Loading = require('lib/components/loading.jsx');
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],
-    componentDidMount: function() {
+    componentDidMount: function () {
         this.addListener('shell.request.detail.changed', this._requestDetailChanged);
     },
-    render: function() {
+    render: function () {
         var model = this.state;
         if (model && model.selectedId) {
             return (
@@ -35,11 +35,11 @@ module.exports = React.createClass({
 
         return <div></div>;
     },
-    onClose: function() {
+    onClose: function () {
         // TODO: Should pass through the id of the request that is being closed
         glimpse.emit('shell.request.detail.closed', {});
     },
-    _requestDetailChanged: function(state) {
+    _requestDetailChanged: function (state) {
         this.setState(state);
     }
 });

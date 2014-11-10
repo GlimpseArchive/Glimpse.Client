@@ -6,13 +6,13 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var UserItem = require('./request-user-list-item-view.jsx');
 
 module.exports = React.createClass({
-    render: function() {
+    render: function () {
         var allUsers = this.props.allUsers;
 
         return (
             <div className="request-user-list-holder">
                 <ReactCSSTransitionGroup component={React.DOM.div} transitionName="request-user-item-holder" transitionLeave={false}>
-                    {glimpse.util.eachMap(allUsers, function(key, user) {
+                    {glimpse.util.eachMap(allUsers, function (key, user) {
                         return <UserItem key={user.details.id} user={user} />;
                     })}
                 </ReactCSSTransitionGroup>

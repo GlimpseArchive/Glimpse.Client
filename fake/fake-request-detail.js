@@ -10,7 +10,7 @@ var store = {
     data: []
 };
 var support = {
-    log: (function() {
+    log: (function () {
         function processTemplate(template) {
             var message = template.mask;
             for (var key in template.values) {
@@ -20,7 +20,7 @@ var support = {
             return message;
         }
 
-        return function(log) {
+        return function (log) {
             if (log.template) {
                 log.message = processTemplate(log.template);
             }
@@ -28,7 +28,7 @@ var support = {
             return log;
         };
     })(),
-    childTimings: function(events, availableTime, offset) {
+    childTimings: function (events, availableTime, offset) {
         var usedTime = 0;
 
         if (events) {
@@ -49,37 +49,37 @@ var support = {
     }
 };
 var process = {
-    activities: function(activities) {
+    activities: function (activities) {
         if (activities) {
             for (var i = 0; i < activities.length; i++) {
                 var activity = activities[i];
                 activity.type = 'data';
                 activity.duration = activity.duration.toFixed(2);
-                //activity.time = '1411576658503';
-                //activity.offset = 124.12;
+                // activity.time = '1411576658503';
+                // activity.offset = 124.12;
 
                 store.data.push(activity);
             }
         }
     },
-    logs: function(logs) {
+    logs: function (logs) {
         if (logs) {
             for (var i = 0; i < logs.length; i++) {
                 var log = support.log(logs[i]);
                 log.type = 'log';
-                //log.time = '1411576658503';
-                //log.offset = 124.12;
+                // log.time = '1411576658503';
+                // log.offset = 124.12;
 
                 store.log.push(log);
             }
         }
     },
-    route: function(record) {
+    route: function (record) {
         var route = {
             type: 'route',
             duration: chance.durationRange(0, 1),
-            //time: '1411576658503',
-            //offset: 124.12,
+            // time: '1411576658503',
+            // offset: 124.12,
             name: record.name,
             mask: record.mask,
             resolution: record.resolution
@@ -87,12 +87,12 @@ var process = {
 
         store.execution.push(route);
     },
-    filter: function(controller, targetMethod, filterType, category, origin, activities, logs) {
+    filter: function (controller, targetMethod, filterType, category, origin, activities, logs) {
         var filter = {
             type: 'filter',
             duration: chance.durationRange(0, 1),
-            //time: '1411576658503',
-            //offset: 124.12,
+            // time: '1411576658503',
+            // offset: 124.12,
             targetClass: controller + 'Controller',
             targetMethod: targetMethod,
             filterType: filterType,
@@ -105,12 +105,12 @@ var process = {
         process.activities(activities);
         process.logs(logs);
     },
-    action: function(controller, actionTime, binding, activities, logs) {
+    action: function (controller, actionTime, binding, activities, logs) {
         var action = {
             type: 'action',
             duration: actionTime.toFixed(2),
-            //time: '1411576658503',
-            //offset: 124.12,
+            // time: '1411576658503',
+            // offset: 124.12,
             targetClass: controller + 'Controller',
             targetMethod: 'Index',
             physicalFile: 'Controller/' + controller + 'Controller.cs',
@@ -124,14 +124,14 @@ var process = {
     }
 };
 var core = {
-    subActions: function(actions, request) {
+    subActions: function (actions, request) {
         if (actions) {
             for (var i = 0; i < actions.length; i++) {
                 core.action(actions[i], request);
             }
         }
     },
-    action: function(action, request) {
+    action: function (action, request) {
         var availableTime = action.duration;
         availableTime -= support.childTimings(action.actions, availableTime, 2.5);
         availableTime -= support.childTimings(action.activities, availableTime, 1.5);
@@ -177,84 +177,84 @@ function generate(summary) {
         core_generic: {
             title: 'Generic',
             payload: [ {
-                    'Actor' : 'Mark Hamill',
-                    'Character' : 'Luke Skywalker',
-                    'Gender' : 'Male',
-                    'Age' : '21'
+                    'Actor': 'Mark Hamill',
+                    'Character': 'Luke Skywalker',
+                    'Gender': 'Male',
+                    'Age': '21'
                 }, {
-                    'Character' : 'Darth Vader',
-                    'Actor' : 'James Earl Jones',
-                    'Gender' : 'Male',
-                    'Age' : '45'
+                    'Character': 'Darth Vader',
+                    'Actor': 'James Earl Jones',
+                    'Gender': 'Male',
+                    'Age': '45'
                 }, {
-                    'Actor' : 'Harrison Ford',
-                    'Character' : {
-                        'Mark Hamill' : 'Luke Skywalker',
-                        'James Earl Jones' : 'Darth Vader',
-                        'Harrison Ford' : 'Han Solo'
+                    'Actor': 'Harrison Ford',
+                    'Character': {
+                        'Mark Hamill': 'Luke Skywalker',
+                        'James Earl Jones': 'Darth Vader',
+                        'Harrison Ford': 'Han Solo'
                     },
-                    'Gender' : 'Male',
-                    'Age' : '25'
+                    'Gender': 'Male',
+                    'Age': '25'
                 }, {
-                    'Actor' : 'Carrie Fisher',
-                    'Character' : 'Princess Leia Organa',
-                    'Gender' : 'Female',
-                    'Age' : '21'
+                    'Actor': 'Carrie Fisher',
+                    'Character': 'Princess Leia Organa',
+                    'Gender': 'Female',
+                    'Age': '21'
                 }, {
-                    'Actor' : 'Peter Cushing',
-                    'Character' : [ {
-                            'Actor' : 'Mark Hamill',
-                            'Character' : 'Luke Skywalker',
-                            'Gender' : 'Male',
-                            'Age' : '21'
+                    'Actor': 'Peter Cushing',
+                    'Character': [ {
+                            'Actor': 'Mark Hamill',
+                            'Character': 'Luke Skywalker',
+                            'Gender': 'Male',
+                            'Age': '21'
                         }, {
-                            'Actor' : 'James Earl Jones',
-                            'Character' : 'Darth Vader',
-                            'Gender' : 'Male',
-                            'Age' : '45'
+                            'Actor': 'James Earl Jones',
+                            'Character': 'Darth Vader',
+                            'Gender': 'Male',
+                            'Age': '45'
                         }, {
-                            'Actor' : 'Harrison Ford',
-                            'Character' : 'Han Solo',
-                            'Gender' : 'Male',
-                            'Age' : '25'
+                            'Actor': 'Harrison Ford',
+                            'Character': 'Han Solo',
+                            'Gender': 'Male',
+                            'Age': '25'
                         }, {
-                            'Actor' : 'Carrie Fisher',
-                            'Character' : 'Princess Leia Organa',
-                            'Gender' : 'Female',
-                            'Age' : '21'
+                            'Actor': 'Carrie Fisher',
+                            'Character': 'Princess Leia Organa',
+                            'Gender': 'Female',
+                            'Age': '21'
                         }, {
-                            'Actor' : 'Peter Cushing',
-                            'Character' : 'Grand Moff Tarkin',
-                            'Gender' : 'Female',
-                            'Age' : '69'
+                            'Actor': 'Peter Cushing',
+                            'Character': 'Grand Moff Tarkin',
+                            'Gender': 'Female',
+                            'Age': '69'
                         }, {
-                            'Actor' : 'Alec Guinness',
-                            'Character' : 'Ben Obi-Wan Kenobi',
-                            'Gender' : 'Female',
-                            'Age' : '70'
+                            'Actor': 'Alec Guinness',
+                            'Character': 'Ben Obi-Wan Kenobi',
+                            'Gender': 'Female',
+                            'Age': '70'
                         }, {
-                            'Actor' : 'Anthony Daniels',
-                            'Character' : 'C-3PO',
-                            'Gender' : 'Droid',
-                            'Age' : '101'
+                            'Actor': 'Anthony Daniels',
+                            'Character': 'C-3PO',
+                            'Gender': 'Droid',
+                            'Age': '101'
                         }, {
-                            'Actor' : 'Kenny Baker',
-                            'Character' : 'R2-D2',
-                            'Gender' : 'Droid',
-                            'Age' : '150'
+                            'Actor': 'Kenny Baker',
+                            'Character': 'R2-D2',
+                            'Gender': 'Droid',
+                            'Age': '150'
                         } ],
-                    'Gender' : 'Female',
-                    'Age' : '69'
+                    'Gender': 'Female',
+                    'Age': '69'
                 }, {
-                    'Actor' : 'Alec Guinness',
-                    'Character' : 'Ben Obi-Wan Kenobi',
-                    'Gender' : 'Female',
-                    'Age' : '70'
+                    'Actor': 'Alec Guinness',
+                    'Character': 'Ben Obi-Wan Kenobi',
+                    'Gender': 'Female',
+                    'Age': '70'
                 }, {
-                    'Actor' : 'Anthony Daniels',
-                    'Character' : 'C-3PO',
-                    'Gender' : 'Droid',
-                    'Age' : '101'
+                    'Actor': 'Anthony Daniels',
+                    'Character': 'C-3PO',
+                    'Gender': 'Droid',
+                    'Age': '101'
                 } ]
         }
     };

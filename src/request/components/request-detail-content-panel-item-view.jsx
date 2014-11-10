@@ -5,7 +5,7 @@ var cx = React.addons.classSet;
 var requestTabController = require('../request-tab.js');
 
 module.exports = React.createClass({
-    render: function() {
+    render: function () {
         var data = this.props.data;
         var key = this.props.key;
         var containerClass = cx({

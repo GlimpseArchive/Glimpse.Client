@@ -16,13 +16,13 @@ function getState(payload) {
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],
-    getInitialState: function() {
+    getInitialState: function () {
         return getState();
     },
-    componentDidMount: function() {
+    componentDidMount: function () {
         this.addListener('shell.request.user.detail.changed', this._userChanged);
     },
-    render: function() {
+    render: function () {
         return (
             <div className="request-user-holder">
                 <h2>Users</h2>
@@ -34,10 +34,10 @@ module.exports = React.createClass({
             </div>
         );
     },
-    _userChanged: function(allUsers) {
+    _userChanged: function (allUsers) {
         this.setState(getState(allUsers));
     },
-    _onClearSelection: function() {
+    _onClearSelection: function () {
         glimpse.emit('shell.request.user.clear.selected', {});
     }
 });

@@ -12,7 +12,7 @@ function notifyUsersChanged() {
 }
 
 // Clear User
-(function() {
+(function () {
     function clearUser() {
         _users[_userSelected].selected = false;
         _userSelected = null;
@@ -24,26 +24,26 @@ function notifyUsersChanged() {
 })();
 
 // Select User
-(function() {
-    var clear = function(oldUserId, users) {
+(function () {
+    function clear(oldUserId, users) {
             if (oldUserId) {
                 var oldUser = users[oldUserId];
                 if (oldUser) {
                     oldUser.selected = false;
                 }
             }
-        },
-        select = function(userId, users) {
-            var user = users[userId];
-            if (user) {
-                user.selected = true;
-            }
-        };
+        }
+    function select(userId, users) {
+        var user = users[userId];
+        if (user) {
+            user.selected = true;
+        }
+    }
 
     function selectUser(payload) {
-        var userId = payload.userId,
-            oldUserId = _userSelected,
-            users = _users;
+        var userId = payload.userId;
+        var oldUserId = _userSelected;
+        var users = _users;
 
         clear(oldUserId, users);
         select(userId, users);
@@ -57,52 +57,52 @@ function notifyUsersChanged() {
 })();
 
 // Found User
-(function() {
+(function () {
     // TODO: Need to update to make sure it can work with out of order/old
     //       requests coming in.
     // TODO: Timeouts should probably come from config
     // TODO: Should probably be abstracted out into its own module
-    var manageRequest = (function() {
-            function removeRequest(user, request) {
-                var index = user.latestRequests.indexOf(request);
-                if (index > -1) {
-                    user.latestRequests.splice(index, 1);
-                }
-
-                notifyUsersChanged();
+    var manageRequest = (function () {
+        function removeRequest(user, request) {
+            var index = user.latestRequests.indexOf(request);
+            if (index > -1) {
+                user.latestRequests.splice(index, 1);
             }
 
-            return function(user, rawRequest) {
-                if (rawRequest) {
-                    var request = {
-                            id: rawRequest.id,
-                            uri: rawRequest.uri
-                        };
+            notifyUsersChanged();
+        }
 
-                    user.latestRequests.unshift(request);
+        return function (user, rawRequest) {
+            if (rawRequest) {
+                var request = {
+                        id: rawRequest.id,
+                        uri: rawRequest.uri
+                    };
 
-                    setTimeout(function() { removeRequest(user, request); }, 5000);
-                }
-            };
-        })(),
-        manageOnline = (function() {
-            function setOffline(user) {
-                user.online = false;
+                user.latestRequests.unshift(request);
 
-                notifyUsersChanged();
+                setTimeout(function () { removeRequest(user, request); }, 5000);
+            }
+        };
+    })();
+    var manageOnline = (function () {
+        function setOffline(user) {
+            user.online = false;
+
+            notifyUsersChanged();
+        }
+
+        return function (user, rawRequest) {
+            user.lastActive = rawRequest.dateTime;
+            user.online = true;
+
+            if (user.onlineCallback) {
+                clearTimeout(user.onlineCallback);
             }
 
-            return function(user, rawRequest) {
-                user.lastActive = rawRequest.dateTime;
-                user.online = true;
-
-                if (user.onlineCallback) {
-                    clearTimeout(user.onlineCallback);
-                }
-
-                user.onlineCallback = setTimeout(function() { setOffline(user); }, 12000);
-            };
-        })();
+            user.onlineCallback = setTimeout(function () { setOffline(user); }, 12000);
+        };
+    })();
 
     function createUser(rawUser) {
         return {
@@ -118,9 +118,9 @@ function notifyUsersChanged() {
         // TODO: This needs to be cleaned up bit messy atm but will do
         var rawRequests = payload.newRequests;
         for (var i = rawRequests.length - 1; i >= 0; i--) {
-            var rawRequest = rawRequests[i],
-                rawUser = rawRequest.user,
-                user = _users[rawUser.id];
+            var rawRequest = rawRequests[i];
+            var rawUser = rawRequest.user;
+            var user = _users[rawUser.id];
 
             if (user === undefined) {
                 user = createUser(rawUser);

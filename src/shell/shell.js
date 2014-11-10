@@ -6,19 +6,18 @@ var shell = require('./components/shell-view.jsx');
 var applications = [];
 
 module.exports = {
-    registerApplication: function(application) {
+    registerApplication: function (application) {
         applications.push(application);
 
         glimpse.emit('shell.application.added', { application: application });
     },
-    initialize: function() {
+    initialize: function () {
         React.renderComponent(shell({ applications: applications }),
             document.getElementById('application-holder'));
 
         glimpse.emit('shell.ready', {});
     }
 };
-
 
 // TODO: Need to come up with a better self registration process
 require('request/components/request-view.jsx');

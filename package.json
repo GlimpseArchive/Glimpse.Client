@@ -22,7 +22,9 @@
     "build": "gulp build",
     "start": "gulp dev",
     "test": "gulp test",
-    "lint": "jshint src && jshint fake && jshint diagnostics && jshint gulpfile.js && jshint webpack.config.js"
+    "lint": "npm run jscs && npm run jshint",
+    "jshint": "jshint .",
+    "jscs": "jscs ."
   },
   "homepage": "https://github.com/Glimpse/Glimpse.Client",
   "dependencies": {
@@ -46,6 +48,7 @@
     "gulp-if": "^1.2.5",
     "gulp-minify-html": "^0.1.6",
     "gulp-util": "^3.0.1",
+    "jscs": "^1.7.3",
     "jshint": "^2.5.10",
     "jshint-loader": "^0.8.0",
     "jsx-loader": "^0.11.2",

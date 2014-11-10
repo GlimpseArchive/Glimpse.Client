@@ -8,7 +8,7 @@ var glimpse = require('glimpse');
 // TODO: get data from local and publish notifications
 
 // store Found Entry
-(function() {
+(function () {
     function storeFoundEntry(data) {
         // TODO: Need to complete - Might be better off in local repository
         //       Push into local storage
@@ -18,7 +18,7 @@ var glimpse = require('glimpse');
 })();
 
 module.exports = {
-    triggerGetLastestUsers: function() {
+    triggerGetLastestUsers: function () {
         // TODO: Need to complete
         //       Pull from local storage and republish
 

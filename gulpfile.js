@@ -8,7 +8,7 @@ var browserSync = require('browser-sync');
 var htmlcompress = require('gulp-minify-html');
 var gutil = require('gulp-util');
 var gif = require('gulp-if');
-//var filelog = require('gulp-filelog'),  // NOTE: Used for debug
+// var filelog = require('gulp-filelog');  // NOTE: Used for debug
 var runSequence = require('run-sequence');
 
 var settings = {
@@ -29,7 +29,7 @@ function getBundleConfig() {
     config.output.path = settings.output;
 
     if (WATCH) {
-        //config.chunkModules = false;
+        // config.chunkModules = false;
         config.watch = true;
     }
 
@@ -38,8 +38,7 @@ function getBundleConfig() {
             new webpack.optimize.UglifyJsPlugin(),
             new webpack.optimize.OccurenceOrderPlugin()
         );
-    }
-    else {
+    } else {
         config.output.pathinfo = true;
     }
 
@@ -50,7 +49,7 @@ function getBundleConfig() {
     return config;
 }
 
-gulp.task('bundle', function(cb) {
+gulp.task('bundle', function (cb) {
     var started = false;
     var config = getBundleConfig();
     function processResult(err, stats) {
@@ -69,13 +68,12 @@ gulp.task('bundle', function(cb) {
     var compiler = webpack(config);
     if (config.watch) {
         compiler.watch(200, processResult);
-    }
-    else {
+    } else {
         compiler.run(processResult);
     }
 
 });
-gulp.task('pages', function() {
+gulp.task('pages', function () {
     return gulp.src(settings.index)
         .pipe(gif(RELEASE, htmlcompress()))
         .pipe(gulp.dest(settings.output))
@@ -84,7 +82,7 @@ gulp.task('pages', function() {
 
 gulp.task('build', ['pages', 'bundle']);
 
-gulp.task('server', function(cb) {
+gulp.task('server', function (cb) {
     browserSync({
         server: {
             baseDir: [settings.server]
@@ -94,13 +92,13 @@ gulp.task('server', function(cb) {
     cb();
 });
 
-gulp.task('dev', function(cb) {
+gulp.task('dev', function (cb) {
     WATCH = true;
 
     runSequence('build', 'server', cb);
 });
 
-gulp.task('prod', function(cb) {
+gulp.task('prod', function (cb) {
     RELEASE = true;
     WATCH = true;
 

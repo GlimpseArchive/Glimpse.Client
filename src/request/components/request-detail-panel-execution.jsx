@@ -2,7 +2,7 @@
 
 var React = require('react');
 
-var subItem = function(data, title, level) {
+var subItem = function (data, title, level) {
     var results = {};
     for (var key in data) {
         var value = data[key] || '--';
@@ -29,8 +29,8 @@ var subItem = function(data, title, level) {
 };
 
 module.exports = React.createClass({
-    render: function() {
-        var output = this.props.data.payload.map(function(item) {
+    render: function () {
+        var output = this.props.data.payload.map(function (item) {
             var result = subItem(item, 'Row', 0);
 
             return <div>{result}<br /><br /></div>;
@@ -42,7 +42,7 @@ module.exports = React.createClass({
 
 
 // TODO: Need to come up with a better self registration process
-(function() {
+(function () {
     var requestTabController = require('../request-tab.js');
 
     requestTabController.registerTab({

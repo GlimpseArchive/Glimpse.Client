@@ -3,7 +3,7 @@
 var postal = require('postal');
 
 module.exports = {
-    on: function() {
+    on: function () {
         var options = {};
         if (arguments.length > 0) {
             if (arguments.length > 1) {
@@ -15,7 +15,7 @@ module.exports = {
         }
         return postal.subscribe(options);
     },
-    emit: function() {
+    emit: function () {
         var envelope = {};
         if (arguments.length > 0) {
             if (arguments.length > 1) {
@@ -27,7 +27,7 @@ module.exports = {
         }
         return postal.publish(envelope);
     },
-    off: function() {
+    off: function () {
         var envelope = {};
         if (arguments.length > 0) {
             if (typeof arguments[0] === 'string') {

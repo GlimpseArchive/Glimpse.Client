@@ -7,15 +7,15 @@ var PanelItem = require('./request-detail-content-panel-item-view.jsx');
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],
-    componentDidMount: function() {
+    componentDidMount: function () {
         this.addListener('shell.request.detail.focus.changed', this._detailTabChanged);
     },
-    getInitialState: function() {
+    getInitialState: function () {
         return {
             active: null
         };
     },
-    render: function() {
+    render: function () {
         var data = this.props.details.data;
         var active = this.state.active;
         var navigation = [];
@@ -42,7 +42,7 @@ module.exports = React.createClass({
             </div>
         );
     },
-    _detailTabChanged: function(payload) {
+    _detailTabChanged: function (payload) {
         this.setState({ active: payload.tab });
     }
 });

@@ -6,7 +6,7 @@ var userData = [];
 var userDataIndex = {};
 
 // republish Found Entry
-(function() {
+(function () {
     function republishFoundEntry(requests) {
         // TODO: Need to support if the user is missing
         // TODO: This is very naive atm, no sorting or indexing, etc present
@@ -38,7 +38,7 @@ var userDataIndex = {};
 
 // TODO: NOT SURE THIS IS THE BEST PLACE FOR THIS
 // process Request Update
-(function() {
+(function () {
     function mergeUpdateSummary(data) {
 
         // TODO: Need to complete

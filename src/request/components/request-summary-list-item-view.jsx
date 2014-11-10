@@ -6,7 +6,7 @@ var cx = React.addons.classSet;
 var Timeago = require('lib/components/timeago.jsx');
 
 module.exports = React.createClass({
-    render: function() {
+    render: function () {
         var summary = this.props.summary;
         var containerClass = cx({
             'request-summary-item-holder': true,
@@ -37,7 +37,7 @@ module.exports = React.createClass({
             </div>
         );
     },
-    onSelect: function() {
+    onSelect: function () {
         glimpse.emit('shell.request.summary.selected', { requestId: this.props.summary.id });
     }
 });
