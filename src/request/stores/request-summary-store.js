@@ -39,10 +39,7 @@ var filterRequests = (function() {
     };
 
     function hasFilters(filters) {
-        for (var key in filters) {
-            return true;
-        }
-        return false;
+        return Object.keys(filters).length;
     }
 
     function checkMatch(request, filters) {

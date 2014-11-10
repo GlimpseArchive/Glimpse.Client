@@ -4,7 +4,7 @@ var _ = require('lodash');
 
 module.exports = {
     isArray: function(data) {
-        return (data instanceof Array)
+        return (data instanceof Array);
     },
     isNumeric: function(data) {
         return isNaN(parseInt(data, 10));
@@ -30,7 +30,7 @@ module.exports = {
         var blacklist = [ ' ', '-', '/', '_' ];
         var isNumeric = this.isNumeric;
 
-        if (data == null) {
+        if (data === null) {
             return data;
         }
 
@@ -42,13 +42,13 @@ module.exports = {
                 return data;
             }
 
-            if (i == 0 ||
+            if (i === 0 ||
                 ((isNumeric(previous) && !isNumeric(current)) ||
                 (!isNumeric(previous) && isNumeric(current)) ||
-                (!isNumeric(current) && current.toUpperCase() == current &&
-                    (previous.toUpperCase() != previous ||
-                        (next && next.toUpperCase() != next))))) {
-                result = i == 0 ? current.toUpperCase() : (result + ' ' + current.toUpperCase());
+                (!isNumeric(current) && current.toUpperCase() === current &&
+                    (previous.toUpperCase() !== previous ||
+                        (next && next.toUpperCase() !== next))))) {
+                result = i === 0 ? current.toUpperCase() : (result + ' ' + current.toUpperCase());
             }
             else {
                 result += current;

@@ -40,12 +40,12 @@ var _storeDetailIndex = 'glimpse.data.request.local.index';
       storeDetailIndex.unshift(data.id);
       flush();
       store.set(_storeDetailKey, storeDetail);
-      store.set(_storeDetailIndex, storeDetailIndex)
+      store.set(_storeDetailIndex, storeDetailIndex);
    }
 
    function flush(){
       while(storeDetailIndex.length > 10){
-         var id = storeDetailsIndex.pop();
+         var id = storeDetailIndex.pop();
          delete storeDetail[id];
       }
    }

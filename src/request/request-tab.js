@@ -5,7 +5,7 @@ var PanelGeneric = require('./components/request-detail-panel-generic.jsx');
 var tabs = {};
 
 module.exports = {
-    resolveTab: function(key, data) {
+    resolveTab: function(key) {
         // TODO: strategy needs to be improved
         if (tabs[key]) {
             return tabs[key].component;

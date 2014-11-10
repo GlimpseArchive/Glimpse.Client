@@ -2,7 +2,7 @@
 
 var glimpse = require('glimpse');
 var React = require('react');
-var Shell = require('./components/shell-view.jsx');
+var shell = require('./components/shell-view.jsx');
 var applications = [];
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
         glimpse.emit('shell.application.added', { application: application });
     },
     initialize: function() {
-        React.renderComponent(Shell({ applications: applications }),
+        React.renderComponent(shell({ applications: applications }),
             document.getElementById('application-holder'));
 
         glimpse.emit('shell.ready', {});

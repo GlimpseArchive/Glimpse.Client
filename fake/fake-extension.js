@@ -12,7 +12,7 @@ chance.mixin({
         return chance.integer({ min: min, max: max });
     },
     'durationRange': function(min, max) {
-        return chance.floating({ min: min, max: max, fixed: 2 })
+        return chance.floating({ min: min, max: max, fixed: 2 });
     },
     'dateRange': function(min, max) {
         var time = new Date().getTime(),
@@ -54,9 +54,9 @@ var generateRoute = (function() {
                     { key: 'action', value: action, default: 'index' },
                     { key: 'id', value: id, default: null }
                 ]
-            }
+            };
         }
-    }
+    };
 }());
 
 function gernateShoppingCart() {

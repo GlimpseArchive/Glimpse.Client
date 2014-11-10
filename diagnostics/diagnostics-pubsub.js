@@ -3,7 +3,7 @@
 var postal = require('postal');
 var DiagnosticsWireTap = require('postal.diagnostics');
 
-new DiagnosticsWireTap({
+module.exports = new DiagnosticsWireTap({
     serialize: function(x) {
         return x;
     },
