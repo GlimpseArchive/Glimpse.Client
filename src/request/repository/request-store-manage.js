@@ -1,10 +1,12 @@
-var glimpse = require('glimpse'),
+'use strict';
+
+var glimpse = require('glimpse');
     // TODO: Not sure if the data will ultimately live here or not
-    summaryData = [],
-    detailData = [];
+var summaryData = [];
+var detailData = [];
 
 // republish Found Summary
-(function() {
+(function () {
     function republishFoundSummary(requests) {
         // TODO: This is very naive atm, no sorting or indexing, etc present
         for (var i = requests.length - 1; i >= 0; i--) {
@@ -12,9 +14,9 @@ var glimpse = require('glimpse'),
         }
 
         var payload = {
-                allRequests: summaryData,
-                newRequests: requests
-            };
+            allRequests: summaryData,
+            newRequests: requests
+        };
 
         glimpse.emit('data.request.summary.found', payload);
     }
@@ -31,7 +33,7 @@ var glimpse = require('glimpse'),
 })();
 
 // republish Found Details
-(function() {
+(function () {
     function republishFoundDetail(request) {
         detailData.push(request);
 
@@ -50,7 +52,7 @@ var glimpse = require('glimpse'),
 
 // TODO: NOT SURE THIS IS THE BEST PLACE FOR THIS
 // merge Patch Summary
-(function() {
+(function () {
     function mergePatchSummary(data) {
 
         // TODO: Need to complete
@@ -63,7 +65,7 @@ var glimpse = require('glimpse'),
 })();
 
 // merge Patch Details
-(function() {
+(function () {
     function mergePatchDetail(data) {
 
         // TODO: Need to complete

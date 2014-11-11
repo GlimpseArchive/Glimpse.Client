@@ -1,18 +1,21 @@
-var glimpse = require('glimpse'),
-    requestRepository = require('../repository/request-repository.js'),
-    // TODO: Not sure I need to store the requests
-    _requests = {},
-    _viewModel = {
-        selectedId: null,
-        request: null
-    };
+'use strict';
+
+var glimpse = require('glimpse');
+var requestRepository = require('../repository/request-repository.js');
+
+// TODO: Not sure I need to store the requests
+var _requests = {};
+var _viewModel = {
+    selectedId: null,
+    request: null
+};
 
 function requestChanged(targetRequests) {
     glimpse.emit('shell.request.detail.changed', targetRequests);
 }
 
 // Clear Request
-(function() {
+(function () {
     function clearRequest() {
         _viewModel.selectedId = null;
         _viewModel.request = null;
@@ -24,7 +27,7 @@ function requestChanged(targetRequests) {
 })();
 
 // Found Data
-(function() {
+(function () {
     function dataFound(payload) {
         var newRequest = payload.newRequest;
 
@@ -42,7 +45,7 @@ function requestChanged(targetRequests) {
 })();
 
 // Trigger Requests
-(function() {
+(function () {
     function triggerRequest(payload) {
         var requestId = payload.requestId;
 

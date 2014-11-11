@@ -1,18 +1,20 @@
+'use strict';
+
 require('../stores/request-detail-store.js');
 
-var glimpse = require('glimpse'),
-    React = require('react'),
-    EmitterMixin = require('lib/components/emitter-mixin.jsx'),
-    Summary = require('./request-detail-summary-view.jsx'),
-    Content = require('./request-detail-content-view.jsx'),
-    Loading = require('lib/components/loading.jsx');
+var glimpse = require('glimpse');
+var React = require('react');
+var EmitterMixin = require('lib/components/emitter-mixin.jsx');
+var Summary = require('./request-detail-summary-view.jsx');
+var Content = require('./request-detail-content-view.jsx');
+var Loading = require('lib/components/loading.jsx');
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],
-    componentDidMount: function() {
+    componentDidMount: function () {
         this.addListener('shell.request.detail.changed', this._requestDetailChanged);
     },
-    render: function() {
+    render: function () {
         var model = this.state;
         if (model && model.selectedId) {
             return (
@@ -33,11 +35,11 @@ module.exports = React.createClass({
 
         return <div></div>;
     },
-    onClose: function() {
+    onClose: function () {
         // TODO: Should pass through the id of the request that is being closed
         glimpse.emit('shell.request.detail.closed', {});
     },
-    _requestDetailChanged: function(state) {
+    _requestDetailChanged: function (state) {
         this.setState(state);
     }
 });

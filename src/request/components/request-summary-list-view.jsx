@@ -1,16 +1,18 @@
-var glimpse = require('glimpse'),
-    React = require('react'),
-    ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
-    SummaryItem = require('./request-summary-list-item-view.jsx');
+'use strict';
+
+var glimpse = require('glimpse');
+var React = require('react');
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+var SummaryItem = require('./request-summary-list-item-view.jsx');
 
 module.exports = React.createClass({
-    render: function() {
+    render: function () {
         var allSummaries = this.props.allSummaries;
 
         return (
             <div className="request-summary-list-holder">
                 <ReactCSSTransitionGroup component={React.DOM.div} transitionName="request-summary-item-holder">
-                    {allSummaries.map(function(summary) {
+                    {allSummaries.map(function (summary) {
                         return <SummaryItem key={summary.id} summary={summary} />;
                     })}
                 </ReactCSSTransitionGroup>

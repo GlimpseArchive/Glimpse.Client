@@ -1,10 +1,13 @@
-var glimpse = require('glimpse'),
-    requestRepository = require('../repository/request-repository.js'),
-    _requests = [],
-    _requestIndex = {},
-    _filteredRequests = [],
-    _filters = {},
-    _requestSelectedId = null;
+'use strict';
+
+var glimpse = require('glimpse');
+var requestRepository = require('../repository/request-repository.js');
+
+var _requests = [];
+var _requestIndex = {};
+var _filteredRequests = [];
+var _filters = {};
+var _requestSelectedId = null;
 
 function notifyRequestsChanged(targetRequests) {
     glimpse.emit('shell.request.summary.changed', targetRequests);
@@ -13,42 +16,39 @@ function notifyRequestsChanged(targetRequests) {
 // TODO: Shift into different module
 // TODO: This needs to be refactored to dynamically lookup records, etc
 // TODO: Even at the moment this is going to need to be refactored
-var filterRequests = (function() {
+var filterRequests = (function () {
     var filterSchema = {
-            userId: {
-                type: 'exact',
-                get: function(request) { return request.user.id; }
-            },
-            uri: { type: 'exact' }, // TODO: Switch over to `regex` at some point
-            method: { type: 'array' },
-            contentType: { type: 'array' },
-            statusCode: { type: 'array' }
+        userId: {
+            type: 'exact',
+            get: function (request) { return request.user.id; }
         },
-        filterSchemaActions = {
-            exact: function(recordValue, filterValue) {
-                return recordValue === filterValue;
-            },
-            array: function(recordValue, filterValue) {
-                var filterValues = filterValue.split(',').map(function(item) { return item.trim(); });
+        uri: { type: 'exact' }, // TODO: Switch over to `regex` at some point
+        method: { type: 'array' },
+        contentType: { type: 'array' },
+        statusCode: { type: 'array' }
+    };
+    var filterSchemaActions = {
+        exact: function (recordValue, filterValue) {
+            return recordValue === filterValue;
+        },
+        array: function (recordValue, filterValue) {
+            var filterValues = filterValue.split(',').map(function (item) { return item.trim(); });
 
-                return filterValues.indexOf(recordValue + '') > -1;
-            }
-        };
+            return filterValues.indexOf(recordValue + '') > -1;
+        }
+    };
 
     function hasFilters(filters) {
-        for (var key in filters) {
-            return true;
-        }
-        return false;
+        return Object.keys(filters).length;
     }
 
     function checkMatch(request, filters) {
         for (var key in filters) {
             var filterValue = filters[key];
             if (filterValue) {
-                var schema = filterSchema[key],
-                    schemaAction = filterSchemaActions[schema.type],
-                    requestValue = schema.get ? schema.get(request) : request[key];
+                var schema = filterSchema[key];
+                var schemaAction = filterSchemaActions[schema.type];
+                var requestValue = schema.get ? schema.get(request) : request[key];
 
                 if (!schemaAction(requestValue, filterValue)) {
                     return false;
@@ -74,7 +74,7 @@ var filterRequests = (function() {
         return matchFound;
     }
 
-    return function(allRequests, newRequests, filterHasChanged) {
+    return function (allRequests, newRequests, filterHasChanged) {
         if (hasFilters(_filters)) {
             var targetRequests = newRequests;
 
@@ -87,15 +87,14 @@ var filterRequests = (function() {
             if (!newRequests || matchFound || filterHasChanged) {
                 notifyRequestsChanged(_filteredRequests);
             }
-        }
-        else {
+        } else {
             notifyRequestsChanged(_requests);
         }
     };
 })();
 
 // Update Filter
-(function() {
+(function () {
     function updateFilter(payload) {
         for (var key in payload) {
             _filters[key] = payload[key];
@@ -108,7 +107,7 @@ var filterRequests = (function() {
 })();
 
 // Clear User
-(function() {
+(function () {
     function clearUser() {
         _filters.userId = null;
 
@@ -119,7 +118,7 @@ var filterRequests = (function() {
 })();
 
 // Select User
-(function() {
+(function () {
     function selectUser(payload) {
         _filters.userId = payload.userId;
 
@@ -130,7 +129,7 @@ var filterRequests = (function() {
 })();
 
 // Clear Request
-(function() {
+(function () {
     function clearRequest() {
         _requestIndex[_requestSelectedId]._selected = false;
         _requestSelectedId = null;
@@ -142,26 +141,26 @@ var filterRequests = (function() {
 })();
 
 // Select Request
-(function() {
-    var clear = function(oldRequestId, requests) {
-            if (oldRequestId) {
-                var oldRequest = requests[oldRequestId];
-                if (oldRequest) {
-                    oldRequest._selected = false;
-                }
+(function () {
+    function clear(oldRequestId, requests) {
+        if (oldRequestId) {
+            var oldRequest = requests[oldRequestId];
+            if (oldRequest) {
+                oldRequest._selected = false;
             }
-        },
-        select = function(requestId, requests) {
-            var request = requests[requestId];
-            if (request) {
-                request._selected = true;
-            }
-        };
+        }
+    }
+    function select(requestId, requests) {
+        var request = requests[requestId];
+        if (request) {
+            request._selected = true;
+        }
+    }
 
     function selectRequest(payload) {
-        var requestId = payload.requestId,
-            oldRequestId = _requestSelectedId,
-            requests = _requestIndex;
+        var requestId = payload.requestId;
+        var oldRequestId = _requestSelectedId;
+        var requests = _requestIndex;
 
         clear(oldRequestId, requests);
         select(requestId, requests);
@@ -177,7 +176,7 @@ var filterRequests = (function() {
 })();
 
 // Found Request
-(function() {
+(function () {
     function foundRequest(payload) {
         // TODO: Really bad hack to get things going atm
 
@@ -198,7 +197,7 @@ var filterRequests = (function() {
 
 // Trigger Requests
 // TODO: Look at changing the name of this to bring it into line with the above
-(function() {
+(function () {
     function triggerRequest() {
         requestRepository.triggerGetLastestSummaries();
     }

@@ -1,8 +1,10 @@
-var React = require('react'),
-    PanelGeneric = require('./request-detail-panel-generic.jsx');
+'use strict';
+
+var React = require('react');
+var PanelGeneric = require('./request-detail-panel-generic.jsx');
 
 module.exports = React.createClass({
-    render: function() {
+    render: function () {
         return (
             <table>
                 <thead>
@@ -11,7 +13,7 @@ module.exports = React.createClass({
                     <th>Template</th>
                     <th>Values</th>
                 </thead>
-                {this.props.data.payload.map(function(item) {
+                {this.props.data.payload.map(function (item) {
                     var template = {};
                     if (item.template && item.template.values) {
                         template.values = <PanelGeneric payload={item.template.values} />;
@@ -34,7 +36,7 @@ module.exports = React.createClass({
 
 
 // TODO: Need to come up with a better self registration process
-(function() {
+(function () {
     var requestTabController = require('../request-tab.js');
 
     requestTabController.registerTab({

@@ -1,5 +1,7 @@
-var pubsub = require('./lib/pubsub.js'),
-    util = require('./lib/util.js');
+'use strict';
+
+var pubsub = require('./lib/pubsub.js');
+var util = require('./lib/util.js');
 
 module.exports = {
     on: pubsub.on,

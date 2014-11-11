@@ -1,27 +1,29 @@
-var React = require('react'),
-    EmitterMixin = require('lib/components/emitter-mixin.jsx'),
-    NavigationItem = require('./request-detail-content-navigation-item-view.jsx'),
-    PanelItem = require('./request-detail-content-panel-item-view.jsx');
+'use strict';
+
+var React = require('react');
+var EmitterMixin = require('lib/components/emitter-mixin.jsx');
+var NavigationItem = require('./request-detail-content-navigation-item-view.jsx');
+var PanelItem = require('./request-detail-content-panel-item-view.jsx');
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],
-    componentDidMount: function() {
+    componentDidMount: function () {
         this.addListener('shell.request.detail.focus.changed', this._detailTabChanged);
     },
-    getInitialState: function() {
+    getInitialState: function () {
         return {
-                active: null
-            };
+            active: null
+        };
     },
-    render: function() {
-        var data = this.props.details.data,
-            active = this.state.active,
-            navigation = [],
-            panel = null;
+    render: function () {
+        var data = this.props.details.data;
+        var active = this.state.active;
+        var navigation = [];
+        var panel = null;
 
         for (var key in data) {
-            var item = data[key],
-                isActive = active == key || (!active && navigation.length == 0);
+            var item = data[key];
+            var isActive = active == key || (!active && navigation.length == 0);
 
             navigation.push(<NavigationItem key={key} data={item} isActive={isActive} />);
             if (isActive) {
@@ -40,7 +42,7 @@ module.exports = React.createClass({
             </div>
         );
     },
-    _detailTabChanged: function(payload) {
+    _detailTabChanged: function (payload) {
         this.setState({ active: payload.tab });
     }
 });

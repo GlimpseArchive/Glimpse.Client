@@ -1,9 +1,11 @@
-var glimpse = require('glimpse'),
-    PanelGeneric = require('./components/request-detail-panel-generic.jsx'),
-    tabs = {};
+'use strict';
+
+var glimpse = require('glimpse');
+var PanelGeneric = require('./components/request-detail-panel-generic.jsx');
+var tabs = {};
 
 module.exports = {
-    resolveTab: function(key, data) {
+    resolveTab: function (key) {
         // TODO: strategy needs to be improved
         if (tabs[key]) {
             return tabs[key].component;
@@ -11,14 +13,13 @@ module.exports = {
 
         return PanelGeneric;
     },
-    registerTab: function(tab) {
+    registerTab: function (tab) {
         // TODO: validate key being in place
         tabs[tab.key] = tab;
 
         glimpse.emit('shell.request.tab.added', { tab: tab });
     }
 };
-
 
 // TODO: Need to come up with a better self registration process
 require('./components/request-detail-panel-execution.jsx');

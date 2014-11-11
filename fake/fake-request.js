@@ -1,20 +1,22 @@
-var glimpse = require('glimpse'),
-    chance = require('./fake-extension.js'), // TODO: Can I just import chance and have this wired up differently
-    cache = {
-        summary: {},
-        details: {}
-    };
+'use strict';
 
-var triggerGetLastestSummaries = (function() {
-    var moment = require('moment'),
-        fakeSummary = require('./fake-request-summary.js'),
-        maxEvents = chance.integerRange(25, 35),
-        numLocal = maxEvents * 0.25,
-        numRemote = maxEvents * 0.3;
+var glimpse = require('glimpse');
+var chance = require('./fake-extension.js'); // TODO: Can I just import chance and have this wired up differently
+var cache = {
+    summary: {},
+    details: {}
+};
+
+var triggerGetLastestSummaries = (function () {
+    var moment = require('moment');
+    var fakeSummary = require('./fake-request-summary.js');
+    var maxEvents = chance.integerRange(25, 35);
+    var numLocal = maxEvents * 0.25;
+    var numRemote = maxEvents * 0.3;
 
     function subtractSeconds(seconds) {
-        var date = new Date(),
-            value = seconds * 1000;
+        var date = new Date();
+        var value = seconds * 1000;
 
         return moment(date.setTime(date.getTime() + value)).toISOString();
     }
@@ -34,7 +36,7 @@ var triggerGetLastestSummaries = (function() {
     }
 
     var generate = {
-        _batch: function(num, event, dateTimeOffet) {
+        _batch: function (num, event, dateTimeOffet) {
             console.log('[fake] ' + event + ' - ' + parseInt(num));
 
             var results = [];
@@ -42,30 +44,30 @@ var triggerGetLastestSummaries = (function() {
             for (var i = 0; i < num; i++) {
                 dateTimeOffet -= chance.integerRange(30, 300);
 
-                var dateTime = subtractSeconds(dateTimeOffet),
-                    request = fakeSummary.generate(dateTime);
+                var dateTime = subtractSeconds(dateTimeOffet);
+                var request = fakeSummary.generate(dateTime);
 
                 results.push(request);
             }
 
             requestsFound(event, results);
         },
-        local: function() {
+        local: function () {
             // simulate requests happening more than a day ago
             generate._batch(numLocal, 'local', 25 * 60 * 60 * -1);
         },
-        remote: function() {
+        remote: function () {
             // simulate requests happeing more than 10 seconds ago
             generate._batch(numRemote, 'remote', 10 * -1);
         },
-        stream: function(position) {
+        stream: function (position) {
             // simulate requests happeing more every interval
             console.log('[fake] stream - ' + position + ' of ' + maxEvents);
 
             // TODO: Update so that array occasionally puts out 2 vs the norm of 1 result
             requestsFound('stream', [ fakeSummary.generate() ]);
 
-            setTimeout(function() {
+            setTimeout(function () {
                 if (position < maxEvents) {
                     generate.stream(++position);
                 }
@@ -73,25 +75,25 @@ var triggerGetLastestSummaries = (function() {
         }
     };
 
-    return function() {
+    return function () {
         // simulate messages from local store
-        setTimeout(function() {
+        setTimeout(function () {
             generate.local();
         }, chance.integerRange(50, 100));
 
         // simulate messages from remote
-        setTimeout(function() {
+        setTimeout(function () {
             generate.remote();
         }, chance.integerRange(2000, 2500));
 
         // simulate messages from stream
-        setTimeout(function() {
+        setTimeout(function () {
             generate.stream(0);
         }, chance.integerRange(4000, 6000));
     };
 })();
 
-var triggerGetDetailsFor = (function() {
+var triggerGetDetailsFor = (function () {
     var fakeDetail = require('./fake-request-detail.js');
 
     function requestsFound(event, request) {
@@ -99,12 +101,12 @@ var triggerGetDetailsFor = (function() {
     }
 
     var generate = {
-        local: function(id) {
+        local: function (id) {
             if (cache.details[id]) {
                 requestsFound('local', cache.details[id]);
             }
         },
-        remote: function(id) {
+        remote: function (id) {
             var request = cache.details[id];
             if (!request) {
                 request = fakeDetail.generate(cache.summary[id]);
@@ -116,20 +118,20 @@ var triggerGetDetailsFor = (function() {
         }
     };
 
-    return function(id) {
+    return function (id) {
         // simulate messages from local store
-        setTimeout(function() {
+        setTimeout(function () {
             generate.local(id);
         }, chance.integerRange(10, 50));
 
         // simulate messages from remote
-        setTimeout(function() {
+        setTimeout(function () {
             generate.remote(id);
         }, chance.integerRange(2000, 3000));
     };
 })();
 
-(function() {
+(function () {
     function requestReady() {
         triggerGetLastestSummaries();
     }
@@ -137,7 +139,7 @@ var triggerGetDetailsFor = (function() {
     glimpse.on('shell.request.ready', requestReady);
 })();
 
-(function() {
+(function () {
     function detailRequested(payload) {
         triggerGetDetailsFor(payload.requestId);
     }

@@ -1,11 +1,13 @@
+'use strict';
+
 module.exports = {
-    componentWillMount: function() {
+    componentWillMount: function () {
         this.intervals = [];
     },
-    setInterval: function(fn, ms) {
+    setInterval: function (fn, ms) {
         this.intervals.push(setInterval(fn, ms));
     },
-    componentWillUnmount: function() {
+    componentWillUnmount: function () {
         this.intervals.forEach(clearInterval);
     }
 };

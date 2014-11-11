@@ -1,18 +1,20 @@
-var glimpse = require('glimpse'),
-    React = require('react'),
-    LinkedStateMixin = React.addons.LinkedStateMixin;
+'use strict';
+
+var glimpse = require('glimpse');
+var React = require('react');
+var LinkedStateMixin = React.addons.LinkedStateMixin;
 
 module.exports = React.createClass({
     mixins: [ LinkedStateMixin ],
-    getInitialState: function() {
+    getInitialState: function () {
         return {
-                uri: '',
-                method: '',
-                contentType: '',
-                statusCode: ''
-            };
+            uri: '',
+            method: '',
+            contentType: '',
+            statusCode: ''
+        };
     },
-    render: function() {
+    render: function () {
         return (
             <div className="request-session-holder">
                 <h2>Filter</h2>
@@ -37,10 +39,10 @@ module.exports = React.createClass({
             </div>
         );
     },
-    _onFilter: function() {
+    _onFilter: function () {
         glimpse.emit('shell.request.filter.updated', this.state);
     },
-    _onClear: function() {
+    _onClear: function () {
         var resetState = this.getInitialState();
         this.setState(resetState);
 

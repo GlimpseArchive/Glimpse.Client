@@ -1,16 +1,18 @@
-var glimpse = require('glimpse'),
-    React = require('react'),
-    Timeago = require('lib/components/timeago.jsx'),
-    cx = React.addons.classSet;
+'use strict';
+
+var glimpse = require('glimpse');
+var React = require('react');
+var Timeago = require('lib/components/timeago.jsx');
+var cx = React.addons.classSet;
 
 module.exports = React.createClass({
-    render: function() {
-        var user = this.props.user,
-            containerClass = cx({
-                'table table-bordered user-status': true,
-                'user-status-online': user.online,
-                'user-shell-selected': user.selected
-            });
+    render: function () {
+        var user = this.props.user;
+        var containerClass = cx({
+            'table table-bordered user-status': true,
+            'user-status-online': user.online,
+            'user-shell-selected': user.selected
+        });
 
         return (
             <div className="request-user-item-holder" onClick={this._onClick}>
@@ -26,7 +28,7 @@ module.exports = React.createClass({
                     </tr>
                     <tr>
                         <td colSpan="2">
-                            {user.latestRequests.map(function(request) {
+                            {user.latestRequests.map(function (request) {
                                 return <div key={request.id}>{request.uri}</div>;
                             })}
                         </td>
@@ -35,7 +37,7 @@ module.exports = React.createClass({
             </div>
         );
     },
-    _onClick: function() {
+    _onClick: function () {
         glimpse.emit('shell.request.user.selected', { userId: this.props.user.details.id });
     }
 });
