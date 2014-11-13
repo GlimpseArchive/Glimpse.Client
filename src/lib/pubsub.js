@@ -3,39 +3,31 @@
 var postal = require('postal');
 
 module.exports = {
-    on: function () {
-        var options = {};
-        if (arguments.length > 0) {
-            if (arguments.length > 1) {
-                options.topic = arguments[0];
-                options.callback = arguments[1];
-            } else {
-                options = arguments[0];
-            }
+    on: function (topic, callback) {
+        if (typeof topic !== 'string') {
+            throw new TypeError('Expected topic to be a string.');
         }
-        return postal.subscribe(options);
+        if (typeof callback !== 'function') {
+            throw new TypeError('Expected callback to be a function.');
+        }
+        return postal.subscribe({
+            topic: topic,
+            callback: callback
+        });
     },
-    emit: function () {
-        var envelope = {};
-        if (arguments.length > 0) {
-            if (arguments.length > 1) {
-                envelope.topic = arguments[0];
-                envelope.data = arguments[1];
-            } else {
-                envelope = arguments[0];
-            }
+    emit: function (topic, data) {
+        if (typeof topic !== 'string') {
+            throw new TypeError('Expected topic to be a string.');
         }
-        return postal.publish(envelope);
+        return postal.publish({
+            topic: topic,
+            data: data
+        });
     },
-    off: function () {
-        var envelope = {};
-        if (arguments.length > 0) {
-            if (typeof arguments[0] === 'string') {
-                envelope.topic = arguments[0];
-            } else {
-                envelope = arguments[0];
-            }
+    off: function (topic) {
+        if (typeof topic !== 'string') {
+            throw new TypeError('Expected topic to be a string.');
         }
-        return postal.unsubscribe(envelope);
+        return postal.unsubscribe({topic: topic});
     }
 };
