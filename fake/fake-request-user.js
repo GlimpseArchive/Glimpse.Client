@@ -1,7 +1,7 @@
 'use strict';
 
 var extend = require('extend');
-var chance = require('./fake-extension.js');
+var chance = require('./fake-extension');
 
 var usersAll = [
     { id: chance.guid(), name: 'Anthony', avatarUrl: 'https://avatars.githubusercontent.com/u/585619' },

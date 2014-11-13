@@ -1,7 +1,7 @@
 'use strict';
 
 var glimpse = require('glimpse');
-var requestRepository = require('../repository/request-repository.js');
+var requestRepository = require('../repository/request-repository');
 
 // TODO: Not sure I need to store the requests
 var _requests = {};

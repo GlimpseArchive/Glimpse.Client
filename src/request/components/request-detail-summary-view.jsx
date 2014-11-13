@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react');
-var Timeago = require('lib/components/timeago.jsx');
+var Timeago = require('lib/components/timeago');
 
 module.exports = React.createClass({
     render: function () {

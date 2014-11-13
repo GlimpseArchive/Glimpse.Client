@@ -1,11 +1,11 @@
 'use strict';
 
-require('../stores/request-summary-store.js');
+require('../stores/request-summary-store');
 
 var glimpse = require('glimpse');
 var React = require('react');
-var SummaryList = require('./request-summary-list-view.jsx');
-var EmitterMixin = require('lib/components/emitter-mixin.jsx');
+var SummaryList = require('./request-summary-list-view');
+var EmitterMixin = require('lib/components/emitter-mixin');
 
 function getState(allSummaries) {
     return {

@@ -43,7 +43,7 @@ module.exports = React.createClass({
 
 // TODO: Need to come up with a better self registration process
 (function () {
-    var requestTabController = require('../request-tab.js');
+    var requestTabController = require('../request-tab');
 
     requestTabController.registerTab({
         key: 'core_execution',

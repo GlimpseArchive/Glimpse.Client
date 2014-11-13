@@ -1,7 +1,7 @@
 'use strict';
 
 var glimpse = require('glimpse');
-var PanelGeneric = require('./components/request-detail-panel-generic.jsx');
+var PanelGeneric = require('./components/request-detail-panel-generic');
 var tabs = {};
 
 module.exports = {
@@ -22,5 +22,5 @@ module.exports = {
 };
 
 // TODO: Need to come up with a better self registration process
-require('./components/request-detail-panel-execution.jsx');
-require('./components/request-detail-panel-trace.jsx');
+require('./components/request-detail-panel-execution');
+require('./components/request-detail-panel-trace');

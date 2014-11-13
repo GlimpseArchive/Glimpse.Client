@@ -1,3 +1,3 @@
 'use strict';
 
-require('./fake-request.js');
+require('./fake-request');

@@ -1,7 +1,7 @@
 'use strict';
 
 var glimpse = require('glimpse');
-var requestRepository = require('../repository/request-repository.js');
+var requestRepository = require('../repository/request-repository');
 
 var _requests = [];
 var _requestIndex = {};

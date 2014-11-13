@@ -2,7 +2,7 @@
 
 var React = require('react');
 var cx = React.addons.classSet;
-var requestTabController = require('../request-tab.js');
+var requestTabController = require('../request-tab');
 
 module.exports = React.createClass({
     render: function () {

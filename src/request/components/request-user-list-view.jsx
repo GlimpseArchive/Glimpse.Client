@@ -3,7 +3,7 @@
 var glimpse = require('glimpse');
 var React = require('react');
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-var UserItem = require('./request-user-list-item-view.jsx');
+var UserItem = require('./request-user-list-item-view');
 
 module.exports = React.createClass({
     render: function () {

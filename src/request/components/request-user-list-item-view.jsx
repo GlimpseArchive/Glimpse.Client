@@ -2,7 +2,7 @@
 
 var glimpse = require('glimpse');
 var React = require('react');
-var Timeago = require('lib/components/timeago.jsx');
+var Timeago = require('lib/components/timeago');
 var cx = React.addons.classSet;
 
 module.exports = React.createClass({

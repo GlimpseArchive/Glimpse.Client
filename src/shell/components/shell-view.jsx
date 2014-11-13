@@ -4,7 +4,7 @@ require('./shell-view.scss');
 
 var React = require('react');
 var glimpse = require('glimpse');
-var EmitterMixin = require('lib/components/emitter-mixin.jsx');
+var EmitterMixin = require('lib/components/emitter-mixin');
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],

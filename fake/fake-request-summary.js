@@ -1,7 +1,7 @@
 'use strict';
 
-var chance = require('./fake-extension.js');
-var fakeSession = require('./fake-request-user.js');
+var chance = require('./fake-extension');
+var fakeSession = require('./fake-request-user');
 var moment = require('moment');
 
 function generate(dateTime) {

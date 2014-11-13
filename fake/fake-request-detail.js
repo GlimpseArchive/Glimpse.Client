@@ -1,7 +1,7 @@
 /* jshint camelcase: false */
 'use strict';
 
-var chance = require('./fake-extension.js');
+var chance = require('./fake-extension');
 var _ = require('lodash');
 
 var store = {

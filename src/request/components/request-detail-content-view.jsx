@@ -1,9 +1,9 @@
 'use strict';
 
 var React = require('react');
-var EmitterMixin = require('lib/components/emitter-mixin.jsx');
-var NavigationItem = require('./request-detail-content-navigation-item-view.jsx');
-var PanelItem = require('./request-detail-content-panel-item-view.jsx');
+var EmitterMixin = require('lib/components/emitter-mixin');
+var NavigationItem = require('./request-detail-content-navigation-item-view');
+var PanelItem = require('./request-detail-content-panel-item-view');
 
 module.exports = React.createClass({
     mixins: [ EmitterMixin ],

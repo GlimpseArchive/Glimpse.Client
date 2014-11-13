@@ -23,7 +23,7 @@ var RELEASE = !!argv.release;
 var DEBUG = !!argv.debug;
 
 function getBundleConfig() {
-    var config = extend(true, {}, require('./webpack.config.js'));
+    var config = extend(true, {}, require('./webpack.config'));
 
     config.entry = settings.entry;
     config.output.path = settings.output;

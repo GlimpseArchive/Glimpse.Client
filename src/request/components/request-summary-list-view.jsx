@@ -3,7 +3,7 @@
 var glimpse = require('glimpse');
 var React = require('react');
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-var SummaryItem = require('./request-summary-list-item-view.jsx');
+var SummaryItem = require('./request-summary-list-item-view');
 
 module.exports = React.createClass({
     render: function () {

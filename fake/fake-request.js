@@ -1,7 +1,7 @@
 'use strict';
 
 var glimpse = require('glimpse');
-var chance = require('./fake-extension.js'); // TODO: Can I just import chance and have this wired up differently
+var chance = require('./fake-extension'); // TODO: Can I just import chance and have this wired up differently
 var cache = {
     summary: {},
     details: {}
@@ -9,7 +9,7 @@ var cache = {
 
 var triggerGetLastestSummaries = (function () {
     var moment = require('moment');
-    var fakeSummary = require('./fake-request-summary.js');
+    var fakeSummary = require('./fake-request-summary');
     var maxEvents = chance.integerRange(25, 35);
     var numLocal = maxEvents * 0.25;
     var numRemote = maxEvents * 0.3;
@@ -94,7 +94,7 @@ var triggerGetLastestSummaries = (function () {
 })();
 
 var triggerGetDetailsFor = (function () {
-    var fakeDetail = require('./fake-request-detail.js');
+    var fakeDetail = require('./fake-request-detail');
 
     function requestsFound(event, request) {
         glimpse.emit('data.request.detail.found.' + event, request);

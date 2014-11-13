@@ -1,11 +1,11 @@
 'use strict';
 
-require('../stores/request-user-store.js');
+require('../stores/request-user-store');
 
 var glimpse = require('glimpse');
 var React = require('react');
-var UserList = require('./request-user-list-view.jsx');
-var EmitterMixin = require('lib/components/emitter-mixin.jsx');
+var UserList = require('./request-user-list-view');
+var EmitterMixin = require('lib/components/emitter-mixin');
 
 function getState(payload) {
     return {

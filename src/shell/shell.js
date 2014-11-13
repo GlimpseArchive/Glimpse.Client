@@ -2,7 +2,7 @@
 
 var glimpse = require('glimpse');
 var React = require('react');
-var shell = require('./components/shell-view.jsx');
+var shell = require('./components/shell-view');
 var applications = [];
 
 module.exports = {
@@ -20,4 +20,4 @@ module.exports = {
 };
 
 // TODO: Need to come up with a better self registration process
-require('request/components/request-view.jsx');
+require('request/components/request-view');
