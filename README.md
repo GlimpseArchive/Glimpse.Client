@@ -21,11 +21,9 @@ entirely on top of node.js, using many libraries you may already be familiar
 ### Prerequisites
 
 The Glimpse Client heavily relies on `Node` and `npm` for its
-build process (`bower` is also used for some library dependencies). Hence,
+build process. Hence,
 
 * You have `node` [installed](nodejs.org) at v0.10.0+ (it might work at lower versions, we just haven't tested).
-* You are familiar with `npm` and know whether or not you need to use `sudo` when installing packages globally. Note, typically `npm` will be installed when you install `node`.
-* As with `npm`, `bower` should be globally [installed](http://bower.io/) and available.
 
 ### Cloning Repository
 
@@ -38,62 +36,37 @@ git clone https://github.com/Glimpse/Glimpse.Client.git
 
 ### Getting Running
 
-From here you have a few choices in terms of getting up
-and running depending on what you are doing.
+Open a command prompt in the Glimpse.Client directory.
 
-#### Quick Build
+**Install dependencies**
 
-Enter the Glimpse.Client directory and the first time run the
-you run the build script (or are missing the `npm` and/or `bower`
-dependencies), execute the below:
+To install or update dependencies executing:
 
 ```sh
-npm run init
+npm install
 ```
 
-This will ensure that any dependencies are already downloaded and then place
-the built files into the `build` and `dist` folders.
+**Compile the Client**
 
-From this point forward you should be able to execute the below:
+To build and package glimpse, run:
 
 ```sh
 npm run build
 ```
-or
 
-```sh
-gulp build
-```
-
-### Development Build
-
-If you want to have a bit more control over whats happening, you can also use
-the following, depending on your requirements:
-
-**Compile the Client**
-```sh
-gulp build
-```
-
-At this point, you should now have a dist` directory populated
-with the effected files.
-
- - `dist` - packaged files ready for use
-
-*Note*: If you want to break down this task you can do so by running either
-`gulp build` or `gulp dist` (the latter assumes the `build` directory is
-populated).
+At this point, you should now have a `dist` directory populated
+with the packaged files.
 
 **Compile the Client and start Dev environement**
 
-If you are actively developing the client, the `dev` task will provide you with
+If you are actively developing the client, the `start` task will provide you with
 everything you need:
 
 ```sh
-gulp dev
+npm start
 ```
 
-This does everything that `gulp build` does, but also sets starts up a dev
+This does everything that `npm run build` does, but also sets starts up a dev
 server, starts watchers which will recompile the Client as changes are made and
 live reload those changes into the test app.
 
