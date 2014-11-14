@@ -3,7 +3,8 @@
 var postal = require('postal');
 var DiagnosticsWireTap = require('postal.diagnostics');
 
-module.exports = new DiagnosticsWireTap({
+var wiretap = new DiagnosticsWireTap({
+    active: false,
     serialize: function (x) {
         return x;
     },
@@ -17,3 +18,10 @@ module.exports = new DiagnosticsWireTap({
         console.log('[pubsub] ' + space + x.topic);
     }
 });
+
+exports.enable = function () {
+  wiretap.active = true;
+};
+exports.disable = function () {
+  wiretap.active = false;
+};

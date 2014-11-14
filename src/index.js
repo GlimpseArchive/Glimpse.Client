@@ -1,7 +1,7 @@
 'use strict';
 
 if (DIAGNOSTICS) {
-    require('diagnostics');
+    require('diagnostics').enable();
 }
 if (FAKE_SERVER) {
     require('fake');

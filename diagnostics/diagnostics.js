@@ -1,3 +1,10 @@
 'use strict';
 
-require('./diagnostics-pubsub');
+var wiretap = require('./diagnostics-pubsub');
+
+exports.enable = function () {
+  wiretap.enable();
+};
+exports.disable = function () {
+  wiretap.disable();
+};
