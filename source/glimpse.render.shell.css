@@ -8,6 +8,7 @@
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
+    direction: ltr;
 }
 .glimpse.glimpse-heightset .glimpse-spacer, .glimpse.glimpse-heightset .glimpse-holder {  
     -webkit-transition: height 0.2s;
