@@ -3,7 +3,7 @@ glimpse.elements = (function($) {
         rootFunc = function () {
             return root || (root = scope.find('.glimpse'));;
         }, 
-        root, holder, opener, pageSpacer, barHolder, panelHolder, tabHolder, tabInstanceHolder, tabPermanentHolder, titleHolder, notificationHolder, lightbox, optionsHolder;
+        root, holder, opener, pageSpacer, barHolder, panelHolder, tabHolder, tabInstanceHolder, tabPermanentHolder, titleHolder, notificationHolder, lightbox, optionsHolder, helpLink;
     
     return {
         scope: function () {
@@ -54,6 +54,9 @@ glimpse.elements = (function($) {
         },
         optionsHolder: function() {
             return optionsHolder || (optionsHolder = rootFunc().find('.glimpse-options'));
+        },
+        helpLink: function () {
+            return helpLink || (helpLink = rootFunc().find('.glimpse-meta-help'));
         }
     };
 })(jQueryGlimpse);
