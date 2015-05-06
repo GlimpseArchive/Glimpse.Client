@@ -7,6 +7,10 @@
             elements.opener().find('.glimpse-icon').click(function () { pubsub.publish('trigger.shell.open', { isInitial: false }); });
             elements.barHolder().find('.glimpse-minimize').click(function () { pubsub.publish('trigger.shell.minimize'); });
             elements.barHolder().find('.glimpse-close').click(function () { pubsub.publish('trigger.shell.close'); });
+
+            if(settings.local('shortcutKeysEnabled') !== false) {
+                $(window).keypress(function (e) { pubsub.publish('trigger.shell.keypress', { which: e.which }); });
+            }
         },  
         open = function(args) {
             if (!args.isInitial)

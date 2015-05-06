@@ -11,6 +11,8 @@
 // glimpse.core.js
 /*(import:glimpse.core.js)*/
 
+// glimpse.constants.js
+/*(import:glimpse.constants.js)*/
 // glimpse.pubsub.js
 /*(import:glimpse.pubsub.js)*/
 // glimpse.util.js

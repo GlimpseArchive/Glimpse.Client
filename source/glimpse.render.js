@@ -1,4 +1,4 @@
-glimpse.render = (function($, pubsub, util, data, settings) {
+glimpse.render = (function($, pubsub, util, data, settings, elements, constants) {
     var templates = {
             css: '/*(import:glimpse.render.shell.css)*/',
             html: '/*(import:glimpse.render.shell.html)*/'
@@ -61,12 +61,35 @@ glimpse.render = (function($, pubsub, util, data, settings) {
             setTimeout(function() {
                 $('.glimpse-panelitem-default').html('No data has been found. This could be caused because:<br /><br />- the data is still loading by the client, or<br />- no data has been received from the server (check to see if the data &amp; metadata payloads are present), or<br />- no plugin has been loaded, or<br />- an error has been thrown in the client (please check your JavaScript console and let us know if anything is up).');
             }, 6000);
-        };
+        },
+        handleShortcuts = function (args) {
+            switch (args.which.toString()) {
+                case constants.shortcutKeys.Maximize:
+                    var isOpen = settings.local('isOpen');
+                    if (isOpen) {
+                        pubsub.publish('trigger.shell.minimize', { isInitial: false });
+                    }
+                    else {
+                        pubsub.publish('trigger.shell.open', { isInitial: false });
+                    }
+                    break;
+                case constants.shortcutKeys.Popup:
+                    pubsub.publish('trigger.shell.popup');
+                    break;
+                case constants.shortcutKeys.Help:
+                    window.open(elements.helpLink().attr('href'), '_blank');
+                    break;
+                case constants.shortcutKeys.Close:
+                    pubsub.publish('trigger.shell.close');
+                    break;
+            }
+         };
 
     pubsub.subscribe('action.data.metadata.changed', updateSpriteAddress);
     pubsub.subscribe('trigger.shell.refresh', refresh); 
     pubsub.subscribe('trigger.shell.init', init);
     pubsub.subscribe('action.shell.loaded', notify);
+    pubsub.subscribe('trigger.shell.keypress', handleShortcuts);
 
     return {};
-})(jQueryGlimpse, glimpse.pubsub, glimpse.util, glimpse.data, glimpse.settings); 
+})(jQueryGlimpse, glimpse.pubsub, glimpse.util, glimpse.data, glimpse.settings, glimpse.elements, glimpse.constants); 
