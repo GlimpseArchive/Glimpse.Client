@@ -1,10 +1,10 @@
 glimpse.constants = (function() {
 	var shortcutKeys = {
-        Maximize: '71', // SHIFT + G
-        Minimize: '71', // SHIFT + G (toggle)
-        Popup:    '80', // SHIFT + P
+        Maximize: '71', // ALT + G
+        Minimize: '71', // ALT + G (toggle)
+        Popup:    '80', // ALT + P
         Help:     '63', // ? (question mark. not confused!)
-        Close:    '88', // SHIFT + X 
+        Close:    '88', // ALT + X 
     }
 
     return {
