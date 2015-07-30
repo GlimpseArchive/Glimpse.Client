@@ -1,7 +1,7 @@
 (function($, pubsub, data, elements) {
     var renderLayout = function() {
             var requestData = data.currentData(),
-                name = requestData.clientId ? '"' + requestData.clientId + '"' : '&nbsp;';
+                name = requestData.clientId ? '"' + requestData.clientId + '"' : '&#xa0;';
 
             elements.titleHolder().find('.glimpse-snapshot-name').html(name);
             elements.titleHolder().find('.glimpse-uri').text(requestData.uri);

@@ -23,8 +23,10 @@ glimpse.render = (function($, pubsub, util, data, settings, elements, constants)
         },
         getCss = function() {
             var content = templates.css.replace(/url\(\)/gi, 'url(' + generateSpriteAddress() + ')');
+            var stylenode = $('<style type="text/css"></style>');
+            stylenode.text('/*<[CDATA[*/ ' + content + ' /*]]>*/');
             
-            return '<style type="text/css"> ' + content + ' </style>'; 
+            return stylenode;
         },
         getHtml = function() {
             return templates.html;
@@ -45,7 +47,7 @@ glimpse.render = (function($, pubsub, util, data, settings, elements, constants)
             pubsub.publish('action.template.processing', { templates: templates });
             pubsub.publish('action.shell.loading');
             
-            $(getCss()).appendTo('head'); 
+            $(getCss()).appendTo('head');
             $(getHtml()).appendTo('body');
             
             pubsub.publish('action.shell.loaded');

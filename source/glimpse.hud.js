@@ -319,11 +319,11 @@
                             }
                              
                             details.timings.data.unshift({
-                                    description: 'Request: ' + (window.location.pathname + window.location.search),
-                                    title: (window.location.pathname + window.location.search),
+                                    description: 'Request: ' + $('<div/>').text(window.location.pathname + window.location.search).html(),
+                                    title: $('<div/>').text(window.location.pathname + window.location.search).html(),
                                     startTime: 'NOT SURE',
                                     duration: rootDuration,
-                                    startPoint: '0.0',
+                                    startPoint: 0.0,
                                     category: 'Request',
                                     childlessDuration: Math.round(rootChildlessDuration * 10) / 10,
                                     startPercent: 0,
