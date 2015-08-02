@@ -1,4 +1,6 @@
-﻿// jquery-1.8.0.min.js
+﻿/*(import:auto.generated.msg.js)*/
+
+// jquery-1.8.0.min.js
 /*(import:jquery-1.8.0.min.js)*/
 // uritemplate.min.js
 /*(import:uritemplate.min.js)*/
