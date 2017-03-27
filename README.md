@@ -1,6 +1,6 @@
 More information about Glimpse can be found at [getGlimpse.com](http://getGlimpse.com)
 
-# Building the Glimpse Client Today
+# Building the Glimpse Client
 
 * Install [Node.js](http://nodejs.org)
 * Run
