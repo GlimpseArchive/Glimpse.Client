@@ -452,19 +452,13 @@
                             stack.push(row);
                         },
                         postRender = function() {
-                            var open = XMLHttpRequest.prototype.open; 
-                            XMLHttpRequest.prototype.open = function(method, uri) {
-                                if (util.isLocalUri(uri) && uri.indexOf('Glimpse.axd') == -1) {
-                                    var startTime = new Date().getTime(); 
-                                    this.addEventListener("readystatechange", function() {
-                                            if (this.readyState == 4 && this.getResponseHeader("Glimpse-RequestID"))  { 
-                                                update(method, uri, new Date().getTime() - startTime, this.getResponseHeader("Content-Length"), this.status, this.statusText, new Date(), this.getResponseHeader("Content-Type"), this.getResponseHeader("Glimpse-RequestID"));
-                                            }
-                                        }, false); 
-                                }
-                
-                                open.apply(this, arguments);
-                            };                             
+                            var currentLength = completedAjaxRequests.length;
+                            jQueryGlimpse.each(completedAjaxRequests, function(index, data) {
+                                update(data.method, data.uri, data.duration, data.size, data.status, data.statusText, data.time, data.contentType, data.requestId);
+                            });
+                            for (var i = 0; i < currentLength; i++) {
+                                completedAjaxRequests.pop();
+                            }
                         };
                       
                     return {
@@ -474,8 +468,44 @@
                 }()
             };
             
-        }();
+        }(),
+		hudAjaxWrapper = function() {
+            var open = XMLHttpRequest.prototype.open;
+            XMLHttpRequest.prototype.open = function(method, uri) {
+                if (util.isLocalUri(uri) && uri.indexOf('Glimpse.axd') == -1) {
+                    var startTime = new Date().getTime();
+                    this.addEventListener("readystatechange", function() {
+                        if (this.readyState == 4 && this.getResponseHeader("Glimpse-RequestID")) {
+                            completedAjaxRequests.push(new AjaxRequestData(method, uri, new Date().getTime() - startTime, this.getResponseHeader("Content-Length"), this.status, this.statusText, new Date(), this.getResponseHeader("Content-Type"), this.getResponseHeader("Glimpse-RequestID")));
+                            if (display.host.render && typeof (display.host.render) === "function") {
+                                pubsub.publish("trigger.ajax.success");
+                            } else {
+                                pubsub.subscribe("trigger.hud.ready", function () {
+                                    pubsub.publish("trigger.ajax.success");
+                                });
+                            }
+                        }
+                    }, false);
+                }
 
+                open.apply(this, arguments);
+            };
+        }(),
+        AjaxRequestData = function(method, uri, duration, size, status, statusText, time, contentType, requestId) {
+            this.method = method;
+            this.uri = uri;
+            this.duration = duration;
+            this.size = size;
+            this.status = status;
+            this.statusText = statusText;
+            this.time = time;
+            this.contentType = contentType;
+            this.requestId = requestId;
+
+        },
+        completedAjaxRequests = [];
+
+    pubsub.subscribe("trigger.ajax.success", display.ajax.postRender);
     pubsub.subscribe('action.template.processing', modify); 
     pubsub.subscribe('action.data.initial.changed', function(args) { $(window).load(function() { setTimeout(function() { loaded(args); }, 0); }); }); 
 
